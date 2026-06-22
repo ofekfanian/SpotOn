@@ -1,0 +1,33 @@
+{
+  "connectors": [
+    { "sentence": "I saw ___ apple on the table.", "answer": "an", "options": ["a", "an", "the", "some"], "explanation": "Use 'an' before a vowel sound.", "he": "ראיתי תפוח על השולחן." },
+    { "sentence": "She is ___ doctor.", "answer": "a", "options": ["a", "an", "the", "some"], "explanation": "Use 'a' before a consonant sound.", "he": "היא רופאה." },
+    { "sentence": "___ you finish your homework?", "answer": "Did", "options": ["Did", "Do", "Does", "Are"], "explanation": "Past-simple questions use 'did'.", "he": "סיימת את שיעורי הבית?" },
+    { "sentence": "He ___ not like coffee.", "answer": "does", "options": ["do", "does", "did", "is"], "explanation": "Third person present uses 'does'.", "he": "הוא לא אוהב קפה." },
+    { "sentence": "I have lived here ___ 2010.", "answer": "since", "options": ["since", "for", "from", "at"], "explanation": "'Since' + a point in time.", "he": "אני גר כאן מאז 2010." },
+    { "sentence": "I have known her ___ five years.", "answer": "for", "options": ["for", "since", "from", "in"], "explanation": "'For' + a length of time.", "he": "אני מכיר אותה כבר חמש שנים." },
+    { "sentence": "First we ate, ___ we went home.", "answer": "then", "options": ["then", "than", "so", "but"], "explanation": "'Then' = next in time.", "he": "קודם אכלנו, ואז הלכנו הביתה." },
+    { "sentence": "I was tired, ___ I went to bed.", "answer": "so", "options": ["so", "because", "but", "then"], "explanation": "'So' shows a result.", "he": "הייתי עייף, אז הלכתי לישון." },
+    { "sentence": "I stayed home ___ it was raining.", "answer": "because", "options": ["because", "so", "but", "then"], "explanation": "'Because' gives a reason.", "he": "נשארתי בבית כי ירד גשם." },
+    { "sentence": "The book is ___ the table.", "answer": "on", "options": ["on", "in", "at", "to"], "explanation": "'On' = on a surface.", "he": "הספר על השולחן." },
+    { "sentence": "I will meet you ___ 5 o'clock.", "answer": "at", "options": ["at", "on", "in", "to"], "explanation": "'At' + a clock time.", "he": "אפגוש אותך בשעה חמש." },
+    { "sentence": "She lives ___ London.", "answer": "in", "options": ["in", "at", "on", "to"], "explanation": "'In' + a city.", "he": "היא גרה בלונדון." },
+    { "sentence": "___ you ever been to Paris?", "answer": "Have", "options": ["Have", "Did", "Do", "Are"], "explanation": "Present perfect uses 'have'.", "he": "היית אי פעם בפריז?" },
+    { "sentence": "I ___ call you tomorrow.", "answer": "will", "options": ["will", "did", "do", "am"], "explanation": "'Will' for the future.", "he": "אני אתקשר אליך מחר." },
+    { "sentence": "This is ___ best day ever.", "answer": "the", "options": ["the", "a", "an", "some"], "explanation": "Use 'the' with superlatives.", "he": "זה היום הכי טוב אי פעם." }
+  ],
+  "tenses": [
+    { "sentence": "Yesterday I ___ to school.", "answer": "went", "options": ["went", "go", "will go", "going"], "explanation": "Past simple of 'go'.", "he": "אתמול הלכתי לבית הספר." },
+    { "sentence": "Right now she ___ a book.", "answer": "is reading", "options": ["is reading", "read", "will read", "reads"], "explanation": "Present continuous — happening now.", "he": "כרגע היא קוראת ספר." },
+    { "sentence": "Tomorrow we ___ a movie.", "answer": "will watch", "options": ["will watch", "watched", "watch", "watching"], "explanation": "Future with 'will'.", "he": "מחר נצפה בסרט." },
+    { "sentence": "Every day he ___ coffee.", "answer": "drinks", "options": ["drinks", "drank", "will drink", "drinking"], "explanation": "Present simple habit (3rd person).", "he": "כל יום הוא שותה קפה." },
+    { "sentence": "Last night they ___ football.", "answer": "played", "options": ["played", "play", "will play", "playing"], "explanation": "Past simple.", "he": "אתמול בלילה הם שיחקו כדורגל." },
+    { "sentence": "I ___ my homework already.", "answer": "have done", "options": ["have done", "did", "do", "will do"], "explanation": "Present perfect — 'already'.", "he": "כבר עשיתי את שיעורי הבית." },
+    { "sentence": "She ___ to Italy next year.", "answer": "will travel", "options": ["will travel", "traveled", "travels", "traveling"], "explanation": "Future plan with 'will'.", "he": "היא תיסע לאיטליה בשנה הבאה." },
+    { "sentence": "We ___ TV when you called.", "answer": "were watching", "options": ["were watching", "watched", "watch", "will watch"], "explanation": "Past continuous — interrupted action.", "he": "צפינו בטלוויזיה כשהתקשרת." },
+    { "sentence": "He usually ___ early.", "answer": "wakes up", "options": ["wakes up", "woke up", "will wake up", "waking up"], "explanation": "Present simple habit.", "he": "הוא בדרך כלל מתעורר מוקדם." },
+    { "sentence": "They ___ in this house since 2015.", "answer": "have lived", "options": ["have lived", "lived", "live", "will live"], "explanation": "Present perfect with 'since'.", "he": "הם גרים בבית הזה מאז 2015." },
+    { "sentence": "I ___ a great movie last week.", "answer": "saw", "options": ["saw", "see", "will see", "seeing"], "explanation": "Past simple of 'see'.", "he": "ראיתי סרט מעולה בשבוע שעבר." },
+    { "sentence": "Look! It ___ outside.", "answer": "is raining", "options": ["is raining", "rained", "rains", "will rain"], "explanation": "Present continuous — happening now.", "he": "תראה! יורד גשם בחוץ." }
+  ]
+}

@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Secrets / API keys (never commit)
+SpotOn/Secrets.swift
+SpotOnUIKit/SpotOnUIKit/Secrets.swift
+
+# Build output
+build/
+DerivedData/
+*.xcuserstate

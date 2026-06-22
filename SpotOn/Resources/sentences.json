@@ -1,0 +1,53 @@
+{
+  "beginner": [
+    { "sentence": "I ___ water every morning.", "answer": "drink", "options": ["drink", "eat", "read", "sleep"], "he": "אני שותה מים כל בוקר.", "fr": "Je bois de l'eau chaque matin." },
+    { "sentence": "She ___ to school by bus.", "answer": "goes", "options": ["goes", "go", "going", "gone"], "he": "היא נוסעת לבית הספר באוטובוס.", "fr": "Elle va à l'école en bus." },
+    { "sentence": "We have a big ___.", "answer": "house", "options": ["house", "run", "blue", "fast"], "he": "יש לנו בית גדול.", "fr": "Nous avons une grande maison." },
+    { "sentence": "The sun is very ___ today.", "answer": "hot", "options": ["hot", "book", "slow", "open"], "he": "השמש חמה מאוד היום.", "fr": "Le soleil est très chaud aujourd'hui." },
+    { "sentence": "He likes to ___ books.", "answer": "read", "options": ["read", "drink", "run", "sleep"], "he": "הוא אוהב לקרוא ספרים.", "fr": "Il aime lire des livres." },
+    { "sentence": "My ___ is a teacher.", "answer": "mother", "options": ["mother", "water", "night", "city"], "he": "אמא שלי מורה.", "fr": "Ma mère est professeur." },
+    { "sentence": "They ___ football on Sunday.", "answer": "play", "options": ["play", "eat", "write", "sleep"], "he": "הם משחקים כדורגל ביום ראשון.", "fr": "Ils jouent au football le dimanche." },
+    { "sentence": "I am very ___ after work.", "answer": "tired", "options": ["tired", "big", "new", "good"], "he": "אני עייף מאוד אחרי העבודה.", "fr": "Je suis très fatigué après le travail." },
+    { "sentence": "Please ___ the door.", "answer": "open", "options": ["open", "run", "eat", "read"], "he": "בבקשה פתח את הדלת.", "fr": "Ouvre la porte, s'il te plaît." },
+    { "sentence": "We drink ___ in the morning.", "answer": "coffee", "options": ["coffee", "chair", "street", "moon"], "he": "אנחנו שותים קפה בבוקר.", "fr": "Nous buvons du café le matin." },
+    { "sentence": "The ___ is shining.", "answer": "sun", "options": ["sun", "book", "car", "door"], "he": "השמש זורחת.", "fr": "Le soleil brille." },
+    { "sentence": "She has a small ___.", "answer": "dog", "options": ["dog", "run", "fast", "cold"], "he": "יש לה כלב קטן.", "fr": "Elle a un petit chien." },
+    { "sentence": "I ___ my friends every day.", "answer": "see", "options": ["see", "eat", "open", "sing"], "he": "אני רואה את החברים שלי כל יום.", "fr": "Je vois mes amis tous les jours." },
+    { "sentence": "This book is very ___.", "answer": "good", "options": ["good", "water", "run", "city"], "he": "הספר הזה טוב מאוד.", "fr": "Ce livre est très bon." },
+    { "sentence": "We ___ dinner at home.", "answer": "eat", "options": ["eat", "read", "sleep", "walk"], "he": "אנחנו אוכלים ארוחת ערב בבית.", "fr": "Nous mangeons le dîner à la maison." }
+  ],
+  "intermediate": [
+    { "sentence": "You should ___ a doctor if you feel sick.", "answer": "see", "options": ["see", "watch", "look", "listen"], "he": "כדאי שתלך לרופא אם אתה מרגיש חולה.", "fr": "Tu devrais voir un médecin si tu te sens malade." },
+    { "sentence": "She decided to ___ her English skills.", "answer": "improve", "options": ["improve", "increase", "reduce", "repeat"], "he": "היא החליטה לשפר את האנגלית שלה.", "fr": "Elle a décidé d'améliorer son anglais." },
+    { "sentence": "We need to ___ a decision soon.", "answer": "make", "options": ["make", "do", "give", "open"], "he": "אנחנו צריכים לקבל החלטה בקרוב.", "fr": "Nous devons prendre une décision bientôt." },
+    { "sentence": "He couldn't ___ the difficult question.", "answer": "answer", "options": ["answer", "ask", "say", "talk"], "he": "הוא לא הצליח לענות על השאלה הקשה.", "fr": "Il n'a pas pu répondre à la question difficile." },
+    { "sentence": "This job requires a lot of ___.", "answer": "experience", "options": ["experience", "problem", "weather", "opinion"], "he": "העבודה הזו דורשת הרבה ניסיון.", "fr": "Ce travail exige beaucoup d'expérience." },
+    { "sentence": "They want to ___ a new car.", "answer": "buy", "options": ["buy", "sell", "build", "drive"], "he": "הם רוצים לקנות מכונית חדשה.", "fr": "Ils veulent acheter une nouvelle voiture." },
+    { "sentence": "Could you ___ this word? I don't understand it.", "answer": "explain", "options": ["explain", "speak", "talk", "listen"], "he": "תוכל להסביר את המילה הזו? אני לא מבין אותה.", "fr": "Peux-tu expliquer ce mot ? Je ne le comprends pas." },
+    { "sentence": "It is important to ___ your goals.", "answer": "achieve", "options": ["achieve", "lose", "forget", "miss"], "he": "חשוב להשיג את המטרות שלך.", "fr": "Il est important d'atteindre tes objectifs." },
+    { "sentence": "We should ___ making the same mistake.", "answer": "avoid", "options": ["avoid", "accept", "allow", "repeat"], "he": "כדאי שנימנע מלעשות את אותה טעות.", "fr": "Nous devrions éviter de faire la même erreur." },
+    { "sentence": "The teacher will ___ the lesson tomorrow.", "answer": "prepare", "options": ["prepare", "receive", "reduce", "refuse"], "he": "המורה תכין את השיעור מחר.", "fr": "Le professeur préparera la leçon demain." },
+    { "sentence": "Prices continue to ___ every year.", "answer": "increase", "options": ["increase", "reduce", "accept", "avoid"], "he": "המחירים ממשיכים לעלות בכל שנה.", "fr": "Les prix continuent d'augmenter chaque année." },
+    { "sentence": "He has a great ___ with his colleagues.", "answer": "relationship", "options": ["relationship", "responsibility", "opportunity", "quality"], "he": "יש לו מערכת יחסים מצוינת עם הקולגות.", "fr": "Il a une excellente relation avec ses collègues." },
+    { "sentence": "This is a wonderful ___ to learn.", "answer": "opportunity", "options": ["opportunity", "advantage", "problem", "reason"], "he": "זו הזדמנות נפלאה ללמוד.", "fr": "C'est une merveilleuse occasion d'apprendre." },
+    { "sentence": "Our products are known for their high ___.", "answer": "quality", "options": ["quality", "quantity", "average", "problem"], "he": "המוצרים שלנו ידועים באיכותם הגבוהה.", "fr": "Nos produits sont connus pour leur haute qualité." },
+    { "sentence": "These two phones are very ___.", "answer": "similar", "options": ["similar", "different", "common", "famous"], "he": "שני הטלפונים האלה דומים מאוד.", "fr": "Ces deux téléphones sont très similaires." }
+  ],
+  "advanced": [
+    { "sentence": "Her ___ helped her recover from failure quickly.", "answer": "resilience", "options": ["resilience", "reluctance", "discrepancy", "nuance"], "he": "החוסן שלה עזר לה להתאושש מהר מכישלון.", "fr": "Sa résilience l'a aidée à se remettre vite de l'échec." },
+    { "sentence": "The instructions were so ___ that no one understood them.", "answer": "ambiguous", "options": ["ambiguous", "coherent", "genuine", "vivid"], "he": "ההוראות היו כל כך דו-משמעיות שאף אחד לא הבין אותן.", "fr": "Les instructions étaient si ambiguës que personne ne les a comprises." },
+    { "sentence": "He is very ___ about every small detail.", "answer": "meticulous", "options": ["meticulous", "careless", "abundant", "humble"], "he": "הוא קפדן מאוד לגבי כל פרט קטן.", "fr": "Il est très méticuleux sur chaque petit détail." },
+    { "sentence": "A good leader must be ___ when facing problems.", "answer": "pragmatic", "options": ["pragmatic", "reluctant", "obsolete", "redundant"], "he": "מנהיג טוב חייב להיות מעשי כשהוא מתמודד עם בעיות.", "fr": "Un bon dirigeant doit être pragmatique face aux problèmes." },
+    { "sentence": "We should ___ the risks before deciding.", "answer": "mitigate", "options": ["mitigate", "undermine", "ignore", "increase"], "he": "כדאי שנפחית את הסיכונים לפני שנחליט.", "fr": "Nous devrions atténuer les risques avant de décider." },
+    { "sentence": "Her argument was clear and ___.", "answer": "compelling", "options": ["compelling", "redundant", "arbitrary", "vague"], "he": "הטיעון שלה היה ברור ומשכנע.", "fr": "Son argument était clair et convaincant." },
+    { "sentence": "Honesty is an ___ part of trust.", "answer": "inherent", "options": ["inherent", "obsolete", "ambiguous", "reluctant"], "he": "כנות היא חלק מובנה מאמון.", "fr": "L'honnêteté est une partie inhérente de la confiance." },
+    { "sentence": "The plan is ___ and can be done easily.", "answer": "feasible", "options": ["feasible", "impossible", "vague", "redundant"], "he": "התוכנית בת-ביצוע וניתן לבצעה בקלות.", "fr": "Le plan est faisable et peut être réalisé facilement." },
+    { "sentence": "He remained ___ about the new claims.", "answer": "skeptical", "options": ["skeptical", "certain", "eager", "humble"], "he": "הוא נשאר ספקן לגבי הטענות החדשות.", "fr": "Il est resté sceptique face aux nouvelles affirmations." },
+    { "sentence": "That technology is now ___ and rarely used.", "answer": "obsolete", "options": ["obsolete", "modern", "abundant", "genuine"], "he": "הטכנולוגיה הזו מיושנת ובקושי בשימוש.", "fr": "Cette technologie est désormais obsolète et rarement utilisée." },
+    { "sentence": "She showed great ___ and never gave up.", "answer": "perseverance", "options": ["perseverance", "gratitude", "scrutiny", "nuance"], "he": "היא הפגינה התמדה רבה ולא ויתרה.", "fr": "Elle a fait preuve d'une grande persévérance et n'a jamais abandonné." },
+    { "sentence": "The two reports had a clear ___.", "answer": "discrepancy", "options": ["discrepancy", "consensus", "gratitude", "paradigm"], "he": "בין שני הדוחות הייתה אי-התאמה ברורה.", "fr": "Les deux rapports présentaient une nette divergence." },
+    { "sentence": "He gave an ___ speech that moved the crowd.", "answer": "eloquent", "options": ["eloquent", "boring", "vague", "dull"], "he": "הוא נשא נאום רהוט שריגש את הקהל.", "fr": "Il a prononcé un discours éloquent qui a ému la foule." },
+    { "sentence": "Reaching an agreement required a broad ___.", "answer": "consensus", "options": ["consensus", "discrepancy", "conflict", "nuance"], "he": "כדי להגיע להסכמה נדרשה הסכמה רחבה.", "fr": "Parvenir à un accord a nécessité un large consensus." },
+    { "sentence": "She is a ___ employee who can do many jobs.", "answer": "versatile", "options": ["versatile", "lazy", "reluctant", "obsolete"], "he": "היא עובדת רב-תכליתית שיכולה לעשות הרבה תפקידים.", "fr": "C'est une employée polyvalente qui peut faire plusieurs tâches." }
+  ]
+}
