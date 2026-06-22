@@ -133,3 +133,5 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView { WKWebView() }
     func updateUIView(_ uiView: WKWebView, context: Context) { uiView.load(URLRequest(url: url)) }
 }
+
+#Preview { WordDetailView(word: .sample).environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }

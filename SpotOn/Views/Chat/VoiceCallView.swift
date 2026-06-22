@@ -108,3 +108,5 @@ struct VoiceCallView: View {
         .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(color.opacity(0.3), lineWidth: 1))
     }
 }
+
+#Preview { VoiceCallView() }

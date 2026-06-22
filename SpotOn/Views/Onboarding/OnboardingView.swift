@@ -247,3 +247,5 @@ private struct SelectRow: View {
         }
     }
 }
+
+#Preview { OnboardingView().environmentObject(AuthViewModel()) }

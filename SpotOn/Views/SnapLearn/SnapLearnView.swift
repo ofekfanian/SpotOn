@@ -146,3 +146,5 @@ private struct SpeakButton: View {
         .buttonStyle(.plain)
     }
 }
+
+#Preview { SnapLearnView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }

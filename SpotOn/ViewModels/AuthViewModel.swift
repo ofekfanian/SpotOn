@@ -15,6 +15,7 @@ class AuthViewModel: ObservableObject {
     private var currentNonce: String?
 
     init() {
+        guard !AppEnv.isPreview else { isLoading = false; return }
         guard Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil else {
             isLoading = false
             return

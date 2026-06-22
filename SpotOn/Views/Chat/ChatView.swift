@@ -149,3 +149,5 @@ private struct RoundedCorner: Shape {
                           cornerRadii: CGSize(width: radius, height: radius)).cgPath)
     }
 }
+
+#Preview { ChatView() }

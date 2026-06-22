@@ -110,3 +110,5 @@ private struct ProfileAvatar: View {
         }
     }
 }
+
+#Preview { SettingsView().environmentObject(AuthViewModel()) }

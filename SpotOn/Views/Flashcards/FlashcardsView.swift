@@ -259,3 +259,5 @@ private struct SpeakButton: View {
         .buttonStyle(.plain)
     }
 }
+
+#Preview { FlashcardsView(words: [.sample]).environmentObject(AuthViewModel()) }

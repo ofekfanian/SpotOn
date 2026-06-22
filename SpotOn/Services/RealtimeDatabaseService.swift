@@ -4,7 +4,7 @@ import FirebaseDatabase
 @MainActor
 class RealtimeDatabaseService: ObservableObject {
     static let shared = RealtimeDatabaseService()
-    private let ref = Database.database(url: "https://spoton-cae4c-default-rtdb.firebaseio.com").reference()
+    private lazy var ref = Database.database(url: "https://spoton-cae4c-default-rtdb.firebaseio.com").reference()
 
     @Published var streak: Int = 0
     @Published var xp: Int = 0

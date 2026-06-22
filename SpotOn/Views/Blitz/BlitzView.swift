@@ -191,3 +191,5 @@ private struct CircleProgress: View {
         }
     }
 }
+
+#Preview { BlitzLaunchView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }

@@ -135,3 +135,5 @@ extension Color {
                   blue: Double(rgb & 0xFF) / 255)
     }
 }
+
+#Preview { AuthView().environmentObject(AuthViewModel()) }

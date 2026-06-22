@@ -20,6 +20,7 @@ class WordBankViewModel: ObservableObject {
     }
 
     func startListening(uid: String) {
+        guard !AppEnv.isPreview else { return }
         listener = FirestoreService.shared.listenToWords(for: uid) { [weak self] words in
             Task { @MainActor in self?.words = words }
         }

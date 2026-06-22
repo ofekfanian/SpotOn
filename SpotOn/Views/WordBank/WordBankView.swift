@@ -107,3 +107,5 @@ private struct TagChipFilter: View {
         }
     }
 }
+
+#Preview { WordBankView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }

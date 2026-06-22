@@ -4,8 +4,8 @@ import FirebaseDatabase
 
 class FriendsService {
     static let shared = FriendsService()
-    private let db = Firestore.firestore()
-    private let rtdb = Database.database(url: "https://spoton-cae4c-default-rtdb.firebaseio.com").reference()
+    private lazy var db = Firestore.firestore()
+    private lazy var rtdb = Database.database(url: "https://spoton-cae4c-default-rtdb.firebaseio.com").reference()
 
     func addFriend(inviteCode: String, for uid: String) async throws {
         let snap = try await db.collection("users")

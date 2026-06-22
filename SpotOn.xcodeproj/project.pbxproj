@@ -18,6 +18,7 @@
 		35D7E1A3B8B6085595567AFB /* CrystalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29212AB7689EA08E4028F0A6 /* CrystalTheme.swift */; };
 		4774A10BA7286DF6BB39B689 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9776F820DE65B30C7B8CDC8B /* DashboardView.swift */; };
 		497C1BA8DB4FB1E95E92047D /* FriendsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0D0405431E5A56CE51EABF /* FriendsService.swift */; };
+		519143D04083B58061131727 /* AppEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C0585BE1F444054ECFF745 /* AppEnv.swift */; };
 		558DCEB00454DE0D6EFCE2B8 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9DF7A060AD45801669B172 /* Secrets.swift */; };
 		5BD0DDDCD10E956D7C1FA13C /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C2D6563AE7DEB5DB38CD9D /* LeaderboardViewModel.swift */; };
 		5DA2964674FB2BAE01A628A2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58A644B894972DCADB22079 /* MainTabView.swift */; };
@@ -112,6 +113,7 @@
 		70F4E12D4B7EF7038516A354 /* SpotOnWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SpotOnWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		72849DE37BEA7C1DD355CB8E /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		78C2D6563AE7DEB5DB38CD9D /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
+		84C0585BE1F444054ECFF745 /* AppEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnv.swift; sourceTree = "<group>"; };
 		95FBD3D15994CA56BE75E53C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9776F820DE65B30C7B8CDC8B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		99DDB919DDC34FD1E6BA4544 /* SentenceCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceCompletionView.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		8CE899FFD8791C814540E92B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				84C0585BE1F444054ECFF745 /* AppEnv.swift */,
 				AD6C6F301C289A19EECC1239 /* FirestoreService.swift */,
 				4E0D0405431E5A56CE51EABF /* FriendsService.swift */,
 				9F240F5F912B39857199858A /* NotificationService.swift */,
@@ -501,6 +504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23224E5CB9FF5F72E4A48B2 /* AboutView.swift in Sources */,
+				519143D04083B58061131727 /* AppEnv.swift in Sources */,
 				15F75757E60C6ECFC172E6E6 /* AuthView.swift in Sources */,
 				A8FCE7424D6517532BAE5A7C /* AuthViewModel.swift in Sources */,
 				6BB97AFA79C8B05E1EDCBB28 /* BlitzView.swift in Sources */,

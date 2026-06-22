@@ -163,3 +163,5 @@ struct SentenceCompletionView: View {
         return .clear
     }
 }
+
+#Preview { SentenceCompletionView(level: "beginner").environmentObject(AuthViewModel()) }

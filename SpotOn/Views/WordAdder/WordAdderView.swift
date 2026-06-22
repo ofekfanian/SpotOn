@@ -113,3 +113,5 @@ private struct SuccessOverlay: View {
         .padding(40).background(.ultraThinMaterial).cornerRadius(24)
     }
 }
+
+#Preview { WordAdderView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }

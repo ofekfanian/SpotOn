@@ -234,3 +234,5 @@ private struct IdiomCard: View {
         .shadow(color: Color.crystalBlue.opacity(0.08), radius: 12, y: 4)
     }
 }
+
+#Preview { DashboardView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }

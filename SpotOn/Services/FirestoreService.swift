@@ -3,7 +3,7 @@ import FirebaseFirestore
 
 class FirestoreService {
     static let shared = FirestoreService()
-    private let db = Firestore.firestore()
+    private lazy var db = Firestore.firestore()
 
     // MARK: - Words
     func addWord(_ word: Word, for uid: String) async throws {
@@ -31,6 +31,7 @@ class FirestoreService {
 
     // MARK: - Idioms
     func fetchTodayIdiom(level: String) async throws -> Idiom {
+        if AppEnv.isPreview { return .sample }
         let today = DateFormatter.spotDate.string(from: Date())
         let snap = try await db.collection("idioms")
             .whereField("level", isEqualTo: level)

@@ -22,3 +22,5 @@ struct MainTabView: View {
         .onDisappear { wordBankVM.stopListening() }
     }
 }
+
+#Preview { MainTabView().environmentObject(AuthViewModel()) }
