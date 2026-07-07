@@ -1,0 +1,11 @@
+// APIKeys.example.xcconfig — template, safe to commit.
+//
+// SETUP (one-time):
+//   1. Copy this file to APIKeys.xcconfig in the same folder:
+//        cp SpotOn/Config/APIKeys.example.xcconfig SpotOn/Config/APIKeys.xcconfig
+//   2. Paste your Gemini API key below (get one at https://aistudio.google.com/apikey)
+//   3. APIKeys.xcconfig is gitignored — your key never leaves your machine.
+//
+// The key flows: xcconfig → Info.plist (GeminiAPIKey = $(GEMINI_API_KEY)) → Secrets.swift
+
+GEMINI_API_KEY = PASTE_YOUR_KEY_HERE

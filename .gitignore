@@ -1,10 +1,13 @@
 # macOS
 .DS_Store
 
-# Secrets / API keys (never commit)
-SpotOn/Secrets.swift
+# Secrets / API keys (never commit the real xcconfig — copy APIKeys.example.xcconfig)
+SpotOn/Config/APIKeys.xcconfig
 
 # Build output
 build/
 DerivedData/
 *.xcuserstate
+
+# Xcode user state
+xcuserdata/

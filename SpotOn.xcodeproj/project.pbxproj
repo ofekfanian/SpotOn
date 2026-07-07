@@ -160,6 +160,7 @@
 		FB01BC02CD03DE04EF05FA06 /* AddHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHubView.swift; sourceTree = "<group>"; };
 		FF01AA02BB03CC04DD05EE06 /* passages.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = passages.json; sourceTree = "<group>"; };
 		FF185BFB00400D3023960C34 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "APIKeys.xcconfig"; path = "Config/APIKeys.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +306,7 @@
 		783AF349505F2C133896C4D9 /* SpotOn */ = {
 			isa = PBXGroup;
 			children = (
+				AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */,
 				02F43BEDAB970AD7BB0696BB /* Assets.xcassets */,
 				95FBD3D15994CA56BE75E53C /* ContentView.swift */,
 				5C212CB32172B08F9D41697F /* GoogleService-Info.plist */,
@@ -618,6 +620,7 @@
 /* Begin XCBuildConfiguration section */
 		00354B166209080F572D2AC7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SpotOn/SpotOn.entitlements;
@@ -725,6 +728,7 @@
 		};
 		3B146AA95F762F29808F0255 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SpotOn/SpotOn.entitlements;
