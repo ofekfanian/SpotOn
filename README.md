@@ -3,15 +3,20 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo-light.png">
-  <img src="docs/assets/logo-light.png" alt="SpotOn logo" width="180">
+  <img src="docs/assets/logo-light.png" alt="SpotOn logo" width="200">
 </picture>
+
+<br>
+<br>
 
 # SpotOn
 
 ### *Master English, One Word at a Time*
 
-An elegant English-vocabulary companion for Hebrew speakers —
-capture words from real life, practice them in five game modes,
+<br>
+
+An elegant English vocabulary companion for Hebrew speakers.
+Capture words from real life, practice them in five game modes,
 and talk them through with an AI tutor.
 
 <br>
@@ -26,61 +31,63 @@ and talk them through with an AI tutor.
 
 </div>
 
+<br>
+
 ---
 
-## ✨ What is SpotOn?
+## Overview
 
-You hear a new English word in a meeting, a series, or on the street —
+You hear a new English word in a meeting, a series, or on the street.
 **SpotOn turns that moment into lasting vocabulary.** Save the word with its
 context, let AI enrich it with a definition, part of speech and real usage
-examples, then lock it in through fast, beautiful practice games — all
-bilingual, English ↔ Hebrew.
+examples, then lock it in through fast, beautiful practice games. Fully
+bilingual, English and Hebrew.
 
----
+<br>
 
-## 🎯 Features
+## Features
 
-| | Feature | What it does |
-|:---:|---|---|
-| 📚 | **Personal Word Bank** | Save words with context, tags, level and Hebrew translation — synced to the cloud, searchable, paginated |
-| 🤖 | **AI Enrichment** | Every saved word is automatically enriched by Gemini: definition, part of speech, and business / casual / tech example sentences |
-| 📖 | **Reading Pathways** | Leveled reading passages with tappable vocabulary, glassmorphism word popups, text-to-speech and comprehension quizzes |
-| ⚡ | **60-Second Blitz** | Race the clock — swipe and tap through your words before time runs out |
-| 🃏 | **Flashcards** | Flip between English and Hebrew; study your own bank or curated level packs |
-| ✍️ | **Sentence Completion** | Fill in the blank, then see the full Hebrew translation |
-| 📸 | **Snap & Learn** | Point your camera at anything — Gemini Vision names it in English and Hebrew |
-| 💬 | **AI English Tutor** | Chat *or hold a live voice call* with a Gemini-powered tutor that gently corrects your mistakes |
-| 🏆 | **Friends & Leaderboard** | Invite friends with a 6-character code and compete on XP, streaks and word counts |
-| 🔔 | **Streaks & Reminders** | Daily streak tracking and a configurable practice reminder |
-| 🌗 | **Full Dark Mode** | The entire Crystal design system adapts — including the app icon and splash screen |
-| 📱 | **Home-Screen Widget** | Idiom of the Day, straight on your home screen |
+| Feature | Description |
+|---|---|
+| **Personal Word Bank** | Save words with context, tags, level and Hebrew translation. Synced to the cloud, searchable, paginated |
+| **AI Enrichment** | Every saved word is automatically enriched by Gemini: definition, part of speech, and business, casual and tech example sentences |
+| **Reading Pathways** | Leveled reading passages with tappable vocabulary, glassmorphism word popups, text to speech and comprehension quizzes |
+| **60 Second Blitz** | Race the clock. Swipe and tap through your words before time runs out |
+| **Flashcards** | Flip between English and Hebrew. Study your own bank or curated level packs |
+| **Sentence Completion** | Fill in the blank, then see the full Hebrew translation |
+| **Snap and Learn** | Point your camera at anything and Gemini Vision names it in English and Hebrew |
+| **AI English Tutor** | Chat or hold a live voice call with a Gemini powered tutor that gently corrects your mistakes |
+| **Friends and Leaderboard** | Invite friends with a six character code and compete on XP, streaks and word counts |
+| **Streaks and Reminders** | Daily streak tracking and a configurable practice reminder |
+| **Full Dark Mode** | The entire Crystal design system adapts, including the app icon and splash screen |
+| **Home Screen Widget** | Idiom of the Day, straight on your home screen |
 
----
+<br>
 
-## 🎮 Gamification
+## Gamification
 
-Every activity feeds one XP economy, synced live via Firebase Realtime Database:
+Every activity feeds one XP economy, synced live via Firebase Realtime Database.
 
 | Action | Reward |
 |---|:---:|
-| Add a word (manual or camera) | **+10 XP** |
-| Blitz — correct answer | **+5 XP** |
-| Sentence Completion — correct answer | **+5 XP** |
-| Reading quiz — correct answer *(first completion)* | **+5 XP** |
-| Daily practice | **🔥 streak +1** |
+| Add a word, manually or with the camera | +10 XP |
+| Blitz, per correct answer | +5 XP |
+| Sentence Completion, per correct answer | +5 XP |
+| Reading quiz, per correct answer, first completion | +5 XP |
+| Daily practice | Streak +1 |
 
----
+<br>
 
-## 🏛 Architecture
+## Architecture
 
-Clean **MVVM** with SwiftUI, `async/await` concurrency, and a strict
-service layer:
+Clean **MVVM** with SwiftUI, structured concurrency with async await, and a
+strict service layer.
 
 ```
 SpotOn/
 ├── Models/          Word · ReadingPassage · UserProfile · Idiom · ChatMessage
-├── ViewModels/      Auth · WordBank · Blitz · Chat · VoiceCall · ReadingPathway …
-├── Views/           Dashboard · WordBank · Learn Hub · Reading · Settings …
+├── ViewModels/      Auth · WordBank · Blitz · Chat · VoiceCall · ReadingPathway
+├── Views/           Dashboard · WordBank · Learn Hub · Reading · Settings
 ├── Services/        Firestore · RealtimeDatabase · LLMEnrichment · Vision
 │                    Speech · SpeechRecognizer · Friends · Notifications
 ├── Extensions/      CrystalTheme (design system) · helpers
@@ -88,59 +95,66 @@ SpotOn/
 ```
 
 **Data layer**
-- ☁️ **Firestore** — word bank, user profiles, idioms, friends
-- ⚡ **Realtime Database** — XP & streaks (atomic `ServerValue.increment`)
-- 💾 **SwiftData** — reading passages and per-word progress, seeded on first launch
-- 🧠 **Gemini 1.5 Flash** — tutor chat, voice-call replies, image recognition, word enrichment
 
----
+| Store | Role |
+|---|---|
+| Firestore | Word bank, user profiles, idioms, friends |
+| Realtime Database | XP and streaks, with atomic server side increments |
+| SwiftData | Reading passages and per word progress, seeded on first launch |
+| Gemini 1.5 Flash | Tutor chat, voice call replies, image recognition, word enrichment |
 
-## 🚀 Getting Started
+<br>
 
-**Requirements:** Xcode 16+, iOS 17+
+## Getting Started
+
+**Requirements:** Xcode 16 or newer, iOS 17 or newer
 
 ```bash
 git clone https://github.com/ofekfanian/SpotOn.git
 cd SpotOn
 ```
 
-**1 · Gemini API key**
+**Step 1 · Gemini API key**
 
 ```bash
 cp SpotOn/Config/APIKeys.example.xcconfig SpotOn/Config/APIKeys.xcconfig
 ```
 
-Paste your key (from [Google AI Studio](https://aistudio.google.com/apikey)) into
-`APIKeys.xcconfig`. The file is gitignored — your key never leaves your machine.
+Paste your key from [Google AI Studio](https://aistudio.google.com/apikey) into
+`APIKeys.xcconfig`. The file is gitignored, so your key never leaves your machine.
 
-**2 · Firebase**
+**Step 2 · Firebase**
 
-Add your own `GoogleService-Info.plist` (from the
-[Firebase console](https://console.firebase.google.com)) to the `SpotOn/` folder,
-with Auth (Email/Password), Firestore and Realtime Database enabled.
+Add your own `GoogleService-Info.plist` from the
+[Firebase console](https://console.firebase.google.com) to the `SpotOn/` folder,
+with Auth (Email and Password), Firestore and Realtime Database enabled.
 
-**3 · Run**
+**Step 3 · Run**
 
-Open `SpotOn.xcodeproj`, select the **SpotOn** scheme, and hit **⌘R**.
+Open `SpotOn.xcodeproj`, select the **SpotOn** scheme, and press **⌘R**.
 
----
+<br>
 
-## 🎨 The Crystal Design System
+## The Crystal Design System
 
-A single design language across every screen — defined in
-[`CrystalTheme.swift`](SpotOn/Extensions/CrystalTheme.swift):
+A single design language across every screen, defined in
+[`CrystalTheme.swift`](SpotOn/Extensions/CrystalTheme.swift).
 
-- **Crystal palette** — `crystalBlue` · `crystalMint` · `crystalGold` gradients
-- **Glassmorphism** — `.ultraThinMaterial` cards with gradient stroke borders
-- **Scattered letters** — a subtle alphabet backdrop on every screen
-- **Adaptive** — every component ships with light & dark variants
+| Element | Detail |
+|---|---|
+| Crystal palette | crystalBlue, crystalMint and crystalGold gradients |
+| Glassmorphism | Ultra thin material cards with gradient stroke borders |
+| Scattered letters | A subtle alphabet backdrop on every screen |
+| Adaptive | Every component ships with light and dark variants |
+
+<br>
 
 ---
 
 <div align="center">
 
-Built with **SwiftUI & Firebase** · iOS course final project
+<sub>Built with SwiftUI and Firebase · iOS course final project</sub>
 
-© 2026 SpotOn — Ofek Fanian
+<sub>© 2026 SpotOn · Ofek Fanian</sub>
 
 </div>
