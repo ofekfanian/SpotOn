@@ -5,10 +5,12 @@ struct SettingsView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @ObservedObject private var rtdb = RealtimeDatabaseService.shared
     @ObservedObject private var profileImage = ProfileImageStore.shared
+    @Environment(\.colorScheme) private var scheme
 
     @AppStorage("dailyReminderOn") private var reminderOn = true
     @AppStorage("dailyReminderHour") private var notifHour = 20
     @AppStorage("appearance") private var appearance = AppAppearance.system.rawValue
+    @AppStorage("showTabBar") private var showTabBar = true
 
     @State private var photoItem: PhotosPickerItem?
     @State private var showSignOutAlert = false
@@ -18,15 +20,16 @@ struct SettingsView: View {
     }
 
     var body: some View {
+        let avatarImage = profileImage.image   // read main-actor property outside the Sendable label closure
         NavigationStack {
             Form {
                 Section {
                     HStack(spacing: 16) {
-                        PhotosPicker(selection: $photoItem, matching: .images) { ProfileAvatar(image: profileImage.image) }
+                        PhotosPicker(selection: $photoItem, matching: .images) { ProfileAvatar(image: avatarImage) }
                             .buttonStyle(.plain)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(displayName).font(.headline)
-                            Text(authVM.user?.email ?? "—").font(.caption).foregroundColor(.secondary)
+                            Text(authVM.user?.email ?? "-").font(.caption).foregroundColor(.secondary)
                             PhotosPicker(selection: $photoItem, matching: .images) {
                                 Text("Change Photo").font(.caption.bold()).foregroundColor(.crystalBlue)
                             }
@@ -40,7 +43,7 @@ struct SettingsView: View {
                 }
 
                 Section("Progress") {
-                    LabeledContent("Level", value: (authVM.userProfile?.level ?? "—").capitalized)
+                    LabeledContent("Level", value: (authVM.userProfile?.level ?? "-").capitalized)
                     HStack { Label("Streak", systemImage: "flame.fill").foregroundColor(.orange); Spacer(); Text("\(rtdb.streak) days").foregroundColor(.secondary) }
                     HStack { Label("XP", systemImage: "star.fill").foregroundColor(.crystalGold); Spacer(); Text("\(rtdb.xp)").foregroundColor(.secondary) }
                 }
@@ -50,6 +53,11 @@ struct SettingsView: View {
                         ForEach(AppAppearance.allCases) { mode in Label(mode.label, systemImage: mode.icon).tag(mode.rawValue) }
                     } label: { Label("Theme", systemImage: "paintbrush.fill").foregroundColor(.crystalBlue) }
                     .pickerStyle(.menu)
+
+                    Toggle(isOn: $showTabBar) {
+                        Label("Navigation Bar", systemImage: "rectangle.bottomthird.inset.filled")
+                            .foregroundColor(.crystalBlue)
+                    }
                 }
 
                 Section("Notifications") {
@@ -58,6 +66,12 @@ struct SettingsView: View {
                 }
                 .onChange(of: reminderOn) { _, on in updateReminder(on: on) }
                 .onChange(of: notifHour) { _, _ in updateReminder(on: reminderOn) }
+
+                Section("Community") {
+                    NavigationLink { LeaderboardView() } label: {
+                        Label("Friends & Leaderboard", systemImage: "person.2.fill")
+                    }
+                }
 
                 Section("About") {
                     NavigationLink { AboutView() } label: { Label("About SpotOn", systemImage: "info.circle") }
@@ -71,7 +85,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle("Profile")
             .onChange(of: photoItem) { _, item in
                 guard let item else { return }
                 Task {
@@ -80,10 +94,18 @@ struct SettingsView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background {
+                ZStack {
+                    (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                    ScatteredLettersBackground().ignoresSafeArea()
+                }
+            }
             .alert("Sign Out?", isPresented: $showSignOutAlert) {
                 Button("Sign Out", role: .destructive) { authVM.signOut() }
                 Button("Cancel", role: .cancel) {}
             }
+            .applyTabBarVisibility()
         }
     }
 
@@ -111,4 +133,5 @@ private struct ProfileAvatar: View {
     }
 }
 
-#Preview { SettingsView().environmentObject(AuthViewModel()) }
+#Preview("Light") { MainTabView(initialTab: 4).environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { MainTabView(initialTab: 4).environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

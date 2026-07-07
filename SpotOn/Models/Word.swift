@@ -5,7 +5,6 @@ struct Word: Identifiable, Codable, Hashable {
     @DocumentID var id: String?
     var word: String
     var translation: String   // Hebrew
-    var french: String        // French
     var definition: String
     var context: String
     var tags: [String]
@@ -13,19 +12,24 @@ struct Word: Identifiable, Codable, Hashable {
     var isMastered: Bool
     var needsReview: Bool
     var createdAt: Date
+    // Enrichment fields, populated by LLMEnrichmentService after the word is saved
+    var partOfSpeech: String
+    var examples: [String]      // [business, casual, tech] sentences from Gemini
+    var sourcePassageId: String? // ID of the ReadingPassage that introduced this word
 
     init(
         word: String,
         translation: String = "",
-        french: String = "",
         definition: String,
         context: String = "",
         tags: [String] = [],
-        level: String = "intermediate"
+        level: String = "intermediate",
+        partOfSpeech: String = "",
+        examples: [String] = [],
+        sourcePassageId: String? = nil
     ) {
         self.word = word
         self.translation = translation
-        self.french = french
         self.definition = definition
         self.context = context
         self.tags = tags
@@ -33,24 +37,27 @@ struct Word: Identifiable, Codable, Hashable {
         self.isMastered = false
         self.needsReview = false
         self.createdAt = Date()
+        self.partOfSpeech = partOfSpeech
+        self.examples = examples
+        self.sourcePassageId = sourcePassageId
     }
 
-    // Text in a given language code (en/he/fr).
     func text(for code: String) -> String {
-        switch code {
-        case "he": return translation
-        case "fr": return french
-        default:   return word
-        }
+        code == "he" ? translation : word
     }
 
     static let sample = Word(
         word: "Serendipity",
         translation: "מקריות מאושרת",
-        french: "sérendipité",
         definition: "Finding something good by accident",
         context: "Heard in Friends Season 2",
         tags: ["Casual"],
-        level: "intermediate"
+        level: "intermediate",
+        partOfSpeech: "noun",
+        examples: [
+            "The serendipity of the merger created unexpected revenue streams.",
+            "Meeting my best friend was pure serendipity.",
+            "A serendipitous bug fix revealed a deeper optimisation in the cache layer."
+        ]
     )
 }

@@ -109,4 +109,5 @@ struct VoiceCallView: View {
     }
 }
 
-#Preview { VoiceCallView() }
+#Preview("Light") { VoiceCallView().preferredColorScheme(.light) }
+#Preview("Dark")  { VoiceCallView().preferredColorScheme(.dark) }

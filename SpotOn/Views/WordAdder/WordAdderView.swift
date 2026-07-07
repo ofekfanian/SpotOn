@@ -3,10 +3,10 @@ import SwiftUI
 struct WordAdderView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var wordBankVM: WordBankViewModel
+    @Environment(\.colorScheme) private var scheme
 
     @State private var word = ""
     @State private var translation = ""
-    @State private var french = ""
     @State private var definition = ""
     @State private var context = ""
     @State private var selectedTags: Set<String> = []
@@ -25,16 +25,12 @@ struct WordAdderView: View {
                         .font(.headline)
                         .onChange(of: word) { _, newValue in
                             if let t = VocabularyService.shared.translation(for: newValue) {
-                                translation = t.hebrew; french = t.french
+                                translation = t.hebrew
                             }
                         }
                     HStack(spacing: 6) {
                         Image(systemName: "character.bubble").foregroundColor(.crystalMint).font(.caption)
                         TextField("Hebrew translation", text: $translation).environment(\.layoutDirection, .rightToLeft)
-                    }
-                    HStack(spacing: 6) {
-                        Image(systemName: "character.bubble").foregroundColor(.crystalBlue).font(.caption)
-                        TextField("French translation", text: $french)
                     }
                     TextField("Definition (English)", text: $definition, axis: .vertical).lineLimit(2...4)
                 }
@@ -70,15 +66,23 @@ struct WordAdderView: View {
                     .disabled(word.isEmpty || definition.isEmpty || isSaving)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background {
+                ZStack {
+                    (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                    ScatteredLettersBackground().ignoresSafeArea()
+                }
+            }
             .navigationTitle("Add Word")
             .overlay { if showSuccess { SuccessOverlay().transition(.scale.combined(with: .opacity)) } }
+            .applyTabBarVisibility()
         }
     }
 
     private func save() async {
         guard let uid = authVM.user?.uid else { return }
         isSaving = true
-        let newWord = Word(word: word, translation: translation, french: french,
+        let newWord = Word(word: word, translation: translation,
                            definition: definition, context: context, tags: Array(selectedTags), level: level)
         await wordBankVM.addWord(newWord, uid: uid)
         try? await RealtimeDatabaseService.shared.addXP(10, for: uid)
@@ -86,7 +90,7 @@ struct WordAdderView: View {
         withAnimation { showSuccess = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             showSuccess = false
-            word = ""; translation = ""; french = ""; definition = ""; context = ""; selectedTags = []
+            word = ""; translation = ""; definition = ""; context = ""; selectedTags = []
         }
     }
 }
@@ -114,4 +118,5 @@ private struct SuccessOverlay: View {
     }
 }
 
-#Preview { WordAdderView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }
+#Preview("Light") { MainTabView(initialTab: 2).environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { MainTabView(initialTab: 2).environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

@@ -1,12 +1,12 @@
 import Foundation
 
-/// Offline English/Hebrew/French repository by level (vocabulary.json). Lazy + cached.
+/// Offline English/Hebrew repository by level (vocabulary.json). Lazy + cached.
 final class VocabularyService {
     static let shared = VocabularyService()
     private init() {}
 
-    private struct Entry: Decodable { let en: String; let he: String; let fr: String }
-    struct Translation { let hebrew: String; let french: String }
+    private struct Entry: Decodable { let en: String; let he: String }
+    struct Translation { let hebrew: String }
 
     private var entriesByLevel: [String: [Entry]] = [:]
     private var index: [String: Translation] = [:]
@@ -20,7 +20,7 @@ final class VocabularyService {
               let decoded = try? JSONDecoder().decode([String: [Entry]].self, from: data) else { return }
         entriesByLevel = decoded
         for entries in decoded.values {
-            for entry in entries { index[entry.en.lowercased()] = Translation(hebrew: entry.he, french: entry.fr) }
+            for entry in entries { index[entry.en.lowercased()] = Translation(hebrew: entry.he) }
         }
     }
 
@@ -32,7 +32,7 @@ final class VocabularyService {
     func words(for level: String) -> [Word] {
         loadIfNeeded()
         return (entriesByLevel[level] ?? []).map {
-            Word(word: $0.en, translation: $0.he, french: $0.fr, definition: "", level: level)
+            Word(word: $0.en, translation: $0.he, definition: "", level: level)
         }
     }
 

@@ -3,6 +3,7 @@ import SwiftUI
 struct LeaderboardView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @StateObject private var vm = LeaderboardViewModel()
+    @Environment(\.colorScheme) private var scheme
     @State private var showAddFriend = false
     @State private var showShare = false
 
@@ -54,6 +55,12 @@ struct LeaderboardView: View {
                 }
                 .padding(.top)
             }
+            .background {
+                ZStack {
+                    (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                    ScatteredLettersBackground().ignoresSafeArea()
+                }
+            }
             .navigationTitle("Leaderboard").navigationBarTitleDisplayMode(.large)
             .task {
                 if let profile = authVM.userProfile, let uid = authVM.user?.uid {
@@ -66,6 +73,7 @@ struct LeaderboardView: View {
                     ShareSheet(text: "Join me on SpotOn! Use my invite code: \(code)")
                 }
             }
+            .applyTabBarVisibility()
         }
     }
 }
@@ -151,6 +159,7 @@ struct AddFriendSheet: View {
         do {
             try await FriendsService.shared.addFriend(inviteCode: code, for: uid)
             success = true
+            await authVM.refreshProfile()   // pick up the new friendUIDs before reloading
             if let profile = authVM.userProfile { await vm.load(friendUIDs: profile.friendUIDs, myUID: uid) }
             try? await Task.sleep(nanoseconds: 1_500_000_000)
             dismiss()
@@ -167,4 +176,5 @@ struct ShareSheet: UIViewControllerRepresentable {
     func updateUIViewController(_ vc: UIActivityViewController, context: Context) {}
 }
 
-#Preview { LeaderboardView().environmentObject(AuthViewModel()) }
+#Preview("Light") { LeaderboardView().environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { LeaderboardView().environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

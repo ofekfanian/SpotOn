@@ -37,7 +37,7 @@ struct ContentView: View {
                             Image(systemName: "target").resizable().scaledToFit().frame(width: 40, height: 40)
                                 .foregroundStyle(LinearGradient.crystal)
                         }
-                        CrystalText(text: "SpotOn", font: .system(size: 38, weight: .bold))
+                        SpotOnLogoView(height: 54)
                         ProgressView().tint(Color.crystalBlue)
                     }
                 }
@@ -54,4 +54,5 @@ struct ContentView: View {
     }
 }
 
-#Preview { ContentView() }
+#Preview("Light") { ContentView().preferredColorScheme(.light) }
+#Preview("Dark")  { ContentView().preferredColorScheme(.dark) }

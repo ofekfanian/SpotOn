@@ -6,9 +6,11 @@ class FirestoreService {
     private lazy var db = Firestore.firestore()
 
     // MARK: - Words
-    func addWord(_ word: Word, for uid: String) async throws {
+    /// Adds the word and returns the new Firestore document ID.
+    @discardableResult
+    func addWord(_ word: Word, for uid: String) async throws -> String {
         let ref = db.collection("users").document(uid).collection("words")
-        try ref.addDocument(from: word)
+        return try ref.addDocument(from: word).documentID
     }
 
     func updateWord(_ word: Word, for uid: String) async throws {

@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct AboutView: View {
+    @Environment(\.colorScheme) private var scheme
     private let features: [(String, Color, String, String)] = [
         ("books.vertical.fill", .crystalBlue, "Personal Word Bank", "Save words you hear with context, tags, and translations."),
-        ("rectangle.on.rectangle.angled", .crystalMint, "Flashcards", "Study in English, Hebrew, and French — swipe and flip to learn."),
+        ("rectangle.on.rectangle.angled", .crystalMint, "Flashcards", "Study in English and Hebrew. Swipe and flip to learn."),
         ("bolt.fill", .crystalGold, "60-Second Blitz", "Race the clock to test how many words you really know."),
         ("text.append", .crystalBlue, "Sentence Completion", "Fill in the blanks and see the full translation."),
         ("camera.viewfinder", .crystalMint, "Snap & Learn", "Photograph anything and learn its name instantly."),
@@ -21,13 +22,13 @@ struct AboutView: View {
                             .foregroundStyle(LinearGradient.crystal)
                     }
                     .shadow(color: Color.crystalBlue.opacity(0.3), radius: 18)
-                    CrystalText(text: "SpotOn", font: .system(size: 34, weight: .bold))
+                    SpotOnLogoView(height: 62)
                     Text("Master English, One Word at a Time").font(.subheadline).foregroundColor(.secondary)
                     Text("Version 1.0.0").font(.caption).foregroundColor(.secondary)
                 }
                 .padding(.top, 12)
 
-                Text("SpotOn helps you turn the words you encounter in real life into lasting vocabulary. Capture words, practice them in fun games, and speak with an AI tutor — all in English, Hebrew, and French.")
+                Text("SpotOn helps you turn the words you encounter in real life into lasting vocabulary. Capture words, practice them in fun games, and speak with an AI tutor — all in English and Hebrew.")
                     .font(.subheadline).foregroundColor(.secondary).multilineTextAlignment(.center).padding(.horizontal)
 
                 VStack(alignment: .leading, spacing: 12) {
@@ -57,9 +58,15 @@ struct AboutView: View {
                 .padding(.top, 6).padding(.bottom, 30)
             }
         }
-        .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        .background {
+            ZStack {
+                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                ScatteredLettersBackground().ignoresSafeArea()
+            }
+        }
         .navigationTitle("About").navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview { NavigationStack { AboutView() } }
+#Preview("Light") { NavigationStack { AboutView() }.preferredColorScheme(.light) }
+#Preview("Dark")  { NavigationStack { AboutView() }.preferredColorScheme(.dark) }

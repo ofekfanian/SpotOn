@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import Firebase
 
 @main
@@ -6,7 +7,16 @@ struct SpotOnApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
-        WindowGroup { ContentView() }
+        WindowGroup {
+            ContentView()
+        }
+        .modelContainer(for: [ReadingPassage.self, PassageWord.self],
+                        isAutosaveEnabled: true) { result in
+            guard case .success(let container) = result else { return }
+            Task { @MainActor in
+                await PassageSeeder.shared.seedIfNeeded(in: container.mainContext)
+            }
+        }
     }
 }
 

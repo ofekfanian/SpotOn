@@ -1,19 +1,20 @@
 import SwiftUI
 
 enum CardLang: String, CaseIterable {
-    case english, hebrew, french
+    case english, hebrew
     var speechCode: String {
-        switch self { case .english: return "en-US"; case .hebrew: return "he-IL"; case .french: return "fr-FR" }
+        switch self { case .english: return "en-US"; case .hebrew: return "he-IL" }
     }
     var isRTL: Bool { self == .hebrew }
     init(code: String) {
-        switch code { case "he": self = .hebrew; case "fr": self = .french; default: self = .english }
+        self = code == "he" ? .hebrew : .english
     }
 }
 
 struct FlashcardsView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var scheme
     let words: [Word]
 
     @State private var deck: [Word] = []
@@ -37,7 +38,7 @@ struct FlashcardsView: View {
 
     var body: some View {
         ZStack {
-            Color(.systemGroupedBackground).ignoresSafeArea()
+            (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
             ScatteredLettersBackground().ignoresSafeArea()
             if finished { resultView.transition(.scale(scale: 0.9).combined(with: .opacity)) }
             else { playView }
@@ -77,7 +78,7 @@ struct FlashcardsView: View {
 
             if let word = deck[safe: index] {
                 FlashCard(word: word, isFlipped: isFlipped, frontLang: frontLang, backLang: backLang)
-                    .frame(maxWidth: 320)
+                    .frame(width: 300, height: 200)
                     .scaleEffect(cardScale * (cardAppear ? 1 : 0.85)).opacity(cardAppear ? 1 : 0)
                     .offset(dragOffset).rotationEffect(.degrees(Double(dragOffset.width / 20)))
                     .overlay(swipeBadge)
@@ -181,12 +182,12 @@ private struct FlashCard: View {
     let isFlipped: Bool
     let frontLang: CardLang
     let backLang: CardLang
+    @Environment(\.colorScheme) private var scheme
 
     private func text(for lang: CardLang) -> String {
         switch lang {
         case .english: return word.word
-        case .hebrew:  return word.translation.isEmpty ? (VocabularyService.shared.translation(for: word.word)?.hebrew ?? "—") : word.translation
-        case .french:  return word.french.isEmpty ? (VocabularyService.shared.translation(for: word.word)?.french ?? "—") : word.french
+        case .hebrew:  return word.translation.isEmpty ? (VocabularyService.shared.translation(for: word.word)?.hebrew ?? "-") : word.translation
         }
     }
 
@@ -195,69 +196,119 @@ private struct FlashCard: View {
             cardFront.opacity(isFlipped ? 0 : 1)
             cardBack.opacity(isFlipped ? 1 : 0).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
         }
-        .frame(height: 300)
-        .background(
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
             ZStack {
-                Color.white.opacity(0.05)
-                LinearGradient(colors: [Color.crystalBlue.opacity(0.10), Color.crystalMint.opacity(0.05), .clear],
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                Color.clear.background(.ultraThinMaterial)
+                LinearGradient(
+                    stops: [
+                        .init(color: Color.crystalBlue.opacity(0.18), location: 0),
+                        .init(color: Color.crystalMint.opacity(0.08), location: 0.55),
+                        .init(color: Color.crystalGold.opacity(0.05), location: 1),
+                    ],
+                    startPoint: .topLeading, endPoint: .bottomTrailing
+                )
             }
-            .background(.ultraThinMaterial)
-        )
-        .cornerRadius(26)
-        .overlay(RoundedRectangle(cornerRadius: 26).strokeBorder(LinearGradient.crystal, lineWidth: 2))
-        .overlay(alignment: .top) {
-            LinearGradient(colors: [.white.opacity(0.25), .clear], startPoint: .top, endPoint: .center)
-                .frame(height: 120).allowsHitTesting(false).clipShape(RoundedRectangle(cornerRadius: 26))
         }
-        .shadow(color: Color.crystalBlue.opacity(0.18), radius: 16, y: 10)
+        .cornerRadius(20)
+        .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(LinearGradient.crystal, lineWidth: 1.5))
+        .overlay(alignment: .top) {
+            LinearGradient(
+                colors: [Color.white.opacity(scheme == .dark ? 0.07 : 0.28), .clear],
+                startPoint: .top, endPoint: .init(x: 0.5, y: 0.45)
+            )
+            .allowsHitTesting(false).clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .shadow(color: Color.crystalBlue.opacity(0.22), radius: 28, y: 14)
         .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
     }
 
     private var cardFront: some View {
-        VStack(spacing: 14) {
-            Image(systemName: "character.book.closed.fill").font(.title2).foregroundStyle(LinearGradient.crystalShort)
-            Text(text(for: frontLang)).font(.system(size: 32, weight: .bold)).foregroundStyle(LinearGradient.crystal)
-                .multilineTextAlignment(.center).minimumScaleFactor(0.6)
-                .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
-            SpeakButton(text: text(for: frontLang), language: frontLang.speechCode)
-            if !word.tags.isEmpty { Text(word.tags.joined(separator: " · ")).font(.caption.bold()).foregroundColor(.crystalBlue) }
+        VStack(spacing: 0) {
+            HStack {
+                HStack(spacing: 4) {
+                    Image(systemName: "character.book.closed.fill")
+                        .font(.caption2).foregroundStyle(LinearGradient.crystalShort)
+                    Text("Word").font(.caption2.bold()).foregroundColor(.secondary)
+                }
+                Spacer()
+                if !word.level.isEmpty {
+                    Text(word.level.capitalized).font(.caption2.bold())
+                        .padding(.horizontal, 7).padding(.vertical, 3)
+                        .background(Color.crystalBlue.opacity(0.15))
+                        .foregroundColor(.crystalBlue).cornerRadius(5)
+                }
+            }
+            .padding(.horizontal, 16).padding(.top, 12)
+
+            Spacer()
+
+            HStack(spacing: 12) {
+                Text(text(for: frontLang))
+                    .font(.system(size: 30, weight: .bold))
+                    .foregroundStyle(LinearGradient.crystal)
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.5)
+                    .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
+                SpeakButton(text: text(for: frontLang), language: frontLang.speechCode)
+            }
+            .padding(.horizontal, 16)
+
+            Spacer()
+
+            if !word.tags.isEmpty {
+                HStack(spacing: 5) {
+                    ForEach(word.tags.prefix(2), id: \.self) { tag in
+                        Text(tag).font(.caption2.bold())
+                            .padding(.horizontal, 7).padding(.vertical, 3)
+                            .background(Color.crystalMint.opacity(0.15))
+                            .foregroundColor(.crystalMint).cornerRadius(5)
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 16).padding(.bottom, 12)
+            } else {
+                Spacer().frame(height: 12)
+            }
         }
-        .padding(24)
     }
 
     private var cardBack: some View {
-        VStack(spacing: 18) {
-            Text(text(for: frontLang)).font(.subheadline.bold()).foregroundColor(.secondary)
-                .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
-            HStack(spacing: 8) {
-                Text(text(for: backLang)).font(.system(size: 28, weight: .bold)).foregroundStyle(LinearGradient.crystal)
-                    .multilineTextAlignment(.center).minimumScaleFactor(0.6)
+        VStack(spacing: 0) {
+            HStack {
+                Text(text(for: frontLang)).font(.caption.bold()).foregroundColor(.secondary)
+                    .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
+                Spacer()
+                Text("Translation").font(.caption2.bold()).foregroundColor(.secondary)
+            }
+            .padding(.horizontal, 16).padding(.top, 12)
+
+            Spacer()
+
+            HStack(spacing: 12) {
+                Text(text(for: backLang))
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundStyle(LinearGradient.crystal)
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.5)
                     .environment(\.layoutDirection, backLang.isRTL ? .rightToLeft : .leftToRight)
-                SpeakButton(text: text(for: backLang), language: backLang.speechCode, compact: true)
+                SpeakButton(text: text(for: backLang), language: backLang.speechCode)
+            }
+            .padding(.horizontal, 16)
+
+            Spacer()
+
+            if !word.context.isEmpty {
+                Text("« \(word.context) »")
+                    .font(.caption2).italic().foregroundColor(.secondary)
+                    .lineLimit(1).truncationMode(.tail)
+                    .padding(.horizontal, 16).padding(.bottom, 12)
+            } else {
+                Spacer().frame(height: 12)
             }
         }
-        .padding(24)
     }
 }
 
-private struct SpeakButton: View {
-    let text: String
-    var language: String = "en-US"
-    var compact: Bool = false
-    @State private var animate = false
-    var body: some View {
-        Button {
-            SpeechService.shared.speak(text, accent: language)
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { animate = true }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { animate = false }
-        } label: {
-            Image(systemName: "speaker.wave.2.fill").font(compact ? .caption : .subheadline.bold())
-                .foregroundStyle(LinearGradient.crystalShort).padding(compact ? 6 : 10)
-                .background(Color.crystalBlue.opacity(0.12)).clipShape(Circle()).scaleEffect(animate ? 1.25 : 1)
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-#Preview { FlashcardsView(words: [.sample]).environmentObject(AuthViewModel()) }
+#Preview("Light") { FlashcardsView(words: [.sample]).environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { FlashcardsView(words: [.sample]).environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

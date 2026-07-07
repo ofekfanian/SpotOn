@@ -4,6 +4,7 @@ struct SnapLearnView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var wordBankVM: WordBankViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var scheme
 
     @State private var image: UIImage?
     @State private var result: VisionService.Result?
@@ -18,7 +19,7 @@ struct SnapLearnView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground).ignoresSafeArea()
+                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
                 ScatteredLettersBackground().ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 24) {
@@ -78,12 +79,6 @@ struct SnapLearnView: View {
                 SpeakButton(text: result.english)
             }
             Text(result.hebrew).font(.title2.bold()).foregroundColor(.crystalMint).environment(\.layoutDirection, .rightToLeft)
-            if !result.french.isEmpty {
-                HStack(spacing: 10) {
-                    Text(result.french).font(.title3.bold()).foregroundColor(.crystalBlue)
-                    SpeakButton(text: result.french, language: "fr-FR")
-                }
-            }
             if !result.description.isEmpty {
                 Text(result.description).font(.footnote).italic().foregroundColor(.secondary).multilineTextAlignment(.center)
             }
@@ -122,7 +117,7 @@ struct SnapLearnView: View {
     private func addToWordBank(_ result: VisionService.Result) async {
         guard let uid = authVM.user?.uid else { return }
         let level = authVM.userProfile?.level ?? "intermediate"
-        let word = Word(word: result.english.capitalized, translation: result.hebrew, french: result.french,
+        let word = Word(word: result.english.capitalized, translation: result.hebrew,
                         definition: result.description, context: "Identified with the camera", level: level)
         await wordBankVM.addWord(word, uid: uid)
         try? await RealtimeDatabaseService.shared.addXP(10, for: uid)
@@ -130,21 +125,11 @@ struct SnapLearnView: View {
     }
 }
 
-private struct SpeakButton: View {
-    let text: String
-    var language: String = "en-US"
-    @State private var animate = false
-    var body: some View {
-        Button {
-            SpeechService.shared.speak(text, accent: language)
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { animate = true }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { animate = false }
-        } label: {
-            Image(systemName: "speaker.wave.2.fill").font(.subheadline.bold()).foregroundStyle(LinearGradient.crystalShort)
-                .padding(10).background(Color.crystalBlue.opacity(0.12)).clipShape(Circle()).scaleEffect(animate ? 1.25 : 1)
-        }
-        .buttonStyle(.plain)
-    }
+#Preview("Light") {
+    SnapLearnView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel())
+        .preferredColorScheme(.light)
 }
-
-#Preview { SnapLearnView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }
+#Preview("Dark") {
+    SnapLearnView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel())
+        .preferredColorScheme(.dark)
+}

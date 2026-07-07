@@ -3,18 +3,22 @@ import SwiftUI
 struct WordBankView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var wordBankVM: WordBankViewModel
+    @Environment(\.colorScheme) private var scheme
     @State private var selectedWord: Word?
 
     private let allTags = ["Tech", "Casual", "Business", "Academic", "Slang"]
 
     var body: some View {
         NavigationStack {
+            ZStack {
+                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                ScatteredLettersBackground().ignoresSafeArea()
             VStack(spacing: 0) {
                 HStack {
                     Image(systemName: "magnifyingglass").foregroundColor(.secondary)
                     TextField("Search words...", text: $wordBankVM.searchText)
                 }
-                .padding(10).background(Color(.systemGray6)).cornerRadius(12)
+                .padding(10).background(.ultraThinMaterial).cornerRadius(12)
                 .padding(.horizontal).padding(.bottom, 8)
 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -39,7 +43,7 @@ struct WordBankView: View {
                     Spacer()
                 } else {
                     List {
-                        ForEach(wordBankVM.filtered) { word in
+                        ForEach(wordBankVM.paginated) { word in
                             WordRowView(word: word)
                                 .contentShape(Rectangle())
                                 .onTapGesture { selectedWord = word }
@@ -53,15 +57,22 @@ struct WordBankView: View {
                                     Button { wordBankVM.speak(word.word) } label: { Label("Speak", systemImage: "speaker.wave.2.fill") }
                                         .tint(.crystalMint)
                                 }
+                                .listRowBackground(Color.clear)
+                                .onAppear {
+                                    if word.id == wordBankVM.paginated.last?.id { wordBankVM.loadNextPage() }
+                                }
                         }
                     }
                     .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 }
+            }
             }
             .navigationTitle("My Word Bank")
             .sheet(item: $selectedWord) { word in
                 WordDetailView(word: word).environmentObject(authVM).environmentObject(wordBankVM)
             }
+            .applyTabBarVisibility()
         }
     }
 }
@@ -108,4 +119,5 @@ private struct TagChipFilter: View {
     }
 }
 
-#Preview { WordBankView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }
+#Preview("Light") { MainTabView(initialTab: 1).environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { MainTabView(initialTab: 1).environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

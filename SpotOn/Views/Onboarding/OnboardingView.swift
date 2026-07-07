@@ -4,11 +4,9 @@ struct OnboardingView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.colorScheme) private var scheme
 
-    private enum Step { case native, target, level, test, result }
-    @State private var step: Step = .native
+    private enum Step { case level, test, result }
+    @State private var step: Step = .level
 
-    @State private var nativeLang = "he"
-    @State private var targetLang = "en"
     @State private var selfLevel: String? = nil
     @State private var isFinishing = false
 
@@ -18,9 +16,6 @@ struct OnboardingView: View {
     @State private var correctByLevel: [String: Int] = [:]
     @State private var recommendedLevel = "intermediate"
 
-    private let languages: [(code: String, name: String, sub: String)] = [
-        ("he", "Hebrew", "עברית"), ("en", "English", "English"), ("fr", "French", "Français"),
-    ]
     private let levels: [(String, String, Color, String, String)] = [
         ("beginner", "leaf.fill", .crystalMint, "Beginner", "Basic everyday words"),
         ("intermediate", "flame.fill", .crystalBlue, "Intermediate", "Conversations & idioms"),
@@ -34,10 +29,6 @@ struct OnboardingView: View {
             VStack(spacing: 24) {
                 progressDots
                 switch step {
-                case .native: languageStep(title: "What language do you speak?", subtitle: "We'll show translations in your language.",
-                                           selection: $nativeLang) { step = .target }
-                case .target: languageStep(title: "What do you want to learn?", subtitle: "Pick your target language.",
-                                           selection: $targetLang) { step = .level }
                 case .level: levelStep
                 case .test: testStep
                 case .result: resultStep
@@ -50,38 +41,44 @@ struct OnboardingView: View {
     }
 
     private var progressDots: some View {
-        let steps: [Step] = [.native, .target, .level, .test, .result]
+        let steps: [Step] = [.level, .test, .result]
         let current = steps.firstIndex(of: step) ?? 0
-        return HStack(spacing: 8) {
-            ForEach(0..<steps.count, id: \.self) { i in
-                Capsule().fill(i <= current ? AnyShapeStyle(LinearGradient.crystal) : AnyShapeStyle(Color.secondary.opacity(0.25)))
-                    .frame(width: i == current ? 26 : 10, height: 6)
+        return HStack {
+            if current > 0 {
+                Button(action: goBack) {
+                    Image(systemName: "chevron.left.circle.fill")
+                        .font(.title3).foregroundStyle(LinearGradient.crystalShort)
+                }
+            } else {
+                Image(systemName: "chevron.left.circle.fill").font(.title3).opacity(0)
             }
-        }
-        .padding(.top, 12)
-    }
-
-    private func languageStep(title: String, subtitle: String, selection: Binding<String>, next: @escaping () -> Void) -> some View {
-        VStack(spacing: 28) {
             Spacer()
-            header(title: title, subtitle: subtitle)
-            VStack(spacing: 14) {
-                ForEach(languages, id: \.code) { lang in
-                    SelectRow(icon: "globe", iconColor: .crystalBlue, title: lang.name, subtitle: lang.sub,
-                              isSelected: selection.wrappedValue == lang.code) {
-                        withAnimation(.spring(duration: 0.25)) { selection.wrappedValue = lang.code }
-                    }
+            HStack(spacing: 8) {
+                ForEach(0..<steps.count, id: \.self) { i in
+                    Capsule().fill(i <= current ? AnyShapeStyle(LinearGradient.crystal) : AnyShapeStyle(Color.secondary.opacity(0.25)))
+                        .frame(width: i == current ? 26 : 10, height: 6)
                 }
             }
-            primaryButton("Continue", enabled: true, action: next)
             Spacer()
+            Image(systemName: "chevron.left.circle.fill").font(.title3).opacity(0)
+        }
+        .padding(.horizontal, 4).padding(.top, 12)
+    }
+
+    private func goBack() {
+        withAnimation(.easeInOut(duration: 0.3)) {
+            switch step {
+            case .test:   step = .level; qIndex = 0; selectedOption = nil
+            case .result: step = selfLevel != nil ? .level : .test
+            default: break
+            }
         }
     }
 
     private var levelStep: some View {
         VStack(spacing: 28) {
             Spacer()
-            header(title: "What's your level?", subtitle: "Your honest guess — the quick test will confirm it.")
+            header(title: "What's your level?", subtitle: "Your honest guess. The quick test will confirm it.")
             VStack(spacing: 14) {
                 ForEach(levels, id: \.0) { id, icon, color, title, sub in
                     SelectRow(icon: icon, iconColor: color, title: title, subtitle: sub, isSelected: selfLevel == id) {
@@ -107,11 +104,13 @@ struct OnboardingView: View {
                 VStack(spacing: 12) {
                     ForEach(Array(q.options.enumerated()), id: \.offset) { idx, option in
                         Button { answer(idx, q: q) } label: {
-                            HStack {
-                                Text(option).font(.body.bold()).environment(\.layoutDirection, nativeLang == "he" ? .rightToLeft : .leftToRight)
-                                Spacer()
-                                if selectedOption != nil && idx == q.correct { Image(systemName: "checkmark.circle.fill").foregroundColor(.green) }
-                                else if selectedOption == idx { Image(systemName: "xmark.circle.fill").foregroundColor(.red) }
+                            ZStack {
+                                Text(option).font(.body.bold()).multilineTextAlignment(.center)
+                                HStack {
+                                    Spacer()
+                                    if selectedOption != nil && idx == q.correct { Image(systemName: "checkmark.circle.fill").foregroundColor(.green) }
+                                    else if selectedOption == idx { Image(systemName: "xmark.circle.fill").foregroundColor(.red) }
+                                }
                             }
                             .padding().frame(maxWidth: .infinity).background(optionColor(idx, q: q)).foregroundColor(.primary).cornerRadius(14)
                             .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.crystalBlue.opacity(0.2), lineWidth: 1))
@@ -143,7 +142,7 @@ struct OnboardingView: View {
 
     private func header(title: String, subtitle: String) -> some View {
         VStack(spacing: 10) {
-            CrystalText(text: "SpotOn", font: .system(size: 30, weight: .bold))
+            SpotOnLogoView(height: 52)
             Text(title).font(.title2.bold()).multilineTextAlignment(.center)
             Text(subtitle).font(.subheadline).foregroundColor(.secondary).multilineTextAlignment(.center)
         }
@@ -169,8 +168,8 @@ struct OnboardingView: View {
             let pool = VocabularyService.shared.words(for: level)
             guard pool.count >= 4 else { continue }
             for word in pool.shuffled().prefix(2) {
-                let correct = translation(word, nativeLang)
-                var distractors = pool.filter { $0.word != word.word }.shuffled().prefix(3).map { translation($0, nativeLang) }
+                let correct = hebrewTranslation(word)
+                var distractors = pool.filter { $0.word != word.word }.shuffled().prefix(3).map { hebrewTranslation($0) }
                 distractors.append(correct)
                 let options = distractors.shuffled()
                 let correctIdx = options.firstIndex(of: correct) ?? 0
@@ -180,12 +179,8 @@ struct OnboardingView: View {
         return result
     }
 
-    private func translation(_ word: Word, _ lang: String) -> String {
-        switch lang {
-        case "fr": return word.french.isEmpty ? word.word : word.french
-        case "en": return word.word
-        default: return word.translation.isEmpty ? word.word : word.translation
-        }
+    private func hebrewTranslation(_ word: Word) -> String {
+        word.translation.isEmpty ? word.word : word.translation
     }
 
     private func answer(_ idx: Int, q: PlacementQuestion) {
@@ -217,7 +212,7 @@ struct OnboardingView: View {
     private func finish() {
         isFinishing = true
         Task {
-            await authVM.completeOnboarding(level: recommendedLevel, native: nativeLang, target: targetLang)
+            await authVM.completeOnboarding(level: recommendedLevel)
             _ = await NotificationService.requestPermission()
             NotificationService.scheduleDailyReminder()
             isFinishing = false
@@ -248,4 +243,5 @@ private struct SelectRow: View {
     }
 }
 
-#Preview { OnboardingView().environmentObject(AuthViewModel()) }
+#Preview("Light") { OnboardingView().environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { OnboardingView().environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

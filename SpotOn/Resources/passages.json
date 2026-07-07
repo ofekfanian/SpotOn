@@ -1,0 +1,364 @@
+{
+  "passages": [
+    {
+      "id": "p1_coffee",
+      "title": "Morning at the Coffee Shop",
+      "description": "Everyday English for ordering drinks and making small talk.",
+      "level": 1,
+      "orderIndex": 0,
+      "content": "Every morning, David stops at his favorite coffee shop before heading to the office. The aroma of freshly ground beans fills the air as he steps inside. The barista behind the counter greets him by name — she has memorized his usual order: a large cappuccino with oat milk and a croissant. Today, however, the shop is unusually crowded. A long queue stretches nearly to the door, and every table is taken. David glances at his watch — he has a meeting in thirty minutes. He decides to wait anyway. As he shuffles forward in the line, he quietly mutters to himself, wondering why he did not just make coffee at home. Finally, he reaches the counter. He fumbles in his coat pocket for his wallet, nearly dropping his phone in the process. The barista laughs kindly and hands him his order. He steps back out into the brisk morning air, coffee in hand, feeling slightly more prepared for the day ahead.",
+      "targetWords": [
+        {
+          "text": "barista",
+          "definition": "A person trained to prepare and serve espresso-based drinks",
+          "hebrew": "בריסטה"
+        },
+        {
+          "text": "cappuccino",
+          "definition": "An Italian coffee drink made with espresso and steamed milk foam",
+          "hebrew": "קפוצ'ינו"
+        },
+        {
+          "text": "crowded",
+          "definition": "Full of people; uncomfortably packed together",
+          "hebrew": "עמוס / צפוף"
+        },
+        {
+          "text": "glances",
+          "definition": "Takes a brief, quick look at something",
+          "hebrew": "מציץ"
+        },
+        {
+          "text": "mutters",
+          "definition": "Speaks quietly and unclearly, usually to oneself",
+          "hebrew": "מלמל"
+        },
+        {
+          "text": "fumbles",
+          "definition": "Handles something clumsily, often while searching",
+          "hebrew": "מגשש / מגמגם"
+        }
+      ]
+    },
+    {
+      "id": "p1_apartment",
+      "title": "Finding a New Home",
+      "description": "Vocabulary for describing homes, neighborhoods, and moving.",
+      "level": 1,
+      "orderIndex": 1,
+      "content": "After months of searching, Maya finally found an apartment she loved. It was on the third floor of a quiet building near the park. The landlord described it as cozy, but Maya thought a more accurate word was compact — there was barely enough room for her furniture. Still, she was relieved to have found something within her budget. The previous tenant had left behind a remarkable amount of clutter: old magazines, broken shelves, and a dusty lamp nobody wanted. Maya spent her first weekend clearing it all out. Her new neighbor, an elderly man named Mr. Hassan, knocked on her door that Sunday evening and offered a warm gesture of welcome — a plate of homemade pastries. Maya felt slightly overwhelmed by the kindness of a stranger. She smiled, thanked him sincerely, and decided that this neighborhood might just feel like home sooner than she expected.",
+      "targetWords": [
+        {
+          "text": "cozy",
+          "definition": "Warm, comfortable, and giving a feeling of security",
+          "hebrew": "נעים ומזמין"
+        },
+        {
+          "text": "compact",
+          "definition": "Small but efficiently arranged; using space well",
+          "hebrew": "קומפקטי / צפוף"
+        },
+        {
+          "text": "relieved",
+          "definition": "Feeling glad that a worry or difficulty is over",
+          "hebrew": "מוקל לו"
+        },
+        {
+          "text": "clutter",
+          "definition": "A messy collection of objects filling a space",
+          "hebrew": "בלגן / עומס חפצים"
+        },
+        {
+          "text": "gesture",
+          "definition": "An action or movement that expresses a feeling or intention",
+          "hebrew": "מחווה"
+        },
+        {
+          "text": "overwhelmed",
+          "definition": "Feeling unable to cope due to too much emotion or work",
+          "hebrew": "מוצף / מוכה"
+        }
+      ]
+    },
+    {
+      "id": "p1_pharmacy",
+      "title": "At the Pharmacy",
+      "description": "Practical vocabulary for health situations and daily needs.",
+      "level": 1,
+      "orderIndex": 2,
+      "content": "Jake woke up feeling terrible. His throat was sore, his head was throbbing, and he had a slight fever. He decided to visit the pharmacy instead of going straight to a doctor. The pharmacist, a calm woman in a white coat, listened carefully as Jake described his symptoms. She asked whether he was allergic to any medication and whether he had taken anything already. Jake shook his head. She recommended a painkiller for the fever and a throat spray for the soreness. She also warned him that the tablets might make him feel drowsy, so he should avoid driving. Jake thanked her and paid at the counter. As he was leaving, she reminded him that if his symptoms did not improve within two days, he should get a proper prescription from a doctor. Jake nodded, suddenly relieved that the solution had been so simple and affordable.",
+      "targetWords": [
+        {
+          "text": "pharmacist",
+          "definition": "A trained professional who prepares and sells medicines",
+          "hebrew": "רוקח / רוקחת"
+        },
+        {
+          "text": "symptoms",
+          "definition": "Physical signs that indicate a person may be ill",
+          "hebrew": "תסמינים"
+        },
+        {
+          "text": "allergic",
+          "definition": "Having a harmful bodily reaction to a particular substance",
+          "hebrew": "אלרגי"
+        },
+        {
+          "text": "drowsy",
+          "definition": "Feeling sleepy or slightly dazed, often from medication",
+          "hebrew": "מנומנם / עייף"
+        },
+        {
+          "text": "prescription",
+          "definition": "A written instruction from a doctor to obtain medicine",
+          "hebrew": "מרשם"
+        },
+        {
+          "text": "affordable",
+          "definition": "Reasonably priced; not too expensive",
+          "hebrew": "במחיר סביר"
+        }
+      ]
+    },
+    {
+      "id": "p2_delay",
+      "title": "The Unexpected Delay",
+      "description": "Handling travel problems with confidence and useful phrases.",
+      "level": 2,
+      "orderIndex": 3,
+      "content": "Noa had planned her itinerary down to the last detail: two nights in Rome, then a connecting flight to Barcelona. But when she arrived at the gate in Rome, she discovered her flight had been cancelled due to technical issues. The departure board showed only a single word: DELAYED. Around her, dozens of passengers looked equally frustrated, standing in a disorganized cluster with their luggage. An airline representative appeared and explained that due to turbulence the previous evening, the aircraft had required an unexpected inspection. Noa stood in a long queue waiting for information about compensation and alternative flights. She had learned long ago to be resilient in situations like this — panic never helped. She called her hotel in Barcelona, rescheduled the booking, and found a comfortable seat near the charging station. Three hours later, she was boarding a replacement flight. By the time she landed, she had written three emails, finished a podcast, and decided that unplanned delays were simply part of the adventure of travel.",
+      "targetWords": [
+        {
+          "text": "itinerary",
+          "definition": "A detailed plan or schedule for a journey",
+          "hebrew": "מסלול / לוח זמנים"
+        },
+        {
+          "text": "frustrated",
+          "definition": "Feeling annoyed or upset due to being unable to achieve something",
+          "hebrew": "מתוסכל"
+        },
+        {
+          "text": "turbulence",
+          "definition": "Violent, irregular air currents causing unsteady movement",
+          "hebrew": "טורבולנטיות"
+        },
+        {
+          "text": "compensation",
+          "definition": "Something given to make up for loss, inconvenience, or injury",
+          "hebrew": "פיצוי"
+        },
+        {
+          "text": "resilient",
+          "definition": "Able to recover quickly from difficulties or setbacks",
+          "hebrew": "חוסן / עמיד"
+        },
+        {
+          "text": "alternative",
+          "definition": "An option available as another possibility or choice",
+          "hebrew": "חלופי / אלטרנטיבי"
+        }
+      ]
+    },
+    {
+      "id": "p2_review",
+      "title": "The Performance Review",
+      "description": "Professional English for workplace conversations and self-evaluation.",
+      "level": 2,
+      "orderIndex": 4,
+      "content": "Every quarter, the company held performance reviews. Lior had always dreaded them, but this time he felt prepared. His manager, Sandra, began with constructive feedback about his communication style — she felt he sometimes held back ideas during team meetings. Lior acknowledged the observation and explained that he was working on gaining confidence. Sandra then highlighted the initiative he had shown in automating the weekly reporting process, saving the team several hours each month. She suggested he begin to delegate more of his routine tasks to junior colleagues so he could focus on strategic projects. Lior nodded — he had been too ambitious about doing everything himself. Sandra concluded by setting a new benchmark for the next quarter: lead at least one cross-departmental project. As Lior left the meeting room, he felt a rare mix of challenged and motivated. The conversation had been honest, direct, and, he admitted, exactly what he needed.",
+      "targetWords": [
+        {
+          "text": "constructive",
+          "definition": "Intended to be helpful and improve something, not to criticize negatively",
+          "hebrew": "בונה / עצה לשיפור"
+        },
+        {
+          "text": "acknowledged",
+          "definition": "Recognized or accepted the truth or existence of something",
+          "hebrew": "הכיר / אישר"
+        },
+        {
+          "text": "initiative",
+          "definition": "The ability to assess a situation and act independently without being told",
+          "hebrew": "יוזמה"
+        },
+        {
+          "text": "delegate",
+          "definition": "Entrust a task or responsibility to another person",
+          "hebrew": "לאצול / להאציל"
+        },
+        {
+          "text": "ambitious",
+          "definition": "Having a strong desire to succeed or achieve something difficult",
+          "hebrew": "שאפתן"
+        },
+        {
+          "text": "benchmark",
+          "definition": "A standard or reference point used to measure performance",
+          "hebrew": "אמת מידה / בנצ'מרק"
+        }
+      ]
+    },
+    {
+      "id": "p2_dinner",
+      "title": "A Dinner Party Disaster",
+      "description": "Social English for hosting, cooking, and handling awkward situations.",
+      "level": 2,
+      "orderIndex": 5,
+      "content": "Tal had invited six guests for dinner and had spent two days planning the perfect menu. But an hour before they arrived, she realized she had forgotten to buy the key ingredient for her main dish — smoked paprika. The shops were closed. She had no choice but to improvise. She rummaged through her spice cabinet and combined what she had, hoping for the best. When the guests arrived, they were surprised by the relaxed, spontaneous atmosphere — Tal had transformed the living room into an informal dining space with candles and mismatched plates. One guest, a distinguished food journalist, complimented the main dish extensively, calling it bold and unconventional. Tal smiled, feeling flustered but grateful. She had almost cancelled the evening entirely. Instead, it became one of those rare dinners where the imperfection created warmth. As the guests left, they praised her hospitality — not the food, but the feeling of being genuinely welcomed.",
+      "targetWords": [
+        {
+          "text": "improvise",
+          "definition": "Create something on the spot without prior preparation",
+          "hebrew": "לאלתר"
+        },
+        {
+          "text": "spontaneous",
+          "definition": "Done naturally and without planning, in a free and lively way",
+          "hebrew": "ספונטני"
+        },
+        {
+          "text": "distinguished",
+          "definition": "Successful and commanding great respect; notably excellent",
+          "hebrew": "נכבד / בולט"
+        },
+        {
+          "text": "flustered",
+          "definition": "Agitated, confused, or embarrassed due to an unexpected situation",
+          "hebrew": "מבולבל / מוטרד"
+        },
+        {
+          "text": "hospitality",
+          "definition": "The friendly and generous reception and entertainment of guests",
+          "hebrew": "הכנסת אורחים"
+        },
+        {
+          "text": "unconventional",
+          "definition": "Not based on or conforming to what is generally done or believed",
+          "hebrew": "לא שגרתי"
+        }
+      ]
+    },
+    {
+      "id": "p3_startup",
+      "title": "The Startup Pitch",
+      "description": "Advanced business and technology vocabulary for professional contexts.",
+      "level": 3,
+      "orderIndex": 6,
+      "content": "The conference room fell silent as Yael stepped up to the whiteboard. She had three minutes to convince a panel of investors that her startup deserved funding. Her product, she explained, was disruptive by design — not in the buzzword sense, but because it genuinely replaced an entire category of legacy software with something faster, cheaper, and more scalable. She walked the investors through the ecosystem she had built: a network of API integrations, partner agreements, and a developer community that had grown organically. One investor leaned forward and asked about traction — how many paying customers? Yael answered confidently: four enterprise contracts signed, two pilots in progress, and a waitlist of over three thousand users. Another investor pressed her on whether she was willing to pivot if the original use case proved too narrow. Yael paused before answering. She explained that her team had already identified two adjacent markets and that they were ready to leverage their core technology across both. The panel exchanged glances. Two days later, her phone rang.",
+      "targetWords": [
+        {
+          "text": "disruptive",
+          "definition": "Causing major changes that challenge and replace existing systems or methods",
+          "hebrew": "מהפכני / משבש"
+        },
+        {
+          "text": "scalable",
+          "definition": "Able to be expanded or adjusted to meet growing demand efficiently",
+          "hebrew": "ניתן להרחבה"
+        },
+        {
+          "text": "ecosystem",
+          "definition": "A complex network of interconnected elements that function as a system",
+          "hebrew": "מערכת אקולוגית"
+        },
+        {
+          "text": "traction",
+          "definition": "Early signs of growth or market adoption for a product or idea",
+          "hebrew": "תנופה / אחיזה"
+        },
+        {
+          "text": "pivot",
+          "definition": "A significant change in business strategy while retaining core goals",
+          "hebrew": "פיבוט / שינוי כיוון"
+        },
+        {
+          "text": "leverage",
+          "definition": "Use something to its maximum advantage; to gain an edge from a resource",
+          "hebrew": "לנצל / למנף"
+        }
+      ]
+    },
+    {
+      "id": "p3_negotiation",
+      "title": "The Art of Negotiation",
+      "description": "High-level vocabulary for conflict resolution, persuasion, and deal-making.",
+      "level": 3,
+      "orderIndex": 7,
+      "content": "After six weeks of talks, the two companies had reached an impasse. Neither side was willing to make further concessions on the licensing terms, and the legal teams had grown visibly exhausted. The mediator, a quiet man named Dr. Ferris who had handled negotiations on four continents, called a recess and asked each side to produce a written list of their non-negotiable priorities. What emerged was revealing: the disagreement was not over price, but over precedent. The acquiring company feared that accepting the current terms would set a precedent that future partners could exploit. Dr. Ferris reframed the conversation around mutual benefit, gradually steering both parties toward a consensus that protected each side's core interest without either capitulating publicly. He was skilled at identifying the difference between a stated position and an underlying need — a distinction that most negotiators ignored at their peril. When the final agreement was signed on a Thursday afternoon, both CEOs shook hands with the expression of people who had not entirely won, but had not lost either — which, Dr. Ferris knew from experience, was the definition of a successful deal.",
+      "targetWords": [
+        {
+          "text": "impasse",
+          "definition": "A deadlock; a situation in which no progress is possible due to disagreement",
+          "hebrew": "מבוי סתום"
+        },
+        {
+          "text": "concessions",
+          "definition": "Things given up or agreed to in order to reach a compromise",
+          "hebrew": "ויתורים"
+        },
+        {
+          "text": "mediator",
+          "definition": "A neutral person who helps two parties resolve a dispute",
+          "hebrew": "מגשר"
+        },
+        {
+          "text": "precedent",
+          "definition": "An earlier action or decision that serves as a guide for future situations",
+          "hebrew": "תקדים"
+        },
+        {
+          "text": "consensus",
+          "definition": "A general agreement reached by all parties involved",
+          "hebrew": "קונצנסוס / הסכמה"
+        },
+        {
+          "text": "capitulating",
+          "definition": "Surrendering or giving in to the demands of an opponent",
+          "hebrew": "נכנע"
+        }
+      ]
+    },
+    {
+      "id": "p3_bookreview",
+      "title": "The Literary Debate",
+      "description": "Academic and literary vocabulary for critical reading and discussion.",
+      "level": 3,
+      "orderIndex": 8,
+      "content": "The novel had divided critics cleanly into two camps since its publication. Those who admired it called it profound — a work that forced readers to reconsider their assumptions about memory, identity, and moral responsibility. Those who disliked it dismissed it as deliberately obscure, hiding the absence of a coherent plot behind a layer of allegorical imagery that only rewarded the most patient readers. The author herself had never clarified whether the central character's journey was meant to be read literally or as a metaphor. She considered the ambiguity intentional — a structural choice that allowed the book to mean different things to different readers without ever becoming untrue to any of them. At a recent literary symposium, a professor argued that the novel's most compelling achievement was its refusal to transcend suffering through redemption, as so many contemporary works did. Instead, it sat inside the difficulty, examined it closely, and left the reader there too, slightly altered. The audience was silent for a long moment before someone finally began to clap.",
+      "targetWords": [
+        {
+          "text": "profound",
+          "definition": "Having great depth of knowledge, thought, or feeling; very significant",
+          "hebrew": "עמוק / מעמיק"
+        },
+        {
+          "text": "allegorical",
+          "definition": "Representing abstract ideas through symbolic characters or events",
+          "hebrew": "אלגורי"
+        },
+        {
+          "text": "ambiguity",
+          "definition": "The quality of having more than one possible meaning or interpretation",
+          "hebrew": "עמימות / דו-משמעות"
+        },
+        {
+          "text": "compelling",
+          "definition": "Evoking strong interest or admiration; powerfully convincing",
+          "hebrew": "מרתק / משכנע"
+        },
+        {
+          "text": "transcend",
+          "definition": "Go beyond the limits of; rise above something",
+          "hebrew": "לחרוג / להתעלות"
+        },
+        {
+          "text": "redemption",
+          "definition": "The action of being saved from sin, error, or the consequences of difficulty",
+          "hebrew": "גאולה / כפרה"
+        }
+      ]
+    }
+  ]
+}

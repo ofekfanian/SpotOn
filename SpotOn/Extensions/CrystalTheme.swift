@@ -95,3 +95,57 @@ struct CrystalText: View {
         Text(text).font(font).foregroundStyle(LinearGradient.crystal)
     }
 }
+
+// MARK: - SpotOn Logo
+struct SpotOnLogoView: View {
+    var height: CGFloat = 60
+    private var fontSize: CGFloat { height * 0.68 }
+
+    var body: some View {
+        HStack(spacing: 0) {
+            Text("Spot")
+                .font(.system(size: fontSize, weight: .black, design: .rounded))
+            Text("On")
+                .font(.system(size: fontSize, weight: .black, design: .rounded))
+        }
+        .foregroundStyle(LinearGradient.crystal)
+        .frame(height: height)
+    }
+}
+
+// MARK: - Speak Button
+/// Circular pronounce button used on flashcards and SnapLearn results.
+struct SpeakButton: View {
+    let text: String
+    var language: String = "en-US"
+    @State private var animate = false
+
+    var body: some View {
+        Button {
+            SpeechService.shared.speak(text, accent: language)
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { animate = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { animate = false }
+        } label: {
+            Image(systemName: "speaker.wave.2.fill").font(.subheadline.bold())
+                .foregroundStyle(LinearGradient.crystalShort)
+                .padding(10).background(Color.crystalBlue.opacity(0.12))
+                .clipShape(Circle()).scaleEffect(animate ? 1.25 : 1)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Tab Bar Visibility
+private struct TabBarVisibilityModifier: ViewModifier {
+    @AppStorage("showTabBar") private var showTabBar = true
+    func body(content: Content) -> some View {
+        content.toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
+    }
+}
+
+extension View {
+    func applyTabBarVisibility() -> some View {
+        modifier(TabBarVisibilityModifier())
+    }
+}
+

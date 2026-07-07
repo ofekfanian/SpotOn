@@ -12,7 +12,12 @@ class RealtimeDatabaseService: ObservableObject {
     private var streakHandle: DatabaseHandle?
     private var xpHandle: DatabaseHandle?
 
+    private var listeningUid: String?
+
     func startListening(for uid: String) {
+        // Remove any previous observers first — auth state changes can call this repeatedly.
+        if let previous = listeningUid { stopListening(for: previous) }
+        listeningUid = uid
         let userRef = ref.child("users").child(uid)
         streakHandle = userRef.child("streak").observe(.value) { [weak self] snap in
             Task { @MainActor in self?.streak = snap.value as? Int ?? 0 }
@@ -24,14 +29,14 @@ class RealtimeDatabaseService: ObservableObject {
 
     func stopListening(for uid: String) {
         let userRef = ref.child("users").child(uid)
-        if let h = streakHandle { userRef.child("streak").removeObserver(withHandle: h) }
-        if let h = xpHandle { userRef.child("xp").removeObserver(withHandle: h) }
+        if let h = streakHandle { userRef.child("streak").removeObserver(withHandle: h); streakHandle = nil }
+        if let h = xpHandle { userRef.child("xp").removeObserver(withHandle: h); xpHandle = nil }
+        if listeningUid == uid { listeningUid = nil }
     }
 
     func addXP(_ amount: Int, for uid: String) async throws {
-        let snap = try await ref.child("users").child(uid).child("xp").getData()
-        let current = snap.value as? Int ?? 0
-        try await ref.child("users").child(uid).child("xp").setValue(current + amount)
+        // Atomic server-side increment — no read-modify-write race.
+        try await ref.child("users").child(uid).child("xp").setValue(ServerValue.increment(NSNumber(value: amount)))
     }
 
     func checkAndUpdateStreak(for uid: String) async throws {

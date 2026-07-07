@@ -1,5 +1,4 @@
 import SwiftUI
-import AuthenticationServices
 
 struct AuthView: View {
     @EnvironmentObject var authVM: AuthViewModel
@@ -19,7 +18,7 @@ struct AuthView: View {
                 VStack(spacing: 36) {
                     Spacer().frame(height: 56)
                     VStack(spacing: 10) {
-                        CrystalText(text: "SpotOn", font: .system(size: 42, weight: .bold))
+                        SpotOnLogoView(height: 76)
                         Text("Master English, One Word at a Time")
                             .font(.subheadline).foregroundColor(.secondary)
                     }
@@ -52,17 +51,6 @@ struct AuthView: View {
                         }
                         .shadow(color: Color.crystalBlue.opacity(0.35), radius: 10, y: 4)
                         .disabled(isLoading)
-
-                        SignInWithAppleButton(
-                            isSignUp ? .signUp : .signIn,
-                            onRequest: { req in
-                                req.requestedScopes = [.fullName, .email]
-                                req.nonce = authVM.prepareAppleRequest()
-                            },
-                            onCompletion: { result in Task { await authVM.handleAppleAuthorization(result) } }
-                        )
-                        .signInWithAppleButtonStyle(scheme == .dark ? .white : .black)
-                        .frame(height: 50).cornerRadius(14)
 
                         Button {
                             withAnimation(.spring(duration: 0.3)) { isSignUp.toggle() }
@@ -136,4 +124,5 @@ extension Color {
     }
 }
 
-#Preview { AuthView().environmentObject(AuthViewModel()) }
+#Preview("Light") { AuthView().environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { AuthView().environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

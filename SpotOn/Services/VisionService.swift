@@ -1,11 +1,11 @@
 import UIKit
 
-/// Identifies the main object in a photo using Gemini Vision (English + Hebrew + French).
+/// Identifies the main object in a photo using Gemini Vision (English + Hebrew).
 final class VisionService {
     static let shared = VisionService()
     private init() {}
 
-    struct Result { let english: String; let hebrew: String; let french: String; let description: String }
+    struct Result { let english: String; let hebrew: String; let description: String }
 
     private let apiKey = Secrets.geminiAPIKey
     private let model = "gemini-1.5-flash"
@@ -20,7 +20,6 @@ final class VisionService {
         Respond with strict minified JSON only, no markdown: \
         {"english":"<object name in English, lowercase, 1-2 words>",\
         "hebrew":"<the same object name in Hebrew>",\
-        "french":"<the same object name in French>",\
         "description":"<one short, simple English sentence about it>"}
         """
         let urlString = "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent?key=\(apiKey)"
@@ -52,9 +51,8 @@ final class VisionService {
                   let parsed = try JSONSerialization.jsonObject(with: inner) as? [String: Any],
                   let english = parsed["english"] as? String,
                   let hebrew = parsed["hebrew"] as? String else { return nil }
-            let french = parsed["french"] as? String ?? ""
             let description = parsed["description"] as? String ?? ""
-            return Result(english: english, hebrew: hebrew, french: french, description: description)
+            return Result(english: english, hebrew: hebrew, description: description)
         } catch { return nil }
     }
 }

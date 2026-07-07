@@ -2,12 +2,16 @@ import SwiftUI
 
 struct ChatView: View {
     @StateObject private var vm = ChatViewModel()
+    @Environment(\.colorScheme) private var scheme
     @State private var inputText = ""
     @State private var showCall = false
     @FocusState private var inputFocused: Bool
 
     var body: some View {
         NavigationStack {
+            ZStack {
+                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                ScatteredLettersBackground().ignoresSafeArea()
             VStack(spacing: 0) {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
@@ -82,6 +86,8 @@ struct ChatView: View {
                 }
             }
             .fullScreenCover(isPresented: $showCall) { VoiceCallView() }
+            .applyTabBarVisibility()
+            }
         }
     }
 }
@@ -150,4 +156,5 @@ private struct RoundedCorner: Shape {
     }
 }
 
-#Preview { ChatView() }
+#Preview("Light") { ChatView().preferredColorScheme(.light) }
+#Preview("Dark")  { ChatView().preferredColorScheme(.dark) }

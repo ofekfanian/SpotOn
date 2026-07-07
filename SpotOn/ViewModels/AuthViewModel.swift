@@ -1,6 +1,5 @@
 import Foundation
 import FirebaseAuth
-import AuthenticationServices
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -12,7 +11,6 @@ class AuthViewModel: ObservableObject {
     var hasCompletedOnboarding: Bool { userProfile?.hasCompletedOnboarding ?? false }
 
     private var authHandle: AuthStateDidChangeListenerHandle?
-    private var currentNonce: String?
 
     init() {
         guard !AppEnv.isPreview else { isLoading = false; return }
@@ -30,6 +28,12 @@ class AuthViewModel: ObservableObject {
                     RealtimeDatabaseService.shared.startListening(for: uid)
                 }
             }
+        }
+
+        // Safety timeout — if Firebase never fires the listener, unblock the UI
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
+            if self?.isLoading == true { self?.isLoading = false }
         }
     }
 
@@ -55,49 +59,25 @@ class AuthViewModel: ObservableObject {
         catch { errorMessage = error.localizedDescription }
     }
 
-    func completeOnboarding(level: String, native: String = "he", target: String = "en") async {
+    func completeOnboarding(level: String) async {
         guard let uid = user?.uid else { return }
         var profile = userProfile ?? UserProfile(uid: uid, email: user?.email ?? "")
         profile.level = level
-        profile.nativeLanguage = native
-        profile.targetLanguage = target
+        profile.nativeLanguage = "he"
+        profile.targetLanguage = "en"
         profile.hasCompletedOnboarding = true
-        UserDefaults.standard.set(native, forKey: "nativeLanguage")
-        UserDefaults.standard.set(target, forKey: "targetLanguage")
+        UserDefaults.standard.set("he", forKey: "nativeLanguage")
+        UserDefaults.standard.set("en", forKey: "targetLanguage")
         do {
             try await FirestoreService.shared.saveUserProfile(profile)
             userProfile = profile
         } catch { errorMessage = error.localizedDescription }
     }
 
-    // MARK: - Apple Sign In
-    func prepareAppleRequest() -> String {
-        let nonce = String.randomNonce()
-        currentNonce = nonce
-        return nonce.sha256Hash
-    }
-
-    func handleAppleAuthorization(_ result: Result<ASAuthorization, Error>) async {
-        switch result {
-        case .success(let auth):
-            guard let cred = auth.credential as? ASAuthorizationAppleIDCredential,
-                  let nonce = currentNonce,
-                  let token = cred.identityToken,
-                  let tokenStr = String(data: token, encoding: .utf8) else {
-                errorMessage = "Apple Sign In failed"; return
-            }
-            let firebaseCred = OAuthProvider.appleCredential(withIDToken: tokenStr, rawNonce: nonce, fullName: cred.fullName)
-            do {
-                let res = try await Auth.auth().signIn(with: firebaseCred)
-                if try await FirestoreService.shared.fetchUserProfile(uid: res.user.uid) == nil {
-                    let profile = UserProfile(uid: res.user.uid, email: res.user.email ?? "")
-                    try await FirestoreService.shared.saveUserProfile(profile)
-                }
-                errorMessage = nil
-            } catch { errorMessage = error.localizedDescription }
-        case .failure(let error):
-            errorMessage = error.localizedDescription
-        }
+    /// Re-fetches the Firestore profile (e.g. after friendUIDs change server-side).
+    func refreshProfile() async {
+        guard let uid = user?.uid else { return }
+        await loadProfile(uid: uid)
     }
 
     private func loadProfile(uid: String) async {

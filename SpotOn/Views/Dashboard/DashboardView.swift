@@ -7,6 +7,7 @@ struct DashboardView: View {
     @ObservedObject private var rtdb = RealtimeDatabaseService.shared
     @ObservedObject private var profileImage = ProfileImageStore.shared
     @Environment(\.horizontalSizeClass) private var hSizeClass
+    @Environment(\.colorScheme) private var scheme
 
     @State private var showBlitz = false
     @State private var showFlashcards = false
@@ -49,6 +50,12 @@ struct DashboardView: View {
                 .frame(maxWidth: contentMaxWidth)
                 .frame(maxWidth: .infinity)
             }
+            .background {
+                ZStack {
+                    (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                    ScatteredLettersBackground().ignoresSafeArea()
+                }
+            }
             .navigationBarHidden(true)
             .fullScreenCover(isPresented: $showBlitz) {
                 BlitzView(words: wordBankVM.words).environmentObject(authVM)
@@ -78,6 +85,7 @@ struct DashboardView: View {
                 Button("Cancel", role: .cancel) {}
             } message: { Text("Pick a level") }
             .task { await vm.load(level: level) }
+            .applyTabBarVisibility()
         }
     }
 
@@ -235,4 +243,5 @@ private struct IdiomCard: View {
     }
 }
 
-#Preview { DashboardView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()) }
+#Preview("Light") { MainTabView(initialTab: 0).environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { MainTabView(initialTab: 0).environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

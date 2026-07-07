@@ -26,13 +26,13 @@ final class VoiceCallViewModel: ObservableObject {
 
     private let systemPromptText = """
         You are a friendly English conversation tutor on a phone call in an app named SpotOn. \
-        Keep every reply very short and natural — one or two spoken sentences, no lists, no markdown. \
+        Keep every reply very short and natural: one or two spoken sentences, no lists, no markdown. \
         Gently correct major mistakes in one short clause, then ask a simple follow-up question.
         """
 
     init() {
         recognizer.$transcript.receive(on: RunLoop.main)
-            .assign(to: \.liveTranscript, on: self).store(in: &cancellables)
+            .sink { [weak self] in self?.liveTranscript = $0 }.store(in: &cancellables)
         recognizer.$transcript
             .debounce(for: .seconds(silencePause), scheduler: RunLoop.main)
             .sink { [weak self] text in

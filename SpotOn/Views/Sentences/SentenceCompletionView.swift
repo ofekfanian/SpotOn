@@ -3,7 +3,7 @@ import SwiftUI
 // Loads sentences.json (by level) for the fill-in-the-blank game.
 private final class SentenceBank {
     static let shared = SentenceBank()
-    struct Item: Decodable { let sentence: String; let answer: String; let options: [String]; let he: String; let fr: String }
+    struct Item: Decodable { let sentence: String; let answer: String; let options: [String]; let he: String }
     private var byLevel: [String: [Item]] = [:]
     private var loaded = false
     private func loadIfNeeded() {
@@ -19,6 +19,7 @@ private final class SentenceBank {
 struct SentenceCompletionView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var scheme
     let level: String
 
     @State private var deck: [SentenceBank.Item] = []
@@ -35,7 +36,7 @@ struct SentenceCompletionView: View {
 
     var body: some View {
         ZStack {
-            Color(.systemGroupedBackground).ignoresSafeArea()
+            (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
             ScatteredLettersBackground().ignoresSafeArea()
             if finished { resultView.transition(.scale(scale: 0.9).combined(with: .opacity)) } else { playView }
         }
@@ -71,7 +72,6 @@ struct SentenceCompletionView: View {
                     if answered {
                         Divider().frame(width: 80)
                         Text(item.he).font(.subheadline).foregroundColor(.crystalMint).environment(\.layoutDirection, .rightToLeft)
-                        Text(item.fr).font(.subheadline).foregroundColor(.crystalBlue)
                     }
                 }
                 .padding(22).frame(maxWidth: .infinity).background(.ultraThinMaterial).cornerRadius(24)
@@ -164,4 +164,5 @@ struct SentenceCompletionView: View {
     }
 }
 
-#Preview { SentenceCompletionView(level: "beginner").environmentObject(AuthViewModel()) }
+#Preview("Light") { SentenceCompletionView(level: "beginner").environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { SentenceCompletionView(level: "beginner").environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

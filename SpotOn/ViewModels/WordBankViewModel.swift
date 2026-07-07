@@ -4,32 +4,74 @@ import AVFoundation
 
 @MainActor
 class WordBankViewModel: ObservableObject {
+
+    // MARK: - Published state
+
     @Published var words: [Word] = []
     @Published var searchText = ""
     @Published var selectedTag: String? = nil
+    @Published var isEnriching = false
+
+    // Pagination
+    private let pageSize = 50
+    @Published private var visibleCount = 50
+
+    // MARK: - Private
 
     private var listener: ListenerRegistration?
     private let synth = AVSpeechSynthesizer()
 
+    // MARK: - Derived collections
+
+    /// All words matching the current search / tag filter.
     var filtered: [Word] {
-        words.filter { word in
-            let matchesSearch = searchText.isEmpty || word.word.localizedCaseInsensitiveContains(searchText)
-            let matchesTag = selectedTag == nil || word.tags.contains(selectedTag!)
+        words.filter { w in
+            let matchesSearch = searchText.isEmpty
+                || w.word.localizedCaseInsensitiveContains(searchText)
+                || w.definition.localizedCaseInsensitiveContains(searchText)
+            let matchesTag = selectedTag == nil || w.tags.contains(selectedTag!)
             return matchesSearch && matchesTag
         }
     }
 
+    /// Visible page of results, grows by `pageSize` each time `loadNextPage()` is called.
+    var paginated: [Word] { Array(filtered.prefix(visibleCount)) }
+
+    var hasMore: Bool { filtered.count > visibleCount }
+
+    // MARK: - Pagination
+
+    func loadNextPage() {
+        guard hasMore else { return }
+        visibleCount += pageSize
+    }
+
+    private func resetPagination() { visibleCount = pageSize }
+
+    // MARK: - Firebase listener
+
     func startListening(uid: String) {
         guard !AppEnv.isPreview else { return }
+        listener?.remove()   // avoid stacking duplicate listeners on repeated onAppear
         listener = FirestoreService.shared.listenToWords(for: uid) { [weak self] words in
-            Task { @MainActor in self?.words = words }
+            Task { @MainActor in
+                self?.words = words
+                self?.resetPagination()
+            }
         }
     }
 
-    func stopListening() { listener?.remove() }
+    func stopListening() { listener?.remove(); listener = nil }
 
+    // MARK: - CRUD
+
+    /// Adds the word, then enriches it with Gemini metadata in the background
+    /// (definition, part of speech, examples) once it has a Firestore ID.
     func addWord(_ word: Word, uid: String) async {
-        try? await FirestoreService.shared.addWord(word, for: uid)
+        guard let id = try? await FirestoreService.shared.addWord(word, for: uid) else { return }
+        var saved = word
+        saved.id = id
+        Task { await self.enrichAndUpdate(saved, uid: uid) }
     }
 
     func deleteWord(_ word: Word, uid: String) async {
@@ -46,6 +88,30 @@ class WordBankViewModel: ObservableObject {
         var updated = word; updated.needsReview.toggle()
         try? await FirestoreService.shared.updateWord(updated, for: uid)
     }
+
+    // MARK: - LLM Enrichment
+
+    /// Fetches definition, part-of-speech, 3 usage examples and a related idiom
+    /// from Gemini, then persists the enriched word to Firestore.
+    func enrichAndUpdate(_ word: Word, uid: String) async {
+        isEnriching = true
+        defer { isEnriching = false }
+        do {
+            let e = try await LLMEnrichmentService.shared.enrich(word: word.word)
+            var updated = word
+            if updated.definition.isEmpty { updated.definition = e.definition }
+            updated.partOfSpeech = e.partOfSpeech
+            updated.examples = [e.exampleBusiness, e.exampleCasual, e.exampleTech]
+            if updated.level == "intermediate" || updated.level.isEmpty {
+                updated.level = e.level
+            }
+            try? await FirestoreService.shared.updateWord(updated, for: uid)
+        } catch {
+            print("[WordBank] Enrichment failed for '\(word.word)': \(error.localizedDescription)")
+        }
+    }
+
+    // MARK: - Audio
 
     func speak(_ text: String, accent: String = "en-US") {
         let utterance = AVSpeechUtterance(string: text)
