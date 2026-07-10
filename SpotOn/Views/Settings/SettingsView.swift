@@ -13,6 +13,8 @@ struct SettingsView: View {
 
     @State private var photoItem: PhotosPickerItem?
     @State private var showSignOutAlert = false
+    @State private var showDeleteAlert = false
+    @State private var isDeleting = false
     @State private var showLevelTest = false
 
     private var displayName: String {
@@ -82,6 +84,18 @@ struct SettingsView: View {
                     Button(role: .destructive) { showSignOutAlert = true } label: {
                         Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                     }
+                    Button(role: .destructive) { showDeleteAlert = true } label: {
+                        if isDeleting {
+                            HStack(spacing: 10) { ProgressView(); Text("Deleting account...") }
+                        } else {
+                            Label("Delete Account", systemImage: "trash.fill")
+                        }
+                    }
+                    .disabled(isDeleting)
+                } footer: {
+                    if let err = authVM.errorMessage {
+                        Text(err).foregroundColor(.red)
+                    }
                 }
             }
             .navigationTitle("Profile")
@@ -103,6 +117,18 @@ struct SettingsView: View {
             .alert("Sign Out?", isPresented: $showSignOutAlert) {
                 Button("Sign Out", role: .destructive) { authVM.signOut() }
                 Button("Cancel", role: .cancel) {}
+            }
+            .alert("Delete Account?", isPresented: $showDeleteAlert) {
+                Button("Delete Everything", role: .destructive) {
+                    isDeleting = true
+                    Task {
+                        await authVM.deleteAccount()
+                        isDeleting = false
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This permanently deletes your account, saved words, XP and streak. This cannot be undone.")
             }
             .fullScreenCover(isPresented: $showLevelTest) {
                 OnboardingView().environmentObject(authVM)

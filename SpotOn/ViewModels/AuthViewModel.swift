@@ -132,8 +132,56 @@ class AuthViewModel: ObservableObject {
 
     func signOut() {
         if let uid = user?.uid { RealtimeDatabaseService.shared.stopListening(for: uid) }
+        GIDSignIn.sharedInstance.signOut()
         do { try Auth.auth().signOut(); user = nil; userProfile = nil }
         catch { errorMessage = error.localizedDescription }
+    }
+
+    // MARK: - Account deletion
+
+    /// Permanently deletes the account: Firestore data, RTDB data, the Auth
+    /// user, and all local state. Returns true on full success.
+    @discardableResult
+    func deleteAccount() async -> Bool {
+        guard let firebaseUser = user else { return false }
+        let uid = firebaseUser.uid
+
+        RealtimeDatabaseService.shared.stopListening(for: uid)
+        // Delete cloud data first — if auth deletion then fails, no orphaned data remains.
+        do {
+            try await FirestoreService.shared.deleteAllUserData(uid: uid)
+            try await RealtimeDatabaseService.shared.deleteUserData(uid: uid)
+        } catch {
+            errorMessage = "Couldn't delete your data. Check your connection and try again."
+            return false
+        }
+
+        do {
+            try await firebaseUser.delete()
+        } catch let error as NSError where error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+            // Firebase requires a fresh login for destructive actions.
+            errorMessage = "For security, please sign in again and then delete your account."
+            signOut()
+            return false
+        } catch {
+            errorMessage = error.localizedDescription
+            signOut()
+            return false
+        }
+
+        clearLocalState()
+        GIDSignIn.sharedInstance.signOut()
+        user = nil
+        userProfile = nil
+        errorMessage = nil
+        return true
+    }
+
+    private func clearLocalState() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "chatHistory")
+        for level in LevelSystem.order { defaults.removeObject(forKey: "flashSeen_\(level)") }
+        ProfileImageStore.shared.remove()
     }
 
     func completeOnboarding(level: String) async {

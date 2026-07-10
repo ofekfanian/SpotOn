@@ -34,6 +34,13 @@ class RealtimeDatabaseService: ObservableObject {
         if listeningUid == uid { listeningUid = nil }
     }
 
+    /// Removes the user's XP, streak, and activity data.
+    func deleteUserData(uid: String) async throws {
+        try await ref.child("users").child(uid).removeValue()
+        streak = 0
+        xp = 0
+    }
+
     func addXP(_ amount: Int, for uid: String) async throws {
         // Atomic server-side increment — no read-modify-write race.
         try await ref.child("users").child(uid).child("xp").setValue(ServerValue.increment(NSNumber(value: amount)))

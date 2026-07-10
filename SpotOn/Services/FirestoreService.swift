@@ -41,6 +41,18 @@ class FirestoreService {
         return try? doc.data(as: UserProfile.self)
     }
 
+    /// Deletes the user's words subcollection and profile document.
+    func deleteAllUserData(uid: String) async throws {
+        let userDoc = db.collection("users").document(uid)
+        let words = try await userDoc.collection("words").getDocuments()
+        if !words.documents.isEmpty {
+            let batch = db.batch()
+            words.documents.forEach { batch.deleteDocument($0.reference) }
+            try await batch.commit()
+        }
+        try await userDoc.delete()
+    }
+
 }
 
 extension DateFormatter {
