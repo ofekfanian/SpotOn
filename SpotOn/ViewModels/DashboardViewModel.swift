@@ -7,8 +7,7 @@ class DashboardViewModel: ObservableObject {
 
     func load(level: String) async {
         isLoading = true
-        idiom = try? await FirestoreService.shared.fetchTodayIdiom(level: level)
-        if idiom == nil { idiom = Idiom.sample }
+        idiom = IdiomService.shared.today(level: level)   // rotates every 24h, offline
         isLoading = false
 
         // Cache for the home-screen widget (shared App Group).

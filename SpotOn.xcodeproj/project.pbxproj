@@ -59,6 +59,7 @@
 		E23224E5CB9FF5F72E4A48B2 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4AC9024522D1429FEDAAA5 /* AboutView.swift */; };
 		E29B9E5E12F701DEAF29183F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F240F5F912B39857199858A /* NotificationService.swift */; };
 		E42602C594591D8E96090E1C /* RealtimeDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6993209E3C50A35F9F3D2 /* RealtimeDatabaseService.swift */; };
+		A5B6C7D8E9F0A1B2C3D4E5F6 /* SoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E5D4C3B2A1F0E9D8C7B6A5 /* SoundService.swift */; };
 		E98686FF0E0D72F07F4FECA7 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F166079AF029825491D0EF /* UserProfile.swift */; };
 		EE11FF12AA13BB14CC15DD16 /* ReadingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE01FF02AA03BB04CC05DD06 /* ReadingDetailView.swift */; };
 		F102EFC929D9653E7A3E4893 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F145C5E53D634B90AEA9350 /* ChatMessage.swift */; };
@@ -69,6 +70,7 @@
 		FA11BC12CD13DE14EF15FA16 /* LearnHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01BC02CD03DE04EF05FA06 /* LearnHubView.swift */; };
 		FB11BC12CD13DE14EF15FA16 /* AddHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB01BC02CD03DE04EF05FA06 /* AddHubView.swift */; };
 		FF11AA12BB13CC14DD15EE16 /* passages.json in Resources */ = {isa = PBXBuildFile; fileRef = FF01AA02BB03CC04DD05EE06 /* passages.json */; };
+		2E12F313A414B515C616D717 /* idioms.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D01E202F303A404B505C606 /* idioms.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +106,7 @@
 		2C4E8F482856EE2CF475A6E8 /* Idiom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Idiom.swift; sourceTree = "<group>"; };
 		2E10AE507BD2D043112FA8C5 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		39F6993209E3C50A35F9F3D2 /* RealtimeDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabaseService.swift; sourceTree = "<group>"; };
+		F6E5D4C3B2A1F0E9D8C7B6A5 /* SoundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundService.swift; sourceTree = "<group>"; };
 		3E9DF7A060AD45801669B172 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		3F145C5E53D634B90AEA9350 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		4081FFFF5C7A568E79C4EAA1 /* WordBankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordBankViewModel.swift; sourceTree = "<group>"; };
@@ -159,6 +162,7 @@
 		FA9209313A1B2832924E9F4A /* SpotOnWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotOnWidget.swift; sourceTree = "<group>"; };
 		FB01BC02CD03DE04EF05FA06 /* AddHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHubView.swift; sourceTree = "<group>"; };
 		FF01AA02BB03CC04DD05EE06 /* passages.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = passages.json; sourceTree = "<group>"; };
+		1D01E202F303A404B505C606 /* idioms.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = idioms.json; sourceTree = "<group>"; };
 		FF185BFB00400D3023960C34 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "APIKeys.xcconfig"; path = "Config/APIKeys.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,6 +228,7 @@
 				DB15681225A4936B499DC416 /* sentences.json */,
 				C9E54B2528E2B4671725C40E /* vocabulary.json */,
 				FF01AA02BB03CC04DD05EE06 /* passages.json */,
+				1D01E202F303A404B505C606 /* idioms.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 				9F240F5F912B39857199858A /* NotificationService.swift */,
 				B0A19D4B95313B61AD8CBC3C /* ProfileImageStore.swift */,
 				39F6993209E3C50A35F9F3D2 /* RealtimeDatabaseService.swift */,
+				F6E5D4C3B2A1F0E9D8C7B6A5 /* SoundService.swift */,
 				9A9E4CCC8E480EAB8730A455 /* SpeechRecognizer.swift */,
 				CBBA765CAB9B6FA8CD03C35C /* SpeechService.swift */,
 				E04BD5B9A1A70246730EC609 /* VisionService.swift */,
@@ -470,6 +476,7 @@
 				60402DA3D86380788E1A559D /* FirebaseAuth */,
 				607C1D9DA7C1D821365E715A /* FirebaseFirestore */,
 				30DBDAC52D60914F58C2E81D /* FirebaseDatabase */,
+				4B5C6D7E8F9A0B1C2D3E4F5A /* GoogleSignIn */,
 			);
 			productName = SpotOn;
 			productReference = 61A887543F5BA19C170FA346 /* SpotOn.app */;
@@ -512,6 +519,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				129FB373C8F3AC27ABAAC2D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3A4B5C6D7E8F9A0B1C2D3E4F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6770986E76DCCDE072F93926 /* Products */;
@@ -534,6 +542,7 @@
 				F37C9C8002982E917A27F12E /* sentences.json in Resources */,
 				C66A3A02ACDB6D74A1C4C264 /* vocabulary.json in Resources */,
 				FF11AA12BB13CC14DD15EE16 /* passages.json in Resources */,
+				2E12F313A414B515C616D717 /* idioms.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +578,7 @@
 				DFE4A96DAD1F09720D699A02 /* OnboardingView.swift in Sources */,
 				ABFC3F7BAD46440783C6CE29 /* ProfileImageStore.swift in Sources */,
 				E42602C594591D8E96090E1C /* RealtimeDatabaseService.swift in Sources */,
+				A5B6C7D8E9F0A1B2C3D4E5F6 /* SoundService.swift in Sources */,
 				558DCEB00454DE0D6EFCE2B8 /* Secrets.swift in Sources */,
 				720A51BFE0C3D100CB43F289 /* SentenceCompletionView.swift in Sources */,
 				D055CCC4A31FBB0C5E09459B /* SettingsView.swift in Sources */,
@@ -860,6 +870,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3A4B5C6D7E8F9A0B1C2D3E4F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		129FB373C8F3AC27ABAAC2D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -871,6 +889,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4B5C6D7E8F9A0B1C2D3E4F5A /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A4B5C6D7E8F9A0B1C2D3E4F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
 		30DBDAC52D60914F58C2E81D /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 129FB373C8F3AC27ABAAC2D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

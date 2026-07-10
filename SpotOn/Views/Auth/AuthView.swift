@@ -52,6 +52,35 @@ struct AuthView: View {
                         .shadow(color: Color.crystalBlue.opacity(0.35), radius: 10, y: 4)
                         .disabled(isLoading)
 
+                        if authVM.isGoogleSignInAvailable {
+                            HStack(spacing: 12) {
+                                Rectangle().fill(Color.secondary.opacity(0.25)).frame(height: 1)
+                                Text("or").font(.caption).foregroundColor(.secondary)
+                                Rectangle().fill(Color.secondary.opacity(0.25)).frame(height: 1)
+                            }
+
+                            Button { Task { await authVM.signInWithGoogle() } } label: {
+                                HStack(spacing: 10) {
+                                    Text("G")
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .foregroundStyle(
+                                            LinearGradient(colors: [Color(hex: "4285F4"), Color(hex: "EA4335"),
+                                                                    Color(hex: "FBBC05"), Color(hex: "34A853")],
+                                                           startPoint: .topLeading, endPoint: .bottomTrailing))
+                                    Text("Continue with Google")
+                                        .font(.subheadline.bold())
+                                        .foregroundColor(.primary)
+                                }
+                                .frame(maxWidth: .infinity).frame(height: 50)
+                                .background(Color(.systemBackground).opacity(0.85))
+                                .cornerRadius(14)
+                                .overlay(RoundedRectangle(cornerRadius: 14)
+                                    .strokeBorder(Color.secondary.opacity(0.25), lineWidth: 1))
+                                .shadow(color: Color.black.opacity(0.06), radius: 6, y: 2)
+                            }
+                            .disabled(isLoading)
+                        }
+
                         Button {
                             withAnimation(.spring(duration: 0.3)) { isSignUp.toggle() }
                             authVM.errorMessage = nil

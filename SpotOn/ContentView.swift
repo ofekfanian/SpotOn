@@ -1,4 +1,5 @@
 import SwiftUI
+import GoogleSignIn
 
 struct ContentView: View {
     @StateObject private var authVM = AuthViewModel()
@@ -9,6 +10,7 @@ struct ContentView: View {
     var body: some View {
         content
             .preferredColorScheme(AppAppearance(rawValue: appearance)?.colorScheme ?? nil)
+            .onOpenURL { GIDSignIn.sharedInstance.handle($0) }
     }
 
     @ViewBuilder

@@ -136,16 +136,10 @@ struct SpeakButton: View {
 }
 
 // MARK: - Tab Bar Visibility
-private struct TabBarVisibilityModifier: ViewModifier {
-    @AppStorage("showTabBar") private var showTabBar = true
-    func body(content: Content) -> some View {
-        content.toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
-    }
-}
-
+// The system tab bar is the app's single navigation bar — always visible.
 extension View {
     func applyTabBarVisibility() -> some View {
-        modifier(TabBarVisibilityModifier())
+        toolbar(.visible, for: .tabBar)
     }
 }
 

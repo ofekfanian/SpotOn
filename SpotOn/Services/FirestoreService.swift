@@ -31,24 +31,6 @@ class FirestoreService {
             }
     }
 
-    // MARK: - Idioms
-    func fetchTodayIdiom(level: String) async throws -> Idiom {
-        if AppEnv.isPreview { return .sample }
-        let today = DateFormatter.spotDate.string(from: Date())
-        let snap = try await db.collection("idioms")
-            .whereField("level", isEqualTo: level)
-            .whereField("date", isEqualTo: today)
-            .limit(to: 1).getDocuments()
-        if let doc = snap.documents.first, let idiom = try? doc.data(as: Idiom.self) { return idiom }
-
-        let fallback = try await db.collection("idioms")
-            .whereField("level", isEqualTo: level).limit(to: 1).getDocuments()
-        if let doc = fallback.documents.first, let idiom = try? doc.data(as: Idiom.self) { return idiom }
-
-        try await seedSampleIdioms()
-        return Idiom.sample
-    }
-
     // MARK: - Profile
     func saveUserProfile(_ profile: UserProfile) async throws {
         try db.collection("users").document(profile.uid).setData(from: profile, merge: true)
@@ -59,15 +41,6 @@ class FirestoreService {
         return try? doc.data(as: UserProfile.self)
     }
 
-    private func seedSampleIdioms() async throws {
-        let today = DateFormatter.spotDate.string(from: Date())
-        let samples: [Idiom] = [
-            Idiom(text: "Hit the nail on the head", definition: "To be exactly right", example: "You hit the nail on the head.", level: "intermediate", date: today),
-            Idiom(text: "Bite the bullet", definition: "Endure a painful situation", example: "Just bite the bullet and do it.", level: "beginner", date: today),
-            Idiom(text: "Burning the midnight oil", definition: "Working late into the night", example: "She was burning the midnight oil.", level: "advanced", date: today),
-        ]
-        for idiom in samples { try db.collection("idioms").addDocument(from: idiom) }
-    }
 }
 
 extension DateFormatter {

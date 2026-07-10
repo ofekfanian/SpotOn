@@ -20,7 +20,7 @@ final class VoiceCallViewModel: ObservableObject {
     private let silencePause = 1.8
 
     private let apiKey = Secrets.geminiAPIKey
-    private let model = "gemini-1.5-flash"
+    private let model = "gemini-2.5-flash"
     private let maxHistory = 10
     private var history: [ChatMessage] = []
 
@@ -117,7 +117,8 @@ final class VoiceCallViewModel: ObservableObject {
         let body: [String: Any] = [
             "system_instruction": ["parts": [["text": systemPromptText]]],
             "contents": contents,
-            "generationConfig": ["maxOutputTokens": 120, "temperature": 0.7]
+            "generationConfig": ["maxOutputTokens": 120, "temperature": 0.7,
+                                 "thinkingConfig": ["thinkingBudget": 0]]
         ]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

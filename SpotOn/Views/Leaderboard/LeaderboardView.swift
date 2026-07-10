@@ -36,6 +36,13 @@ struct LeaderboardView: View {
 
                     if vm.isLoading {
                         ProgressView().padding(.top, 40)
+                    } else if let err = vm.errorMessage {
+                        HStack(spacing: 10) {
+                            Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange)
+                            Text(err).font(.caption).foregroundColor(.secondary)
+                        }
+                        .padding(14).background(.ultraThinMaterial).cornerRadius(14)
+                        .padding(.horizontal).padding(.top, 24)
                     } else if vm.stats.isEmpty {
                         VStack(spacing: 12) {
                             Image(systemName: "person.2").font(.system(size: 44)).foregroundStyle(LinearGradient.crystalShort)

@@ -100,6 +100,7 @@ class WordBankViewModel: ObservableObject {
             let e = try await LLMEnrichmentService.shared.enrich(word: word.word)
             var updated = word
             if updated.definition.isEmpty { updated.definition = e.definition }
+            if updated.translation.isEmpty { updated.translation = e.hebrew }
             updated.partOfSpeech = e.partOfSpeech
             updated.examples = [e.exampleBusiness, e.exampleCasual, e.exampleTech]
             if updated.level == "intermediate" || updated.level.isEmpty {

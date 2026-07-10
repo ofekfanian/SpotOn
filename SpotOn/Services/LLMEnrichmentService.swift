@@ -6,6 +6,7 @@ struct WordEnrichment {
     let definition: String
     let partOfSpeech: String    // noun / verb / adjective / adverb / …
     let level: String           // A1–C2
+    let hebrew: String          // Hebrew translation
     let exampleBusiness: String
     let exampleCasual: String
     let exampleTech: String
@@ -20,7 +21,7 @@ final class LLMEnrichmentService {
     static let shared = LLMEnrichmentService()
 
     private let endpoint =
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
     private init() {}
 
@@ -56,6 +57,7 @@ final class LLMEnrichmentService {
           "definition": "clear concise definition in simple English",
           "partOfSpeech": "noun",
           "level": "B1",
+          "hebrew": "the Hebrew translation of the word",
           "examples": {
             "business": "example sentence in a professional/business context",
             "casual": "example sentence in casual everyday conversation",
@@ -71,7 +73,8 @@ final class LLMEnrichmentService {
             "generationConfig": [
                 "temperature": 0.3,
                 "maxOutputTokens": 450,
-                "responseMimeType": "application/json"
+                "responseMimeType": "application/json",
+                "thinkingConfig": ["thinkingBudget": 0]
             ]
         ]
 
@@ -118,6 +121,7 @@ final class LLMEnrichmentService {
             let definition: String
             let partOfSpeech: String
             let level: String
+            let hebrew: String?
             let examples: Examples
             let relatedIdiom: String
         }
@@ -127,6 +131,7 @@ final class LLMEnrichmentService {
             definition: p.definition,
             partOfSpeech: p.partOfSpeech,
             level: p.level,
+            hebrew: p.hebrew ?? "",
             exampleBusiness: p.examples.business,
             exampleCasual: p.examples.casual,
             exampleTech: p.examples.tech,

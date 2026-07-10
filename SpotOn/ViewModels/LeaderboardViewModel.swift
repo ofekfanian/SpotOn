@@ -9,6 +9,7 @@ class LeaderboardViewModel: ObservableObject {
     func load(friendUIDs: [String], myUID: String) async {
         if AppEnv.isPreview { return }
         isLoading = true
+        errorMessage = nil
         do { stats = try await FriendsService.shared.fetchLeaderboard(friendUIDs: friendUIDs, myUID: myUID) }
         catch { errorMessage = error.localizedDescription }
         isLoading = false

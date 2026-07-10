@@ -8,7 +8,7 @@ final class VisionService {
     struct Result { let english: String; let hebrew: String; let description: String }
 
     private let apiKey = Secrets.geminiAPIKey
-    private let model = "gemini-1.5-flash"
+    private let model = "gemini-2.5-flash"
 
     func identify(image: UIImage) async -> Result? {
         let resized = image.resized(maxDimension: 768)
@@ -30,7 +30,8 @@ final class VisionService {
                 ["text": prompt],
                 ["inline_data": ["mime_type": "image/jpeg", "data": base64]]
             ]]],
-            "generationConfig": ["maxOutputTokens": 150, "temperature": 0.2]
+            "generationConfig": ["maxOutputTokens": 150, "temperature": 0.2,
+                                 "thinkingConfig": ["thinkingBudget": 0]]
         ]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

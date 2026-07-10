@@ -10,10 +10,10 @@ struct SettingsView: View {
     @AppStorage("dailyReminderOn") private var reminderOn = true
     @AppStorage("dailyReminderHour") private var notifHour = 20
     @AppStorage("appearance") private var appearance = AppAppearance.system.rawValue
-    @AppStorage("showTabBar") private var showTabBar = true
 
     @State private var photoItem: PhotosPickerItem?
     @State private var showSignOutAlert = false
+    @State private var showLevelTest = false
 
     private var displayName: String {
         (authVM.user?.email ?? "").components(separatedBy: "@").first?.capitalized ?? "You"
@@ -46,6 +46,10 @@ struct SettingsView: View {
                     LabeledContent("Level", value: (authVM.userProfile?.level ?? "-").capitalized)
                     HStack { Label("Streak", systemImage: "flame.fill").foregroundColor(.orange); Spacer(); Text("\(rtdb.streak) days").foregroundColor(.secondary) }
                     HStack { Label("XP", systemImage: "star.fill").foregroundColor(.crystalGold); Spacer(); Text("\(rtdb.xp)").foregroundColor(.secondary) }
+                    Button { showLevelTest = true } label: {
+                        Label("Retake Level Test", systemImage: "checklist")
+                            .foregroundColor(.crystalBlue)
+                    }
                 }
 
                 Section("Appearance") {
@@ -53,11 +57,6 @@ struct SettingsView: View {
                         ForEach(AppAppearance.allCases) { mode in Label(mode.label, systemImage: mode.icon).tag(mode.rawValue) }
                     } label: { Label("Theme", systemImage: "paintbrush.fill").foregroundColor(.crystalBlue) }
                     .pickerStyle(.menu)
-
-                    Toggle(isOn: $showTabBar) {
-                        Label("Navigation Bar", systemImage: "rectangle.bottomthird.inset.filled")
-                            .foregroundColor(.crystalBlue)
-                    }
                 }
 
                 Section("Notifications") {
@@ -104,6 +103,9 @@ struct SettingsView: View {
             .alert("Sign Out?", isPresented: $showSignOutAlert) {
                 Button("Sign Out", role: .destructive) { authVM.signOut() }
                 Button("Cancel", role: .cancel) {}
+            }
+            .fullScreenCover(isPresented: $showLevelTest) {
+                OnboardingView().environmentObject(authVM)
             }
             .applyTabBarVisibility()
         }

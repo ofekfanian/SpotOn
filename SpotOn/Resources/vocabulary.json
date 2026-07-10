@@ -1,298 +1,2843 @@
 {
-  "beginner": [
-    { "en": "hello", "he": "שלום", "fr": "bonjour" },
-    { "en": "goodbye", "he": "להתראות", "fr": "au revoir" },
-    { "en": "please", "he": "בבקשה", "fr": "s'il vous plaît" },
-    { "en": "thank you", "he": "תודה", "fr": "merci" },
-    { "en": "sorry", "he": "סליחה", "fr": "désolé" },
-    { "en": "yes", "he": "כן", "fr": "oui" },
-    { "en": "no", "he": "לא", "fr": "non" },
-    { "en": "friend", "he": "חבר", "fr": "ami" },
-    { "en": "family", "he": "משפחה", "fr": "famille" },
-    { "en": "mother", "he": "אמא", "fr": "mère" },
-    { "en": "father", "he": "אבא", "fr": "père" },
-    { "en": "brother", "he": "אח", "fr": "frère" },
-    { "en": "sister", "he": "אחות", "fr": "sœur" },
-    { "en": "love", "he": "אהבה", "fr": "amour" },
-    { "en": "happy", "he": "שמח", "fr": "heureux" },
-    { "en": "sad", "he": "עצוב", "fr": "triste" },
-    { "en": "angry", "he": "כועס", "fr": "fâché" },
-    { "en": "tired", "he": "עייף", "fr": "fatigué" },
-    { "en": "hungry", "he": "רעב", "fr": "affamé" },
-    { "en": "thirsty", "he": "צמא", "fr": "assoiffé" },
-    { "en": "water", "he": "מים", "fr": "eau" },
-    { "en": "food", "he": "אוכל", "fr": "nourriture" },
-    { "en": "bread", "he": "לחם", "fr": "pain" },
-    { "en": "milk", "he": "חלב", "fr": "lait" },
-    { "en": "house", "he": "בית", "fr": "maison" },
-    { "en": "door", "he": "דלת", "fr": "porte" },
-    { "en": "window", "he": "חלון", "fr": "fenêtre" },
-    { "en": "table", "he": "שולחן", "fr": "table" },
-    { "en": "chair", "he": "כיסא", "fr": "chaise" },
-    { "en": "school", "he": "בית ספר", "fr": "école" },
-    { "en": "teacher", "he": "מורה", "fr": "professeur" },
-    { "en": "student", "he": "תלמיד", "fr": "élève" },
-    { "en": "work", "he": "עבודה", "fr": "travail" },
-    { "en": "money", "he": "כסף", "fr": "argent" },
-    { "en": "time", "he": "זמן", "fr": "temps" },
-    { "en": "day", "he": "יום", "fr": "jour" },
-    { "en": "night", "he": "לילה", "fr": "nuit" },
-    { "en": "morning", "he": "בוקר", "fr": "matin" },
-    { "en": "week", "he": "שבוע", "fr": "semaine" },
-    { "en": "month", "he": "חודש", "fr": "mois" },
-    { "en": "year", "he": "שנה", "fr": "année" },
-    { "en": "today", "he": "היום", "fr": "aujourd'hui" },
-    { "en": "tomorrow", "he": "מחר", "fr": "demain" },
-    { "en": "world", "he": "עולם", "fr": "monde" },
-    { "en": "people", "he": "אנשים", "fr": "gens" },
-    { "en": "man", "he": "גבר", "fr": "homme" },
-    { "en": "woman", "he": "אישה", "fr": "femme" },
-    { "en": "child", "he": "ילד", "fr": "enfant" },
-    { "en": "book", "he": "ספר", "fr": "livre" },
-    { "en": "city", "he": "עיר", "fr": "ville" },
-    { "en": "country", "he": "מדינה", "fr": "pays" },
-    { "en": "street", "he": "רחוב", "fr": "rue" },
-    { "en": "car", "he": "מכונית", "fr": "voiture" },
-    { "en": "phone", "he": "טלפון", "fr": "téléphone" },
-    { "en": "computer", "he": "מחשב", "fr": "ordinateur" },
-    { "en": "dog", "he": "כלב", "fr": "chien" },
-    { "en": "cat", "he": "חתול", "fr": "chat" },
-    { "en": "sun", "he": "שמש", "fr": "soleil" },
-    { "en": "moon", "he": "ירח", "fr": "lune" },
-    { "en": "rain", "he": "גשם", "fr": "pluie" },
-    { "en": "go", "he": "ללכת", "fr": "aller" },
-    { "en": "come", "he": "לבוא", "fr": "venir" },
-    { "en": "eat", "he": "לאכול", "fr": "manger" },
-    { "en": "drink", "he": "לשתות", "fr": "boire" },
-    { "en": "sleep", "he": "לישון", "fr": "dormir" },
-    { "en": "see", "he": "לראות", "fr": "voir" },
-    { "en": "hear", "he": "לשמוע", "fr": "entendre" },
-    { "en": "big", "he": "גדול", "fr": "grand" },
-    { "en": "small", "he": "קטן", "fr": "petit" },
-    { "en": "good", "he": "טוב", "fr": "bon" },
-    { "en": "bad", "he": "רע", "fr": "mauvais" },
-    { "en": "hot", "he": "חם", "fr": "chaud" },
-    { "en": "cold", "he": "קר", "fr": "froid" },
-    { "en": "new", "he": "חדש", "fr": "nouveau" },
-    { "en": "old", "he": "ישן", "fr": "vieux" },
-    { "en": "yesterday", "he": "אתמול", "fr": "hier" },
-    { "en": "name", "he": "שם", "fr": "nom" },
-    { "en": "color", "he": "צבע", "fr": "couleur" },
-    { "en": "number", "he": "מספר", "fr": "nombre" },
-    { "en": "word", "he": "מילה", "fr": "mot" },
-    { "en": "question", "he": "שאלה", "fr": "question" },
-    { "en": "answer", "he": "תשובה", "fr": "réponse" },
-    { "en": "story", "he": "סיפור", "fr": "histoire" },
-    { "en": "music", "he": "מוזיקה", "fr": "musique" },
-    { "en": "game", "he": "משחק", "fr": "jeu" },
-    { "en": "shop", "he": "חנות", "fr": "magasin" },
-    { "en": "market", "he": "שוק", "fr": "marché" },
-    { "en": "kitchen", "he": "מטבח", "fr": "cuisine" },
-    { "en": "room", "he": "חדר", "fr": "chambre" },
-    { "en": "bed", "he": "מיטה", "fr": "lit" },
-    { "en": "tree", "he": "עץ", "fr": "arbre" },
-    { "en": "flower", "he": "פרח", "fr": "fleur" },
-    { "en": "bird", "he": "ציפור", "fr": "oiseau" },
-    { "en": "fish", "he": "דג", "fr": "poisson" },
-    { "en": "apple", "he": "תפוח", "fr": "pomme" },
-    { "en": "coffee", "he": "קפה", "fr": "café" },
-    { "en": "tea", "he": "תה", "fr": "thé" },
-    { "en": "egg", "he": "ביצה", "fr": "œuf" },
-    { "en": "open", "he": "לפתוח", "fr": "ouvrir" },
-    { "en": "close", "he": "לסגור", "fr": "fermer" },
-    { "en": "play", "he": "לשחק", "fr": "jouer" },
-    { "en": "sing", "he": "לשיר", "fr": "chanter" },
-    { "en": "dance", "he": "לרקוד", "fr": "danser" }
-  ],
-  "intermediate": [
-    { "en": "run", "he": "לרוץ", "fr": "courir" },
-    { "en": "walk", "he": "ללכת ברגל", "fr": "marcher" },
-    { "en": "speak", "he": "לדבר", "fr": "parler" },
-    { "en": "read", "he": "לקרוא", "fr": "lire" },
-    { "en": "write", "he": "לכתוב", "fr": "écrire" },
-    { "en": "learn", "he": "ללמוד", "fr": "apprendre" },
-    { "en": "teach", "he": "ללמד", "fr": "enseigner" },
-    { "en": "think", "he": "לחשוב", "fr": "penser" },
-    { "en": "know", "he": "לדעת", "fr": "savoir" },
-    { "en": "understand", "he": "להבין", "fr": "comprendre" },
-    { "en": "remember", "he": "לזכור", "fr": "se souvenir" },
-    { "en": "forget", "he": "לשכוח", "fr": "oublier" },
-    { "en": "help", "he": "לעזור", "fr": "aider" },
-    { "en": "give", "he": "לתת", "fr": "donner" },
-    { "en": "take", "he": "לקחת", "fr": "prendre" },
-    { "en": "bring", "he": "להביא", "fr": "apporter" },
-    { "en": "build", "he": "לבנות", "fr": "construire" },
-    { "en": "buy", "he": "לקנות", "fr": "acheter" },
-    { "en": "sell", "he": "למכור", "fr": "vendre" },
-    { "en": "choose", "he": "לבחור", "fr": "choisir" },
-    { "en": "decide", "he": "להחליט", "fr": "décider" },
-    { "en": "explain", "he": "להסביר", "fr": "expliquer" },
-    { "en": "describe", "he": "לתאר", "fr": "décrire" },
-    { "en": "compare", "he": "להשוות", "fr": "comparer" },
-    { "en": "improve", "he": "לשפר", "fr": "améliorer" },
-    { "en": "change", "he": "לשנות", "fr": "changer" },
-    { "en": "create", "he": "ליצור", "fr": "créer" },
-    { "en": "develop", "he": "לפתח", "fr": "développer" },
-    { "en": "discover", "he": "לגלות", "fr": "découvrir" },
-    { "en": "manage", "he": "לנהל", "fr": "gérer" },
-    { "en": "beautiful", "he": "יפה", "fr": "beau" },
-    { "en": "ugly", "he": "מכוער", "fr": "laid" },
-    { "en": "fast", "he": "מהיר", "fr": "rapide" },
-    { "en": "slow", "he": "איטי", "fr": "lent" },
-    { "en": "strong", "he": "חזק", "fr": "fort" },
-    { "en": "weak", "he": "חלש", "fr": "faible" },
-    { "en": "easy", "he": "קל", "fr": "facile" },
-    { "en": "difficult", "he": "קשה", "fr": "difficile" },
-    { "en": "important", "he": "חשוב", "fr": "important" },
-    { "en": "interesting", "he": "מעניין", "fr": "intéressant" },
-    { "en": "boring", "he": "משעמם", "fr": "ennuyeux" },
-    { "en": "funny", "he": "מצחיק", "fr": "drôle" },
-    { "en": "serious", "he": "רציני", "fr": "sérieux" },
-    { "en": "smart", "he": "חכם", "fr": "intelligent" },
-    { "en": "brave", "he": "אמיץ", "fr": "courageux" },
-    { "en": "kind", "he": "אדיב", "fr": "gentil" },
-    { "en": "honest", "he": "ישר", "fr": "honnête" },
-    { "en": "polite", "he": "מנומס", "fr": "poli" },
-    { "en": "lazy", "he": "עצלן", "fr": "paresseux" },
-    { "en": "busy", "he": "עסוק", "fr": "occupé" },
-    { "en": "quiet", "he": "שקט", "fr": "calme" },
-    { "en": "loud", "he": "רועש", "fr": "bruyant" },
-    { "en": "safe", "he": "בטוח", "fr": "sûr" },
-    { "en": "dangerous", "he": "מסוכן", "fr": "dangereux" },
-    { "en": "health", "he": "בריאות", "fr": "santé" },
-    { "en": "weather", "he": "מזג אוויר", "fr": "météo" },
-    { "en": "experience", "he": "ניסיון", "fr": "expérience" },
-    { "en": "opinion", "he": "דעה", "fr": "opinion" },
-    { "en": "reason", "he": "סיבה", "fr": "raison" },
-    { "en": "problem", "he": "בעיה", "fr": "problème" },
-    { "en": "solution", "he": "פתרון", "fr": "solution" },
-    { "en": "decision", "he": "החלטה", "fr": "décision" },
-    { "en": "goal", "he": "מטרה", "fr": "but" },
-    { "en": "success", "he": "הצלחה", "fr": "succès" },
-    { "en": "failure", "he": "כישלון", "fr": "échec" },
-    { "en": "knowledge", "he": "ידע", "fr": "connaissance" },
-    { "en": "language", "he": "שפה", "fr": "langue" },
-    { "en": "culture", "he": "תרבות", "fr": "culture" },
-    { "en": "society", "he": "חברה", "fr": "société" },
-    { "en": "environment", "he": "סביבה", "fr": "environnement" },
-    { "en": "government", "he": "ממשלה", "fr": "gouvernement" },
-    { "en": "business", "he": "עסק", "fr": "entreprise" },
-    { "en": "customer", "he": "לקוח", "fr": "client" },
-    { "en": "neighbor", "he": "שכן", "fr": "voisin" },
-    { "en": "achieve", "he": "להשיג", "fr": "réaliser" },
-    { "en": "avoid", "he": "להימנע", "fr": "éviter" },
-    { "en": "allow", "he": "לאפשר", "fr": "permettre" },
-    { "en": "prepare", "he": "להכין", "fr": "préparer" },
-    { "en": "suggest", "he": "להציע", "fr": "suggérer" },
-    { "en": "receive", "he": "לקבל", "fr": "recevoir" },
-    { "en": "increase", "he": "להגדיל", "fr": "augmenter" },
-    { "en": "reduce", "he": "להפחית", "fr": "réduire" },
-    { "en": "provide", "he": "לספק", "fr": "fournir" },
-    { "en": "require", "he": "לדרוש", "fr": "exiger" },
-    { "en": "accept", "he": "לקבל", "fr": "accepter" },
-    { "en": "refuse", "he": "לסרב", "fr": "refuser" },
-    { "en": "succeed", "he": "להצליח", "fr": "réussir" },
-    { "en": "behavior", "he": "התנהגות", "fr": "comportement" },
-    { "en": "relationship", "he": "מערכת יחסים", "fr": "relation" },
-    { "en": "responsibility", "he": "אחריות", "fr": "responsabilité" },
-    { "en": "opportunity", "he": "הזדמנות", "fr": "opportunité" },
-    { "en": "advantage", "he": "יתרון", "fr": "avantage" },
-    { "en": "disadvantage", "he": "חיסרון", "fr": "inconvénient" },
-    { "en": "quality", "he": "איכות", "fr": "qualité" },
-    { "en": "quantity", "he": "כמות", "fr": "quantité" },
-    { "en": "average", "he": "ממוצע", "fr": "moyenne" },
-    { "en": "common", "he": "נפוץ", "fr": "commun" },
-    { "en": "similar", "he": "דומה", "fr": "similaire" },
-    { "en": "different", "he": "שונה", "fr": "différent" },
-    { "en": "popular", "he": "פופולרי", "fr": "populaire" },
-    { "en": "famous", "he": "מפורסם", "fr": "célèbre" },
-    { "en": "comfortable", "he": "נוח", "fr": "confortable" }
-  ],
-  "advanced": [
-    { "en": "serendipity", "he": "מקריות מאושרת", "fr": "sérendipité" },
-    { "en": "ephemeral", "he": "בן חלוף", "fr": "éphémère" },
-    { "en": "resilience", "he": "חוסן", "fr": "résilience" },
-    { "en": "ambiguous", "he": "דו-משמעי", "fr": "ambigu" },
-    { "en": "meticulous", "he": "קפדני", "fr": "méticuleux" },
-    { "en": "inevitable", "he": "בלתי נמנע", "fr": "inévitable" },
-    { "en": "profound", "he": "עמוק", "fr": "profond" },
-    { "en": "reluctant", "he": "מהוסס", "fr": "réticent" },
-    { "en": "vivid", "he": "חי וברור", "fr": "vif" },
-    { "en": "subtle", "he": "עדין", "fr": "subtil" },
-    { "en": "diligent", "he": "חרוץ", "fr": "diligent" },
-    { "en": "humble", "he": "צנוע", "fr": "humble" },
-    { "en": "generous", "he": "נדיב", "fr": "généreux" },
-    { "en": "curious", "he": "סקרן", "fr": "curieux" },
-    { "en": "eager", "he": "להוט", "fr": "impatient" },
-    { "en": "gratitude", "he": "הכרת תודה", "fr": "gratitude" },
-    { "en": "endeavor", "he": "מאמץ", "fr": "effort" },
-    { "en": "perseverance", "he": "התמדה", "fr": "persévérance" },
-    { "en": "abundant", "he": "שופע", "fr": "abondant" },
-    { "en": "genuine", "he": "אמיתי", "fr": "authentique" },
-    { "en": "tenacious", "he": "עיקש", "fr": "tenace" },
-    { "en": "pragmatic", "he": "מעשי", "fr": "pragmatique" },
-    { "en": "candid", "he": "גלוי לב", "fr": "franc" },
-    { "en": "eloquent", "he": "רהוט", "fr": "éloquent" },
-    { "en": "versatile", "he": "רב-תכליתי", "fr": "polyvalent" },
-    { "en": "intricate", "he": "מורכב", "fr": "complexe" },
-    { "en": "coherent", "he": "קוהרנטי", "fr": "cohérent" },
-    { "en": "plausible", "he": "סביר", "fr": "plausible" },
-    { "en": "redundant", "he": "מיותר", "fr": "redondant" },
-    { "en": "arbitrary", "he": "שרירותי", "fr": "arbitraire" },
-    { "en": "scrutiny", "he": "בחינה מדוקדקת", "fr": "examen minutieux" },
-    { "en": "discrepancy", "he": "אי-התאמה", "fr": "divergence" },
-    { "en": "nuance", "he": "ניואנס", "fr": "nuance" },
-    { "en": "paradigm", "he": "פרדיגמה", "fr": "paradigme" },
-    { "en": "consensus", "he": "הסכמה כללית", "fr": "consensus" },
-    { "en": "compelling", "he": "משכנע", "fr": "convaincant" },
-    { "en": "inherent", "he": "מובנה", "fr": "inhérent" },
-    { "en": "feasible", "he": "בר-ביצוע", "fr": "faisable" },
-    { "en": "skeptical", "he": "ספקן", "fr": "sceptique" },
-    { "en": "obsolete", "he": "מיושן", "fr": "obsolète" },
-    { "en": "spontaneous", "he": "ספונטני", "fr": "spontané" },
-    { "en": "deliberate", "he": "מכוון", "fr": "délibéré" },
-    { "en": "notorious", "he": "ידוע לשמצה", "fr": "notoire" },
-    { "en": "prevalent", "he": "נפוץ", "fr": "répandu" },
-    { "en": "mitigate", "he": "להקל", "fr": "atténuer" },
-    { "en": "alleviate", "he": "להפיג", "fr": "soulager" },
-    { "en": "advocate", "he": "לתמוך", "fr": "préconiser" },
-    { "en": "undermine", "he": "לחתור תחת", "fr": "saper" },
-    { "en": "endure", "he": "לסבול, לעמוד ב", "fr": "endurer" },
-    { "en": "exemplify", "he": "להמחיש", "fr": "illustrer" },
-    { "en": "contemplate", "he": "להרהר", "fr": "contempler" },
-    { "en": "anticipate", "he": "לצפות מראש", "fr": "anticiper" },
-    { "en": "comprehend", "he": "להשיג, להבין", "fr": "comprendre" },
-    { "en": "elaborate", "he": "להרחיב", "fr": "développer" },
-    { "en": "diminish", "he": "להפחית", "fr": "diminuer" },
-    { "en": "enhance", "he": "לשפר", "fr": "rehausser" },
-    { "en": "acquire", "he": "לרכוש", "fr": "acquérir" },
-    { "en": "convey", "he": "להעביר מסר", "fr": "transmettre" },
-    { "en": "persist", "he": "להתמיד", "fr": "persister" },
-    { "en": "resilient", "he": "עמיד", "fr": "résilient" },
-    { "en": "ubiquitous", "he": "נמצא בכל מקום", "fr": "omniprésent" },
-    { "en": "cumbersome", "he": "מסורבל", "fr": "encombrant" },
-    { "en": "mundane", "he": "שגרתי", "fr": "banal" },
-    { "en": "lucid", "he": "צלול", "fr": "lucide" },
-    { "en": "astute", "he": "חריף", "fr": "astucieux" },
-    { "en": "prudent", "he": "נבון", "fr": "prudent" },
-    { "en": "audacious", "he": "נועז", "fr": "audacieux" },
-    { "en": "benevolent", "he": "רב חסד", "fr": "bienveillant" },
-    { "en": "indifferent", "he": "אדיש", "fr": "indifférent" },
-    { "en": "ambivalent", "he": "אמביוולנטי", "fr": "ambivalent" },
-    { "en": "intrinsic", "he": "מהותי", "fr": "intrinsèque" },
-    { "en": "tangible", "he": "מוחשי", "fr": "tangible" },
-    { "en": "elusive", "he": "חמקמק", "fr": "insaisissable" },
-    { "en": "formidable", "he": "אדיר", "fr": "redoutable" },
-    { "en": "trivial", "he": "פעוט", "fr": "trivial" },
-    { "en": "concise", "he": "תמציתי", "fr": "concis" },
-    { "en": "diligence", "he": "חריצות", "fr": "diligence" },
-    { "en": "integrity", "he": "יושרה", "fr": "intégrité" },
-    { "en": "empathy", "he": "אמפתיה", "fr": "empathie" },
-    { "en": "resentment", "he": "טינה", "fr": "ressentiment" },
-    { "en": "anguish", "he": "ייסורים", "fr": "angoisse" },
-    { "en": "turmoil", "he": "מהומה", "fr": "tourmente" },
-    { "en": "vindicate", "he": "לזכות מאשמה", "fr": "disculper" },
-    { "en": "scrupulous", "he": "קפדן מצפונית", "fr": "scrupuleux" },
-    { "en": "wary", "he": "זהיר וחשדן", "fr": "méfiant" }
-  ]
+ "beginner": [
+  {
+   "en": "room",
+   "he": "חדר"
+  },
+  {
+   "en": "house",
+   "he": "בית"
+  },
+  {
+   "en": "home",
+   "he": "בית"
+  },
+  {
+   "en": "kitchen",
+   "he": "מטבח"
+  },
+  {
+   "en": "bedroom",
+   "he": "חדר שינה"
+  },
+  {
+   "en": "bathroom",
+   "he": "חדר אמבטיה"
+  },
+  {
+   "en": "door",
+   "he": "דלת"
+  },
+  {
+   "en": "window",
+   "he": "חלון"
+  },
+  {
+   "en": "table",
+   "he": "שולחן"
+  },
+  {
+   "en": "chair",
+   "he": "כיסא"
+  },
+  {
+   "en": "bed",
+   "he": "מיטה"
+  },
+  {
+   "en": "sofa",
+   "he": "ספה"
+  },
+  {
+   "en": "lamp",
+   "he": "מנורה"
+  },
+  {
+   "en": "light",
+   "he": "אור"
+  },
+  {
+   "en": "floor",
+   "he": "רצפה"
+  },
+  {
+   "en": "wall",
+   "he": "קיר"
+  },
+  {
+   "en": "ceiling",
+   "he": "תקרה"
+  },
+  {
+   "en": "carpet",
+   "he": "שטיח"
+  },
+  {
+   "en": "curtain",
+   "he": "וילון"
+  },
+  {
+   "en": "mirror",
+   "he": "מראה"
+  },
+  {
+   "en": "picture",
+   "he": "תמונה"
+  },
+  {
+   "en": "clock",
+   "he": "שעון"
+  },
+  {
+   "en": "book",
+   "he": "ספר"
+  },
+  {
+   "en": "shelf",
+   "he": "מדף"
+  },
+  {
+   "en": "cupboard",
+   "he": "ארון"
+  },
+  {
+   "en": "drawer",
+   "he": "מגירה"
+  },
+  {
+   "en": "fridge",
+   "he": "מקרר"
+  },
+  {
+   "en": "oven",
+   "he": "תנור"
+  },
+  {
+   "en": "stove",
+   "he": "כיריים"
+  },
+  {
+   "en": "sink",
+   "he": "כיור"
+  },
+  {
+   "en": "tap",
+   "he": "ברז"
+  },
+  {
+   "en": "plate",
+   "he": "צלחת"
+  },
+  {
+   "en": "cup",
+   "he": "כוס"
+  },
+  {
+   "en": "glass",
+   "he": "כוס"
+  },
+  {
+   "en": "fork",
+   "he": "מזלג"
+  },
+  {
+   "en": "knife",
+   "he": "סכין"
+  },
+  {
+   "en": "spoon",
+   "he": "כף"
+  },
+  {
+   "en": "bowl",
+   "he": "קערה"
+  },
+  {
+   "en": "mug",
+   "he": "ספל"
+  },
+  {
+   "en": "kettle",
+   "he": "קומקום"
+  },
+  {
+   "en": "toaster",
+   "he": "טוסטר"
+  },
+  {
+   "en": "microwave",
+   "he": "מיקרוגל"
+  },
+  {
+   "en": "dryer",
+   "he": "מייבש כביסה"
+  },
+  {
+   "en": "iron",
+   "he": "מגהץ"
+  },
+  {
+   "en": "broom",
+   "he": "מטאטא"
+  },
+  {
+   "en": "dustbin",
+   "he": "פח אשפה"
+  },
+  {
+   "en": "toilet",
+   "he": "שירותים"
+  },
+  {
+   "en": "shower",
+   "he": "מקלחת"
+  },
+  {
+   "en": "bath",
+   "he": "אמבטיה"
+  },
+  {
+   "en": "soap",
+   "he": "סבון"
+  },
+  {
+   "en": "towel",
+   "he": "מגבת"
+  },
+  {
+   "en": "shampoo",
+   "he": "שמפו"
+  },
+  {
+   "en": "toothbrush",
+   "he": "מברשת שיניים"
+  },
+  {
+   "en": "toothpaste",
+   "he": "משחת שיניים"
+  },
+  {
+   "en": "wardrobe",
+   "he": "ארון בגדים"
+  },
+  {
+   "en": "desk",
+   "he": "שולחן כתיבה"
+  },
+  {
+   "en": "computer",
+   "he": "מחשב"
+  },
+  {
+   "en": "television",
+   "he": "טלוויזיה"
+  },
+  {
+   "en": "radio",
+   "he": "רדיו"
+  },
+  {
+   "en": "phone",
+   "he": "טלפון"
+  },
+  {
+   "en": "key",
+   "he": "מפתח"
+  },
+  {
+   "en": "bag",
+   "he": "תיק"
+  },
+  {
+   "en": "wallet",
+   "he": "ארנק"
+  },
+  {
+   "en": "umbrella",
+   "he": "מטריה"
+  },
+  {
+   "en": "glasses",
+   "he": "משקפיים"
+  },
+  {
+   "en": "watch",
+   "he": "שעון יד"
+  },
+  {
+   "en": "ring",
+   "he": "טבעת"
+  },
+  {
+   "en": "necklace",
+   "he": "שרשרת"
+  },
+  {
+   "en": "earrings",
+   "he": "עגילים"
+  },
+  {
+   "en": "hat",
+   "he": "כובע"
+  },
+  {
+   "en": "coat",
+   "he": "מעיל"
+  },
+  {
+   "en": "jacket",
+   "he": "ז'קט"
+  },
+  {
+   "en": "shirt",
+   "he": "חולצה"
+  },
+  {
+   "en": "t-shirt",
+   "he": "חולצת טריקו"
+  },
+  {
+   "en": "dress",
+   "he": "שמלה"
+  },
+  {
+   "en": "skirt",
+   "he": "חצאית"
+  },
+  {
+   "en": "trousers",
+   "he": "מכנסיים"
+  },
+  {
+   "en": "jeans",
+   "he": "ג'ינס"
+  },
+  {
+   "en": "shoes",
+   "he": "נעליים"
+  },
+  {
+   "en": "socks",
+   "he": "גרביים"
+  },
+  {
+   "en": "underwear",
+   "he": "תחתונים"
+  },
+  {
+   "en": "pajamas",
+   "he": "פיג'מה"
+  },
+  {
+   "en": "blanket",
+   "he": "שמיכה"
+  },
+  {
+   "en": "pillow",
+   "he": "כרית"
+  },
+  {
+   "en": "sheet",
+   "he": "סדין"
+  },
+  {
+   "en": "plant",
+   "he": "צמח"
+  },
+  {
+   "en": "flower",
+   "he": "פרח"
+  },
+  {
+   "en": "garden",
+   "he": "גינה"
+  },
+  {
+   "en": "balcony",
+   "he": "מרפסת"
+  },
+  {
+   "en": "stairs",
+   "he": "מדרגות"
+  },
+  {
+   "en": "lift",
+   "he": "מעלית"
+  },
+  {
+   "en": "garage",
+   "he": "מוסך"
+  },
+  {
+   "en": "car",
+   "he": "מכונית"
+  },
+  {
+   "en": "bike",
+   "he": "אופניים"
+  },
+  {
+   "en": "bus",
+   "he": "אוטובוס"
+  },
+  {
+   "en": "apple",
+   "he": "תפוח"
+  },
+  {
+   "en": "banana",
+   "he": "בננה"
+  },
+  {
+   "en": "bread",
+   "he": "לחם"
+  },
+  {
+   "en": "butter",
+   "he": "חמאה"
+  },
+  {
+   "en": "cake",
+   "he": "עוגה"
+  },
+  {
+   "en": "cheese",
+   "he": "גבינה"
+  },
+  {
+   "en": "chicken",
+   "he": "עוף"
+  },
+  {
+   "en": "coffee",
+   "he": "קפה"
+  },
+  {
+   "en": "cookie",
+   "he": "עוגייה"
+  },
+  {
+   "en": "dinner",
+   "he": "ארוחת ערב"
+  },
+  {
+   "en": "drink",
+   "he": "לשתות"
+  },
+  {
+   "en": "egg",
+   "he": "ביצה"
+  },
+  {
+   "en": "fish",
+   "he": "דג"
+  },
+  {
+   "en": "food",
+   "he": "אוכל"
+  },
+  {
+   "en": "fruit",
+   "he": "פרי"
+  },
+  {
+   "en": "grape",
+   "he": "ענב"
+  },
+  {
+   "en": "hungry",
+   "he": "רעב"
+  },
+  {
+   "en": "ice",
+   "he": "קרח"
+  },
+  {
+   "en": "juice",
+   "he": "מיץ"
+  },
+  {
+   "en": "lemon",
+   "he": "לימון"
+  },
+  {
+   "en": "lunch",
+   "he": "ארוחת צהריים"
+  },
+  {
+   "en": "meat",
+   "he": "בשר"
+  },
+  {
+   "en": "milk",
+   "he": "חלב"
+  },
+  {
+   "en": "orange",
+   "he": "תפוז"
+  },
+  {
+   "en": "pear",
+   "he": "אגס"
+  },
+  {
+   "en": "potato",
+   "he": "תפוח אדמה"
+  },
+  {
+   "en": "rice",
+   "he": "אורז"
+  },
+  {
+   "en": "salad",
+   "he": "סלט"
+  },
+  {
+   "en": "salt",
+   "he": "מלח"
+  },
+  {
+   "en": "sandwich",
+   "he": "כריך"
+  },
+  {
+   "en": "sugar",
+   "he": "סוכר"
+  },
+  {
+   "en": "tea",
+   "he": "תה"
+  },
+  {
+   "en": "thirsty",
+   "he": "צמא"
+  },
+  {
+   "en": "tomato",
+   "he": "עגבנייה"
+  },
+  {
+   "en": "vegetable",
+   "he": "ירק"
+  },
+  {
+   "en": "water",
+   "he": "מים"
+  },
+  {
+   "en": "cook",
+   "he": "לבשל"
+  },
+  {
+   "en": "eat",
+   "he": "לאכול"
+  },
+  {
+   "en": "fry",
+   "he": "לטגן"
+  },
+  {
+   "en": "boil",
+   "he": "להרתיח"
+  },
+  {
+   "en": "bake",
+   "he": "לאפות"
+  },
+  {
+   "en": "cut",
+   "he": "לחתוך"
+  },
+  {
+   "en": "mix",
+   "he": "לערבב"
+  },
+  {
+   "en": "pour",
+   "he": "למזוג"
+  },
+  {
+   "en": "serve",
+   "he": "להגיש"
+  },
+  {
+   "en": "taste",
+   "he": "לטעום"
+  },
+  {
+   "en": "wash",
+   "he": "לשטוף"
+  },
+  {
+   "en": "sweet",
+   "he": "מתוק"
+  },
+  {
+   "en": "sour",
+   "he": "חמוץ"
+  },
+  {
+   "en": "spicy",
+   "he": "חריף"
+  },
+  {
+   "en": "fresh",
+   "he": "טרי"
+  },
+  {
+   "en": "hot",
+   "he": "חם"
+  },
+  {
+   "en": "cold",
+   "he": "קר"
+  },
+  {
+   "en": "delicious",
+   "he": "טעים"
+  },
+  {
+   "en": "breakfast",
+   "he": "ארוחת בוקר"
+  },
+  {
+   "en": "dessert",
+   "he": "קינוח"
+  },
+  {
+   "en": "soup",
+   "he": "מרק"
+  },
+  {
+   "en": "pizza",
+   "he": "פיצה"
+  },
+  {
+   "en": "pasta",
+   "he": "פסטה"
+  },
+  {
+   "en": "cereal",
+   "he": "דגני בוקר"
+  },
+  {
+   "en": "yogurt",
+   "he": "יוגורט"
+  },
+  {
+   "en": "cream",
+   "he": "שמנת"
+  },
+  {
+   "en": "onion",
+   "he": "בצל"
+  },
+  {
+   "en": "garlic",
+   "he": "שום"
+  },
+  {
+   "en": "carrot",
+   "he": "גזר"
+  },
+  {
+   "en": "cucumber",
+   "he": "מלפפון"
+  },
+  {
+   "en": "pepper",
+   "he": "פלפל"
+  },
+  {
+   "en": "mushroom",
+   "he": "פטריה"
+  },
+  {
+   "en": "oil",
+   "he": "שמן"
+  },
+  {
+   "en": "vinegar",
+   "he": "חומץ"
+  },
+  {
+   "en": "sauce",
+   "he": "רוטב"
+  },
+  {
+   "en": "bottle",
+   "he": "בקבוק"
+  },
+  {
+   "en": "can",
+   "he": "פחית"
+  },
+  {
+   "en": "freezer",
+   "he": "מקפיא"
+  },
+  {
+   "en": "pan",
+   "he": "מחבת"
+  },
+  {
+   "en": "pot",
+   "he": "סיר"
+  },
+  {
+   "en": "recipe",
+   "he": "מתכון"
+  },
+  {
+   "en": "menu",
+   "he": "תפריט"
+  },
+  {
+   "en": "waiter",
+   "he": "מלצר"
+  },
+  {
+   "en": "bill",
+   "he": "חשבון"
+  },
+  {
+   "en": "order",
+   "he": "להזמין"
+  },
+  {
+   "en": "pay",
+   "he": "לשלם"
+  },
+  {
+   "en": "restaurant",
+   "he": "מסעדה"
+  },
+  {
+   "en": "supermarket",
+   "he": "סופרמרקט"
+  },
+  {
+   "en": "shop",
+   "he": "חנות"
+  },
+  {
+   "en": "buy",
+   "he": "לקנות"
+  },
+  {
+   "en": "sell",
+   "he": "למכור"
+  },
+  {
+   "en": "market",
+   "he": "שוק"
+  },
+  {
+   "en": "meal",
+   "he": "ארוחה"
+  },
+  {
+   "en": "snack",
+   "he": "חטיף"
+  },
+  {
+   "en": "diet",
+   "he": "דיאטה"
+  },
+  {
+   "en": "healthy",
+   "he": "בריא"
+  },
+  {
+   "en": "unhealthy",
+   "he": "לא בריא"
+  },
+  {
+   "en": "man",
+   "he": "גבר"
+  },
+  {
+   "en": "woman",
+   "he": "אישה"
+  },
+  {
+   "en": "child",
+   "he": "ילד"
+  },
+  {
+   "en": "boy",
+   "he": "ילד"
+  },
+  {
+   "en": "girl",
+   "he": "ילדה"
+  },
+  {
+   "en": "baby",
+   "he": "תינוק"
+  },
+  {
+   "en": "person",
+   "he": "אדם"
+  },
+  {
+   "en": "people",
+   "he": "אנשים"
+  },
+  {
+   "en": "family",
+   "he": "משפחה"
+  },
+  {
+   "en": "father",
+   "he": "אבא"
+  },
+  {
+   "en": "mother",
+   "he": "אמא"
+  },
+  {
+   "en": "parents",
+   "he": "הורים"
+  },
+  {
+   "en": "son",
+   "he": "בן"
+  },
+  {
+   "en": "daughter",
+   "he": "בת"
+  },
+  {
+   "en": "brother",
+   "he": "אח"
+  },
+  {
+   "en": "sister",
+   "he": "אחות"
+  },
+  {
+   "en": "husband",
+   "he": "בעל"
+  },
+  {
+   "en": "wife",
+   "he": "אישה"
+  },
+  {
+   "en": "grandparent",
+   "he": "סבא/סבתא"
+  },
+  {
+   "en": "grandfather",
+   "he": "סבא"
+  },
+  {
+   "en": "grandmother",
+   "he": "סבתא"
+  },
+  {
+   "en": "uncle",
+   "he": "דוד"
+  },
+  {
+   "en": "aunt",
+   "he": "דודה"
+  },
+  {
+   "en": "cousin",
+   "he": "בן/בת דוד"
+  },
+  {
+   "en": "friend",
+   "he": "חבר"
+  },
+  {
+   "en": "name",
+   "he": "שם"
+  },
+  {
+   "en": "age",
+   "he": "גיל"
+  },
+  {
+   "en": "head",
+   "he": "ראש"
+  },
+  {
+   "en": "face",
+   "he": "פנים"
+  },
+  {
+   "en": "hair",
+   "he": "שיער"
+  },
+  {
+   "en": "eye",
+   "he": "עין"
+  },
+  {
+   "en": "ear",
+   "he": "אוזן"
+  },
+  {
+   "en": "nose",
+   "he": "אף"
+  },
+  {
+   "en": "mouth",
+   "he": "פה"
+  },
+  {
+   "en": "tooth",
+   "he": "שן"
+  },
+  {
+   "en": "tongue",
+   "he": "לשון"
+  },
+  {
+   "en": "neck",
+   "he": "צוואר"
+  },
+  {
+   "en": "shoulder",
+   "he": "כתף"
+  },
+  {
+   "en": "arm",
+   "he": "זרוע"
+  },
+  {
+   "en": "hand",
+   "he": "יד"
+  },
+  {
+   "en": "finger",
+   "he": "אצבע"
+  },
+  {
+   "en": "thumb",
+   "he": "אגודל"
+  },
+  {
+   "en": "chest",
+   "he": "חזה"
+  },
+  {
+   "en": "stomach",
+   "he": "בטן"
+  },
+  {
+   "en": "back",
+   "he": "גב"
+  },
+  {
+   "en": "leg",
+   "he": "רגל"
+  },
+  {
+   "en": "knee",
+   "he": "ברך"
+  },
+  {
+   "en": "foot",
+   "he": "כף רגל"
+  },
+  {
+   "en": "toe",
+   "he": "בוהן"
+  },
+  {
+   "en": "body",
+   "he": "גוף"
+  },
+  {
+   "en": "skin",
+   "he": "עור"
+  },
+  {
+   "en": "bone",
+   "he": "עצם"
+  },
+  {
+   "en": "heart",
+   "he": "לב"
+  },
+  {
+   "en": "blood",
+   "he": "דם"
+  },
+  {
+   "en": "brain",
+   "he": "מוח"
+  },
+  {
+   "en": "tall",
+   "he": "גבוה"
+  },
+  {
+   "en": "short",
+   "he": "נמוך"
+  },
+  {
+   "en": "big",
+   "he": "גדול"
+  },
+  {
+   "en": "small",
+   "he": "קטן"
+  },
+  {
+   "en": "young",
+   "he": "צעיר"
+  },
+  {
+   "en": "old",
+   "he": "זקן"
+  },
+  {
+   "en": "beautiful",
+   "he": "יפה"
+  },
+  {
+   "en": "handsome",
+   "he": "נאה"
+  },
+  {
+   "en": "ugly",
+   "he": "מכוער"
+  },
+  {
+   "en": "thin",
+   "he": "רזה"
+  },
+  {
+   "en": "fat",
+   "he": "שמן"
+  },
+  {
+   "en": "strong",
+   "he": "חזק"
+  },
+  {
+   "en": "weak",
+   "he": "חלש"
+  },
+  {
+   "en": "happy",
+   "he": "שמח"
+  },
+  {
+   "en": "sad",
+   "he": "עצוב"
+  },
+  {
+   "en": "angry",
+   "he": "כועס"
+  },
+  {
+   "en": "tired",
+   "he": "עייף"
+  },
+  {
+   "en": "sick",
+   "he": "חולה"
+  },
+  {
+   "en": "alive",
+   "he": "חי"
+  },
+  {
+   "en": "dead",
+   "he": "מת"
+  },
+  {
+   "en": "doctor",
+   "he": "רופא"
+  },
+  {
+   "en": "nurse",
+   "he": "אחות"
+  },
+  {
+   "en": "teacher",
+   "he": "מורה"
+  },
+  {
+   "en": "student",
+   "he": "תלמיד"
+  },
+  {
+   "en": "worker",
+   "he": "עובד"
+  },
+  {
+   "en": "boss",
+   "he": "בוס"
+  },
+  {
+   "en": "neighbor",
+   "he": "שכן"
+  },
+  {
+   "en": "guest",
+   "he": "אורח"
+  },
+  {
+   "en": "stranger",
+   "he": "זר"
+  },
+  {
+   "en": "group",
+   "he": "קבוצה"
+  },
+  {
+   "en": "team",
+   "he": "קבוצה"
+  },
+  {
+   "en": "party",
+   "he": "מסיבה"
+  },
+  {
+   "en": "meeting",
+   "he": "פגישה"
+  },
+  {
+   "en": "talk",
+   "he": "לדבר"
+  },
+  {
+   "en": "listen",
+   "he": "להקשיב"
+  },
+  {
+   "en": "see",
+   "he": "לראות"
+  },
+  {
+   "en": "look",
+   "he": "להסתכל"
+  },
+  {
+   "en": "hear",
+   "he": "לשמוע"
+  },
+  {
+   "en": "smell",
+   "he": "להריח"
+  },
+  {
+   "en": "feel",
+   "he": "להרגיש"
+  },
+  {
+   "en": "touch",
+   "he": "לגעת"
+  },
+  {
+   "en": "walk",
+   "he": "ללכת"
+  },
+  {
+   "en": "morning",
+   "he": "בוקר"
+  },
+  {
+   "en": "afternoon",
+   "he": "אחר הצהריים"
+  },
+  {
+   "en": "evening",
+   "he": "ערב"
+  },
+  {
+   "en": "night",
+   "he": "לילה"
+  },
+  {
+   "en": "day",
+   "he": "יום"
+  },
+  {
+   "en": "week",
+   "he": "שבוע"
+  },
+  {
+   "en": "month",
+   "he": "חודש"
+  },
+  {
+   "en": "year",
+   "he": "שנה"
+  },
+  {
+   "en": "hour",
+   "he": "שעה"
+  },
+  {
+   "en": "minute",
+   "he": "דקה"
+  },
+  {
+   "en": "second",
+   "he": "שנייה"
+  },
+  {
+   "en": "today",
+   "he": "היום"
+  },
+  {
+   "en": "tomorrow",
+   "he": "מחר"
+  },
+  {
+   "en": "yesterday",
+   "he": "אתמול"
+  },
+  {
+   "en": "now",
+   "he": "עכשיו"
+  },
+  {
+   "en": "later",
+   "he": "אחר כך"
+  },
+  {
+   "en": "early",
+   "he": "מוקדם"
+  },
+  {
+   "en": "late",
+   "he": "מאוחר"
+  },
+  {
+   "en": "always",
+   "he": "תמיד"
+  },
+  {
+   "en": "often",
+   "he": "לעתים קרובות"
+  },
+  {
+   "en": "sometimes",
+   "he": "לפעמים"
+  },
+  {
+   "en": "never",
+   "he": "אף פעם"
+  },
+  {
+   "en": "weather",
+   "he": "מזג אוויר"
+  },
+  {
+   "en": "sun",
+   "he": "שמש"
+  },
+  {
+   "en": "sunny",
+   "he": "שמשי"
+  },
+  {
+   "en": "rain",
+   "he": "גשם"
+  },
+  {
+   "en": "rainy",
+   "he": "גשום"
+  },
+  {
+   "en": "cloud",
+   "he": "ענן"
+  },
+  {
+   "en": "cloudy",
+   "he": "מעונן"
+  },
+  {
+   "en": "wind",
+   "he": "רוח"
+  },
+  {
+   "en": "windy",
+   "he": "סוער"
+  },
+  {
+   "en": "snow",
+   "he": "שלג"
+  },
+  {
+   "en": "snowy",
+   "he": "מושלג"
+  },
+  {
+   "en": "warm",
+   "he": "חמים"
+  },
+  {
+   "en": "cool",
+   "he": "קריר"
+  },
+  {
+   "en": "storm",
+   "he": "סערה"
+  },
+  {
+   "en": "fog",
+   "he": "ערפל"
+  },
+  {
+   "en": "temperature",
+   "he": "טמפרטורה"
+  },
+  {
+   "en": "sky",
+   "he": "שמיים"
+  },
+  {
+   "en": "city",
+   "he": "עיר"
+  },
+  {
+   "en": "town",
+   "he": "עיירה"
+  },
+  {
+   "en": "street",
+   "he": "רחוב"
+  },
+  {
+   "en": "road",
+   "he": "כביש"
+  },
+  {
+   "en": "park",
+   "he": "פארק"
+  },
+  {
+   "en": "cafe",
+   "he": "בית קפה"
+  },
+  {
+   "en": "bank",
+   "he": "בנק"
+  },
+  {
+   "en": "hospital",
+   "he": "בית חולים"
+  },
+  {
+   "en": "school",
+   "he": "בית ספר"
+  },
+  {
+   "en": "university",
+   "he": "אוניברסיטה"
+  },
+  {
+   "en": "library",
+   "he": "ספרייה"
+  },
+  {
+   "en": "museum",
+   "he": "מוזיאון"
+  },
+  {
+   "en": "cinema",
+   "he": "קולנוע"
+  },
+  {
+   "en": "theater",
+   "he": "תיאטרון"
+  },
+  {
+   "en": "hotel",
+   "he": "מלון"
+  },
+  {
+   "en": "airport",
+   "he": "שדה תעופה"
+  },
+  {
+   "en": "pharmacy",
+   "he": "בית מרקחת"
+  },
+  {
+   "en": "square",
+   "he": "כיכר"
+  },
+  {
+   "en": "bridge",
+   "he": "גשר"
+  },
+  {
+   "en": "church",
+   "he": "כנסייה"
+  },
+  {
+   "en": "mosque",
+   "he": "מסגד"
+  },
+  {
+   "en": "synagogue",
+   "he": "בית כנסת"
+  },
+  {
+   "en": "clothes",
+   "he": "בגדים"
+  },
+  {
+   "en": "pants",
+   "he": "מכנסיים"
+  },
+  {
+   "en": "sweater",
+   "he": "סוודר"
+  },
+  {
+   "en": "boots",
+   "he": "מגפיים"
+  },
+  {
+   "en": "scarf",
+   "he": "צעיף"
+  },
+  {
+   "en": "gloves",
+   "he": "כפפות"
+  },
+  {
+   "en": "belt",
+   "he": "חגורה"
+  },
+  {
+   "en": "swimsuit",
+   "he": "בגד ים"
+  },
+  {
+   "en": "uniform",
+   "he": "מדים"
+  },
+  {
+   "en": "pocket",
+   "he": "כיס"
+  },
+  {
+   "en": "be",
+   "he": "להיות"
+  },
+  {
+   "en": "have",
+   "he": "יש ל"
+  },
+  {
+   "en": "do",
+   "he": "לעשות"
+  },
+  {
+   "en": "say",
+   "he": "לומר"
+  },
+  {
+   "en": "get",
+   "he": "לקבל"
+  },
+  {
+   "en": "make",
+   "he": "להכין"
+  },
+  {
+   "en": "go",
+   "he": "ללכת"
+  },
+  {
+   "en": "know",
+   "he": "לדעת"
+  },
+  {
+   "en": "take",
+   "he": "לקחת"
+  },
+  {
+   "en": "come",
+   "he": "לבוא"
+  },
+  {
+   "en": "think",
+   "he": "לחשוב"
+  },
+  {
+   "en": "want",
+   "he": "לרצות"
+  },
+  {
+   "en": "give",
+   "he": "לתת"
+  },
+  {
+   "en": "use",
+   "he": "להשתמש"
+  },
+  {
+   "en": "find",
+   "he": "למצוא"
+  },
+  {
+   "en": "tell",
+   "he": "לספר"
+  },
+  {
+   "en": "ask",
+   "he": "לשאול"
+  },
+  {
+   "en": "work",
+   "he": "לעבוד"
+  },
+  {
+   "en": "seem",
+   "he": "להיראות"
+  },
+  {
+   "en": "try",
+   "he": "לנסות"
+  },
+  {
+   "en": "leave",
+   "he": "לעזוב"
+  },
+  {
+   "en": "call",
+   "he": "לקרוא ל"
+  },
+  {
+   "en": "good",
+   "he": "טוב"
+  },
+  {
+   "en": "new",
+   "he": "חדש"
+  },
+  {
+   "en": "first",
+   "he": "ראשון"
+  },
+  {
+   "en": "last",
+   "he": "אחרון"
+  },
+  {
+   "en": "long",
+   "he": "ארוך"
+  },
+  {
+   "en": "great",
+   "he": "נהדר"
+  },
+  {
+   "en": "little",
+   "he": "קטן"
+  },
+  {
+   "en": "own",
+   "he": "שלו/שלה"
+  },
+  {
+   "en": "other",
+   "he": "אחר"
+  },
+  {
+   "en": "right",
+   "he": "נכון"
+  },
+  {
+   "en": "high",
+   "he": "גבוה"
+  },
+  {
+   "en": "different",
+   "he": "שונה"
+  },
+  {
+   "en": "large",
+   "he": "גדול"
+  },
+  {
+   "en": "next",
+   "he": "הבא"
+  },
+  {
+   "en": "important",
+   "he": "חשוב"
+  },
+  {
+   "en": "best",
+   "he": "הטוב ביותר"
+  },
+  {
+   "en": "bad",
+   "he": "רע"
+  },
+  {
+   "en": "easy",
+   "he": "קל"
+  },
+  {
+   "en": "difficult",
+   "he": "קשה"
+  },
+  {
+   "en": "free",
+   "he": "חופשי"
+  },
+  {
+   "en": "full",
+   "he": "מלא"
+  },
+  {
+   "en": "sure",
+   "he": "בטוח"
+  },
+  {
+   "en": "true",
+   "he": "נכון"
+  },
+  {
+   "en": "ready",
+   "he": "מוכן"
+  },
+  {
+   "en": "open",
+   "he": "פתוח"
+  },
+  {
+   "en": "close",
+   "he": "לסגור"
+  },
+  {
+   "en": "start",
+   "he": "להתחיל"
+  },
+  {
+   "en": "stop",
+   "he": "לעצור"
+  },
+  {
+   "en": "live",
+   "he": "לחיות"
+  },
+  {
+   "en": "believe",
+   "he": "להאמין"
+  },
+  {
+   "en": "hold",
+   "he": "להחזיק"
+  },
+  {
+   "en": "bring",
+   "he": "להביא"
+  },
+  {
+   "en": "happen",
+   "he": "לקרות"
+  },
+  {
+   "en": "write",
+   "he": "לכתוב"
+  },
+  {
+   "en": "sit",
+   "he": "לשבת"
+  },
+  {
+   "en": "stand",
+   "he": "לעמוד"
+  },
+  {
+   "en": "lose",
+   "he": "לאבד"
+  },
+  {
+   "en": "meet",
+   "he": "לפגוש"
+  },
+  {
+   "en": "include",
+   "he": "לכלול"
+  },
+  {
+   "en": "continue",
+   "he": "להמשיך"
+  },
+  {
+   "en": "set",
+   "he": "להגדיר"
+  },
+  {
+   "en": "learn",
+   "he": "ללמוד"
+  },
+  {
+   "en": "change",
+   "he": "לשנות"
+  },
+  {
+   "en": "lead",
+   "he": "להוביל"
+  },
+  {
+   "en": "understand",
+   "he": "להבין"
+  },
+  {
+   "en": "follow",
+   "he": "לעקוב"
+  },
+  {
+   "en": "create",
+   "he": "ליצור"
+  },
+  {
+   "en": "speak",
+   "he": "לדבר"
+  },
+  {
+   "en": "read",
+   "he": "לקרוא"
+  },
+  {
+   "en": "allow",
+   "he": "לאפשר"
+  },
+  {
+   "en": "add",
+   "he": "להוסיף"
+  },
+  {
+   "en": "spend",
+   "he": "לבזבז"
+  },
+  {
+   "en": "grow",
+   "he": "לגדול"
+  },
+  {
+   "en": "win",
+   "he": "לנצח"
+  },
+  {
+   "en": "offer",
+   "he": "להציע"
+  },
+  {
+   "en": "remember",
+   "he": "לזכור"
+  },
+  {
+   "en": "love",
+   "he": "לאהוב"
+  },
+  {
+   "en": "consider",
+   "he": "לשקול"
+  },
+  {
+   "en": "appear",
+   "he": "להופיע"
+  },
+  {
+   "en": "wait",
+   "he": "לחכות"
+  },
+  {
+   "en": "die",
+   "he": "למות"
+  },
+  {
+   "en": "send",
+   "he": "לשלוח"
+  },
+  {
+   "en": "expect",
+   "he": "לצפות"
+  },
+  {
+   "en": "build",
+   "he": "לבנות"
+  },
+  {
+   "en": "stay",
+   "he": "להישאר"
+  }
+ ],
+ "intermediate": [
+  {
+   "en": "achieve",
+   "he": "להשיג"
+  },
+  {
+   "en": "admission",
+   "he": "קבלה"
+  },
+  {
+   "en": "apprentice",
+   "he": "חניך"
+  },
+  {
+   "en": "assessment",
+   "he": "הערכה"
+  },
+  {
+   "en": "assignment",
+   "he": "מטלה"
+  },
+  {
+   "en": "attend",
+   "he": "להשתתף"
+  },
+  {
+   "en": "background",
+   "he": "רקע"
+  },
+  {
+   "en": "bachelor's",
+   "he": "תואר ראשון"
+  },
+  {
+   "en": "career",
+   "he": "קריירה"
+  },
+  {
+   "en": "certificate",
+   "he": "תעודה"
+  },
+  {
+   "en": "challenge",
+   "he": "אתגר"
+  },
+  {
+   "en": "colleague",
+   "he": "עמית"
+  },
+  {
+   "en": "commitment",
+   "he": "מחויבות"
+  },
+  {
+   "en": "competence",
+   "he": "יכולת"
+  },
+  {
+   "en": "completion",
+   "he": "סיום"
+  },
+  {
+   "en": "conduct",
+   "he": "לערוך"
+  },
+  {
+   "en": "conference",
+   "he": "כנס"
+  },
+  {
+   "en": "consultant",
+   "he": "יועץ"
+  },
+  {
+   "en": "contribute",
+   "he": "לתרום"
+  },
+  {
+   "en": "cooperate",
+   "he": "לשתף פעולה"
+  },
+  {
+   "en": "coordinator",
+   "he": "רכז"
+  },
+  {
+   "en": "curriculum",
+   "he": "תוכנית לימודים"
+  },
+  {
+   "en": "deadline",
+   "he": "מועד אחרון"
+  },
+  {
+   "en": "degree",
+   "he": "תואר"
+  },
+  {
+   "en": "department",
+   "he": "מחלקה"
+  },
+  {
+   "en": "develop",
+   "he": "לפתח"
+  },
+  {
+   "en": "diploma",
+   "he": "דיפלומה"
+  },
+  {
+   "en": "discipline",
+   "he": "תחום דעת"
+  },
+  {
+   "en": "dissertation",
+   "he": "עבודת גמר"
+  },
+  {
+   "en": "doctoral",
+   "he": "דוקטורט"
+  },
+  {
+   "en": "educate",
+   "he": "לחנך"
+  },
+  {
+   "en": "efficiency",
+   "he": "יעילות"
+  },
+  {
+   "en": "eligible",
+   "he": "זכאי"
+  },
+  {
+   "en": "employ",
+   "he": "להעסיק"
+  },
+  {
+   "en": "enroll",
+   "he": "להירשם"
+  },
+  {
+   "en": "enterprise",
+   "he": "מיזם"
+  },
+  {
+   "en": "evaluate",
+   "he": "להעריך"
+  },
+  {
+   "en": "examination",
+   "he": "בחינה"
+  },
+  {
+   "en": "executive",
+   "he": "מנהל בכיר"
+  },
+  {
+   "en": "expertise",
+   "he": "מומחיות"
+  },
+  {
+   "en": "faculty",
+   "he": "סגל"
+  },
+  {
+   "en": "feedback",
+   "he": "משוב"
+  },
+  {
+   "en": "field",
+   "he": "תחום"
+  },
+  {
+   "en": "graduate",
+   "he": "בוגר"
+  },
+  {
+   "en": "guidance",
+   "he": "הכוונה"
+  },
+  {
+   "en": "internship",
+   "he": "התמחות"
+  },
+  {
+   "en": "institution",
+   "he": "מוסד"
+  },
+  {
+   "en": "instructor",
+   "he": "מדריך"
+  },
+  {
+   "en": "integrate",
+   "he": "לשלב"
+  },
+  {
+   "en": "interview",
+   "he": "ראיון"
+  },
+  {
+   "en": "job",
+   "he": "עבודה"
+  },
+  {
+   "en": "junior",
+   "he": "זוטר"
+  },
+  {
+   "en": "knowledge",
+   "he": "ידע"
+  },
+  {
+   "en": "lecture",
+   "he": "הרצאה"
+  },
+  {
+   "en": "learning",
+   "he": "למידה"
+  },
+  {
+   "en": "mentor",
+   "he": "מנטור"
+  },
+  {
+   "en": "methodology",
+   "he": "מתודולוגיה"
+  },
+  {
+   "en": "motivation",
+   "he": "מוטיבציה"
+  },
+  {
+   "en": "occupation",
+   "he": "מקצוע"
+  },
+  {
+   "en": "opportunity",
+   "he": "הזדמנות"
+  },
+  {
+   "en": "outcome",
+   "he": "תוצאה"
+  },
+  {
+   "en": "performance",
+   "he": "ביצועים"
+  },
+  {
+   "en": "placement",
+   "he": "השמה"
+  },
+  {
+   "en": "portfolio",
+   "he": "תיק עבודות"
+  },
+  {
+   "en": "postgraduate",
+   "he": "לימודי תואר שני/שלישי"
+  },
+  {
+   "en": "potential",
+   "he": "פוטנציאל"
+  },
+  {
+   "en": "practice",
+   "he": "תרגול"
+  },
+  {
+   "en": "profession",
+   "he": "מקצוע"
+  },
+  {
+   "en": "proficiency",
+   "he": "בקיאות"
+  },
+  {
+   "en": "progress",
+   "he": "התקדמות"
+  },
+  {
+   "en": "project",
+   "he": "פרויקט"
+  },
+  {
+   "en": "promote",
+   "he": "לקדם"
+  },
+  {
+   "en": "qualification",
+   "he": "הסמכה"
+  },
+  {
+   "en": "recruit",
+   "he": "לגייס"
+  },
+  {
+   "en": "reference",
+   "he": "המלצה"
+  },
+  {
+   "en": "register",
+   "he": "להירשם"
+  },
+  {
+   "en": "research",
+   "he": "מחקר"
+  },
+  {
+   "en": "resource",
+   "he": "משאב"
+  },
+  {
+   "en": "resume",
+   "he": "קורות חיים"
+  },
+  {
+   "en": "role",
+   "he": "תפקיד"
+  },
+  {
+   "en": "scholarship",
+   "he": "מלגה"
+  },
+  {
+   "en": "semester",
+   "he": "סמסטר"
+  },
+  {
+   "en": "seminar",
+   "he": "סמינר"
+  },
+  {
+   "en": "senior",
+   "he": "בכיר"
+  },
+  {
+   "en": "skill",
+   "he": "מיומנות"
+  },
+  {
+   "en": "specialization",
+   "he": "התמחות"
+  },
+  {
+   "en": "staff",
+   "he": "צוות"
+  },
+  {
+   "en": "strategy",
+   "he": "אסטרטגיה"
+  },
+  {
+   "en": "subject",
+   "he": "מקצוע לימוד"
+  },
+  {
+   "en": "supervisor",
+   "he": "מפקח"
+  },
+  {
+   "en": "task",
+   "he": "משימה"
+  },
+  {
+   "en": "teamwork",
+   "he": "עבודת צוות"
+  },
+  {
+   "en": "technique",
+   "he": "טכניקה"
+  },
+  {
+   "en": "theory",
+   "he": "תיאוריה"
+  },
+  {
+   "en": "training",
+   "he": "הכשרה"
+  },
+  {
+   "en": "tutor",
+   "he": "מורה פרטי"
+  },
+  {
+   "en": "vacancy",
+   "he": "משרה פנויה"
+  },
+  {
+   "en": "vocation",
+   "he": "מקצוע"
+  },
+  {
+   "en": "workshop",
+   "he": "סדנה"
+  },
+  {
+   "en": "airline",
+   "he": "חברת תעופה"
+  },
+  {
+   "en": "luggage",
+   "he": "מזוודות"
+  },
+  {
+   "en": "suitcase",
+   "he": "מזוודה"
+  },
+  {
+   "en": "passport",
+   "he": "דרכון"
+  },
+  {
+   "en": "visa",
+   "he": "ויזה"
+  },
+  {
+   "en": "customs",
+   "he": "מכס"
+  },
+  {
+   "en": "departure",
+   "he": "יציאה"
+  },
+  {
+   "en": "arrival",
+   "he": "הגעה"
+  },
+  {
+   "en": "terminal",
+   "he": "טרמינל"
+  },
+  {
+   "en": "gate",
+   "he": "שער"
+  },
+  {
+   "en": "boarding",
+   "he": "עלייה למטוס"
+  },
+  {
+   "en": "flight",
+   "he": "טיסה"
+  },
+  {
+   "en": "destination",
+   "he": "יעד"
+  },
+  {
+   "en": "journey",
+   "he": "מסע"
+  },
+  {
+   "en": "trip",
+   "he": "טיול"
+  },
+  {
+   "en": "traveler",
+   "he": "נוסע"
+  },
+  {
+   "en": "tourist",
+   "he": "תייר"
+  },
+  {
+   "en": "accommodation",
+   "he": "אירוח"
+  },
+  {
+   "en": "hostel",
+   "he": "הוסטל"
+  },
+  {
+   "en": "reservation",
+   "he": "הזמנה"
+  },
+  {
+   "en": "booking",
+   "he": "הזמנה"
+  },
+  {
+   "en": "check-in",
+   "he": "צ'ק-אין"
+  },
+  {
+   "en": "check-out",
+   "he": "צ'ק-אאוט"
+  },
+  {
+   "en": "reception",
+   "he": "קבלה"
+  },
+  {
+   "en": "single",
+   "he": "יחיד"
+  },
+  {
+   "en": "double",
+   "he": "זוגי"
+  },
+  {
+   "en": "suite",
+   "he": "סוויטה"
+  },
+  {
+   "en": "shuttle",
+   "he": "שאטל"
+  },
+  {
+   "en": "taxi",
+   "he": "מונית"
+  },
+  {
+   "en": "train",
+   "he": "רכבת"
+  },
+  {
+   "en": "subway",
+   "he": "רכבת תחתית"
+  },
+  {
+   "en": "metro",
+   "he": "מטרו"
+  },
+  {
+   "en": "tram",
+   "he": "חשמלית"
+  },
+  {
+   "en": "station",
+   "he": "תחנה"
+  },
+  {
+   "en": "platform",
+   "he": "רציף"
+  },
+  {
+   "en": "ticket",
+   "he": "כרטיס"
+  },
+  {
+   "en": "fare",
+   "he": "מחיר נסיעה"
+  },
+  {
+   "en": "route",
+   "he": "מסלול"
+  },
+  {
+   "en": "map",
+   "he": "מפה"
+  },
+  {
+   "en": "directions",
+   "he": "הוראות הגעה"
+  },
+  {
+   "en": "traffic",
+   "he": "תנועה"
+  },
+  {
+   "en": "commute",
+   "he": "נסיעה יומית"
+  },
+  {
+   "en": "pedestrian",
+   "he": "הולך רגל"
+  },
+  {
+   "en": "sidewalk",
+   "he": "מדרכה"
+  },
+  {
+   "en": "crosswalk",
+   "he": "מעבר חצייה"
+  },
+  {
+   "en": "avenue",
+   "he": "שדרה"
+  },
+  {
+   "en": "boulevard",
+   "he": "שדרות"
+  },
+  {
+   "en": "gallery",
+   "he": "גלריה"
+  },
+  {
+   "en": "landmark",
+   "he": "ציון דרך"
+  },
+  {
+   "en": "monument",
+   "he": "אנדרטה"
+  },
+  {
+   "en": "cathedral",
+   "he": "קתדרלה"
+  },
+  {
+   "en": "temple",
+   "he": "מקדש"
+  },
+  {
+   "en": "store",
+   "he": "חנות"
+  },
+  {
+   "en": "mall",
+   "he": "קניון"
+  },
+  {
+   "en": "bar",
+   "he": "בר"
+  },
+  {
+   "en": "pub",
+   "he": "פאב"
+  },
+  {
+   "en": "concert",
+   "he": "קונצרט"
+  },
+  {
+   "en": "event",
+   "he": "אירוע"
+  },
+  {
+   "en": "festival",
+   "he": "פסטיבל"
+  },
+  {
+   "en": "attraction",
+   "he": "אטרקציה"
+  },
+  {
+   "en": "sightseeing",
+   "he": "תיור"
+  },
+  {
+   "en": "guide",
+   "he": "מדריך"
+  },
+  {
+   "en": "brochure",
+   "he": "חוברת"
+  },
+  {
+   "en": "souvenir",
+   "he": "מזכרת"
+  },
+  {
+   "en": "currency",
+   "he": "מטבע"
+  },
+  {
+   "en": "exchange",
+   "he": "החלפה"
+  },
+  {
+   "en": "atm",
+   "he": "כספומט"
+  },
+  {
+   "en": "police",
+   "he": "משטרה"
+  },
+  {
+   "en": "emergency",
+   "he": "חירום"
+  },
+  {
+   "en": "address",
+   "he": "כתובת"
+  },
+  {
+   "en": "neighborhood",
+   "he": "שכונה"
+  },
+  {
+   "en": "district",
+   "he": "רובע"
+  },
+  {
+   "en": "downtown",
+   "he": "מרכז העיר"
+  },
+  {
+   "en": "suburb",
+   "he": "פרבר"
+  },
+  {
+   "en": "village",
+   "he": "כפר"
+  },
+  {
+   "en": "countryside",
+   "he": "אזור כפרי"
+  },
+  {
+   "en": "active",
+   "he": "פעיל"
+  },
+  {
+   "en": "allergy",
+   "he": "אלרגיה"
+  },
+  {
+   "en": "athlete",
+   "he": "ספורטאי"
+  },
+  {
+   "en": "balance",
+   "he": "איזון"
+  },
+  {
+   "en": "benefit",
+   "he": "תועלת"
+  },
+  {
+   "en": "breathe",
+   "he": "לנשום"
+  },
+  {
+   "en": "calories",
+   "he": "קלוריות"
+  },
+  {
+   "en": "coach",
+   "he": "מאמן"
+  },
+  {
+   "en": "condition",
+   "he": "מצב"
+  },
+  {
+   "en": "conscious",
+   "he": "מודע"
+  },
+  {
+   "en": "contain",
+   "he": "מכיל"
+  },
+  {
+   "en": "cope",
+   "he": "להתמודד"
+  },
+  {
+   "en": "cure",
+   "he": "לרפא"
+  },
+  {
+   "en": "decline",
+   "he": "ירידה"
+  },
+  {
+   "en": "defend",
+   "he": "להגן"
+  },
+  {
+   "en": "dehydration",
+   "he": "התייבשות"
+  },
+  {
+   "en": "digest",
+   "he": "לעכל"
+  },
+  {
+   "en": "disability",
+   "he": "נכות"
+  },
+  {
+   "en": "disease",
+   "he": "מחלה"
+  },
+  {
+   "en": "disorder",
+   "he": "הפרעה"
+  },
+  {
+   "en": "effort",
+   "he": "מאמץ"
+  },
+  {
+   "en": "eliminate",
+   "he": "לחסל"
+  },
+  {
+   "en": "endurance",
+   "he": "סיבולת"
+  },
+  {
+   "en": "energetic",
+   "he": "אנרגטי"
+  },
+  {
+   "en": "enhance",
+   "he": "לשפר"
+  },
+  {
+   "en": "examine",
+   "he": "לבחון"
+  },
+  {
+   "en": "exhausted",
+   "he": "מתיש"
+  },
+  {
+   "en": "flexible",
+   "he": "גמיש"
+  },
+  {
+   "en": "flu",
+   "he": "שפעת"
+  },
+  {
+   "en": "focus",
+   "he": "להתמקד"
+  },
+  {
+   "en": "gain",
+   "he": "להשיג"
+  },
+  {
+   "en": "habit",
+   "he": "הרגל"
+  },
+  {
+   "en": "heal",
+   "he": "להחלים"
+  },
+  {
+   "en": "immune",
+   "he": "חיסוני"
+  },
+  {
+   "en": "improve",
+   "he": "לשפר"
+  },
+  {
+   "en": "infection",
+   "he": "זיהום"
+  },
+  {
+   "en": "injure",
+   "he": "לפצוע"
+  },
+  {
+   "en": "intensity",
+   "he": "עוצמה"
+  },
+  {
+   "en": "involve",
+   "he": "לכלול"
+  },
+  {
+   "en": "joint",
+   "he": "מפרק"
+  },
+  {
+   "en": "leisure",
+   "he": "פנאי"
+  },
+  {
+   "en": "maintain",
+   "he": "לשמור על"
+  },
+  {
+   "en": "manage",
+   "he": "לנהל"
+  },
+  {
+   "en": "medication",
+   "he": "תרופה"
+  },
+  {
+   "en": "mental",
+   "he": "נפשי"
+  },
+  {
+   "en": "monitor",
+   "he": "לנטר"
+  },
+  {
+   "en": "muscle",
+   "he": "שריר"
+  },
+  {
+   "en": "nutrition",
+   "he": "תזונה"
+  },
+  {
+   "en": "obesity",
+   "he": "השמנה"
+  },
+  {
+   "en": "participate",
+   "he": "להשתתף"
+  },
+  {
+   "en": "perform",
+   "he": "לבצע"
+  },
+  {
+   "en": "physical",
+   "he": "פיזי"
+  },
+  {
+   "en": "physique",
+   "he": "מבנה גוף"
+  },
+  {
+   "en": "prevent",
+   "he": "למנוע"
+  },
+  {
+   "en": "recover",
+   "he": "להתאושש"
+  },
+  {
+   "en": "reduce",
+   "he": "להפחית"
+  },
+  {
+   "en": "rehabilitation",
+   "he": "שיקום"
+  },
+  {
+   "en": "relax",
+   "he": "להירגע"
+  },
+  {
+   "en": "relief",
+   "he": "הקלה"
+  },
+  {
+   "en": "resistance",
+   "he": "התנגדות"
+  },
+  {
+   "en": "restore",
+   "he": "לשחזר"
+  },
+  {
+   "en": "routine",
+   "he": "שגרה"
+  },
+  {
+   "en": "satisfaction",
+   "he": "שביעות רצון"
+  },
+  {
+   "en": "schedule",
+   "he": "לוח זמנים"
+  },
+  {
+   "en": "self-care",
+   "he": "טיפול עצמי"
+  },
+  {
+   "en": "sense",
+   "he": "חוש"
+  },
+  {
+   "en": "significant",
+   "he": "משמעותי"
+  },
+  {
+   "en": "sleep",
+   "he": "לישון"
+  },
+  {
+   "en": "sore",
+   "he": "כואב"
+  },
+  {
+   "en": "source",
+   "he": "מקור"
+  },
+  {
+   "en": "spirit",
+   "he": "רוח"
+  },
+  {
+   "en": "stamina",
+   "he": "כושר עמידות"
+  },
+  {
+   "en": "strength",
+   "he": "כוח"
+  },
+  {
+   "en": "stress",
+   "he": "לחץ"
+  },
+  {
+   "en": "struggle",
+   "he": "מאבק"
+  },
+  {
+   "en": "substance",
+   "he": "חומר"
+  },
+  {
+   "en": "suffer",
+   "he": "לסבול"
+  },
+  {
+   "en": "support",
+   "he": "תמיכה"
+  },
+  {
+   "en": "symptom",
+   "he": "סימפטום"
+  },
+  {
+   "en": "therapy",
+   "he": "טיפול"
+  },
+  {
+   "en": "thrive",
+   "he": "לשגשג"
+  },
+  {
+   "en": "tolerance",
+   "he": "סובלנות"
+  },
+  {
+   "en": "tough",
+   "he": "קשוח"
+  },
+  {
+   "en": "treatment",
+   "he": "טיפול"
+  },
+  {
+   "en": "vital",
+   "he": "חיוני"
+  },
+  {
+   "en": "vitamin",
+   "he": "ויטמין"
+  },
+  {
+   "en": "well-being",
+   "he": "רווחה"
+  },
+  {
+   "en": "workout",
+   "he": "אימון"
+  },
+  {
+   "en": "wound",
+   "he": "פצע"
+  },
+  {
+   "en": "yoga",
+   "he": "יוגה"
+  },
+  {
+   "en": "zone",
+   "he": "אזור"
+  }
+ ],
+ "advanced": []
 }

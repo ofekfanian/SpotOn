@@ -1,5 +1,41 @@
 import Foundation
 import FirebaseAuth
+import FirebaseCore
+import GoogleSignIn
+import UIKit
+
+// MARK: - Level progression
+/// The user's level starts at the placement-test result and is promoted
+/// automatically as XP accumulates. It never goes down.
+enum LevelSystem {
+    static let order = ["beginner", "intermediate", "advanced"]
+
+    static func rank(_ level: String) -> Int { order.firstIndex(of: level) ?? 0 }
+
+    /// Level implied purely by XP.
+    static func xpLevel(_ xp: Int) -> String {
+        switch xp {
+        case ..<600:    return "beginner"
+        case ..<1800:   return "intermediate"
+        default:        return "advanced"
+        }
+    }
+
+    /// XP still needed to reach the next level, nil when maxed out.
+    static func xpToNext(_ xp: Int) -> Int? {
+        switch xp {
+        case ..<600:  return 600 - xp
+        case ..<1800: return 1800 - xp
+        default:      return nil
+        }
+    }
+
+    /// Effective level: the higher of the stored level and the XP level.
+    static func effective(stored: String, xp: Int) -> String {
+        let a = rank(stored), b = rank(xpLevel(xp))
+        return order[max(a, b)]
+    }
+}
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -53,6 +89,47 @@ class AuthViewModel: ObservableObject {
         } catch { errorMessage = error.localizedDescription }
     }
 
+    // MARK: - Google Sign-In
+
+    /// True when the Firebase config includes an OAuth client
+    /// (requires the Google provider to be enabled in the Firebase console).
+    var isGoogleSignInAvailable: Bool {
+        FirebaseApp.app()?.options.clientID != nil
+    }
+
+    @MainActor
+    func signInWithGoogle() async {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            errorMessage = "Google Sign-In isn't configured yet."
+            return
+        }
+        guard let rootVC = UIApplication.shared.connectedScenes
+            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+            .first?.rootViewController else { return }
+
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+        do {
+            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
+            guard let idToken = result.user.idToken?.tokenString else {
+                errorMessage = "Google Sign-In failed."; return
+            }
+            let credential = GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: result.user.accessToken.tokenString
+            )
+            let authResult = try await Auth.auth().signIn(with: credential)
+            if try await FirestoreService.shared.fetchUserProfile(uid: authResult.user.uid) == nil {
+                let profile = UserProfile(uid: authResult.user.uid, email: authResult.user.email ?? "")
+                try await FirestoreService.shared.saveUserProfile(profile)
+            }
+            errorMessage = nil
+        } catch let error as GIDSignInError where error.code == .canceled {
+            // user closed the sheet — not an error
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
     func signOut() {
         if let uid = user?.uid { RealtimeDatabaseService.shared.stopListening(for: uid) }
         do { try Auth.auth().signOut(); user = nil; userProfile = nil }
@@ -72,6 +149,18 @@ class AuthViewModel: ObservableObject {
             try await FirestoreService.shared.saveUserProfile(profile)
             userProfile = profile
         } catch { errorMessage = error.localizedDescription }
+    }
+
+    /// Promotes the stored level when accumulated XP crosses a threshold.
+    /// Returns the new level name if a promotion happened (for the level-up banner).
+    func autoPromoteLevel(xp: Int) async -> String? {
+        guard var profile = userProfile else { return nil }
+        let promoted = LevelSystem.effective(stored: profile.level, xp: xp)
+        guard LevelSystem.rank(promoted) > LevelSystem.rank(profile.level) else { return nil }
+        profile.level = promoted
+        userProfile = profile
+        try? await FirestoreService.shared.saveUserProfile(profile)
+        return promoted
     }
 
     /// Re-fetches the Firestore profile (e.g. after friendUIDs change server-side).

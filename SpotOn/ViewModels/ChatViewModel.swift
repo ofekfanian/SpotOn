@@ -7,7 +7,7 @@ class ChatViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let apiKey = Secrets.geminiAPIKey
-    private let model = "gemini-1.5-flash"
+    private let model = "gemini-2.5-flash"
     private let maxHistory = 10
     private let storageKey = "chatHistory"
     private var lastFailedText: String?
@@ -80,7 +80,9 @@ class ChatViewModel: ObservableObject {
         let body: [String: Any] = [
             "system_instruction": ["parts": [["text": systemPromptText]]],
             "contents": contents,
-            "generationConfig": ["maxOutputTokens": 200, "temperature": 0.7]
+            // thinkingBudget 0 disables 2.5-flash "thinking" so it doesn't eat the token budget
+            "generationConfig": ["maxOutputTokens": 200, "temperature": 0.7,
+                                 "thinkingConfig": ["thinkingBudget": 0]]
         ]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

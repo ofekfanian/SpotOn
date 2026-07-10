@@ -30,13 +30,13 @@ class BlitzViewModel: ObservableObject {
 
     func answer(index: Int) {
         guard phase == .running, let q = currentQuestion else { return }
-        if index == q.correctIndex { score += 1 }
+        if index == q.correctIndex { score += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
         advance()
     }
 
     func swipe(knew: Bool) {
         guard phase == .running else { return }
-        if knew { score += 1 }
+        if knew { score += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
         withAnimation(.spring()) { cardOffset = CGSize(width: knew ? 400 : -400, height: 0) }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.cardOffset = .zero

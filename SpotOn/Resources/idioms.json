@@ -1,0 +1,53 @@
+{
+  "beginner": [
+    { "text": "Piece of cake", "definition": "Something very easy to do", "example": "The math test was a piece of cake.", "hebrew": "קלי קלות, משהו קל מאוד" },
+    { "text": "Break the ice", "definition": "To start a conversation in a friendly way", "example": "He told a joke to break the ice.", "hebrew": "לשבור את הקרח" },
+    { "text": "It's raining cats and dogs", "definition": "It is raining very heavily", "example": "Take an umbrella, it's raining cats and dogs!", "hebrew": "יורד גשם זלעפות" },
+    { "text": "Under the weather", "definition": "Feeling slightly sick", "example": "I'm staying home today, I feel under the weather.", "hebrew": "מרגיש לא טוב, חולה קצת" },
+    { "text": "Cost an arm and a leg", "definition": "To be very expensive", "example": "That new phone costs an arm and a leg.", "hebrew": "עולה הון תועפות" },
+    { "text": "Once in a blue moon", "definition": "Very rarely", "example": "We only eat out once in a blue moon.", "hebrew": "פעם ביובל, לעיתים רחוקות" },
+    { "text": "Hit the sack", "definition": "To go to bed", "example": "I'm exhausted, time to hit the sack.", "hebrew": "ללכת לישון" },
+    { "text": "Hang in there", "definition": "Don't give up, stay strong", "example": "Hang in there, the semester is almost over.", "hebrew": "תחזיק מעמד" },
+    { "text": "In hot water", "definition": "In trouble", "example": "He's in hot water for missing the deadline.", "hebrew": "בצרות, הסתבך" },
+    { "text": "Call it a day", "definition": "To stop working for the day", "example": "We've done enough, let's call it a day.", "hebrew": "לסיים את היום, לעצור כאן" },
+    { "text": "Better late than never", "definition": "Arriving late is better than not at all", "example": "He finally apologized. Better late than never.", "hebrew": "עדיף מאוחר מאשר אף פעם" },
+    { "text": "Easy does it", "definition": "Do something slowly and carefully", "example": "Easy does it with that box, it's fragile.", "hebrew": "לאט ובזהירות" },
+    { "text": "Keep an eye on", "definition": "To watch carefully", "example": "Can you keep an eye on my bag?", "hebrew": "לשים עין, להשגיח" },
+    { "text": "On the same page", "definition": "In agreement about something", "example": "Let's make sure we're on the same page before the meeting.", "hebrew": "מתואמים, באותו ראש" },
+    { "text": "Sleep on it", "definition": "To wait before making a decision", "example": "Don't decide now, sleep on it.", "hebrew": "לישון על זה, לחשוב על זה עוד" }
+  ],
+  "intermediate": [
+    { "text": "Hit the nail on the head", "definition": "To be exactly right about something", "example": "You hit the nail on the head with that answer.", "hebrew": "קלעת בול, פגעת בדיוק" },
+    { "text": "Bite the bullet", "definition": "To endure a painful situation bravely", "example": "Just bite the bullet and finish the assignment.", "hebrew": "לחרוק שיניים ולעשות את זה" },
+    { "text": "The ball is in your court", "definition": "It is your turn to decide or act", "example": "I made my offer, now the ball is in your court.", "hebrew": "הכדור במגרש שלך" },
+    { "text": "Spill the beans", "definition": "To reveal a secret", "example": "Who spilled the beans about the surprise party?", "hebrew": "לגלות את הסוד" },
+    { "text": "Cut corners", "definition": "To do something cheaply or carelessly", "example": "Don't cut corners on safety.", "hebrew": "לעגל פינות" },
+    { "text": "Get out of hand", "definition": "To become out of control", "example": "The party got out of hand and neighbors complained.", "hebrew": "לצאת משליטה" },
+    { "text": "Pull yourself together", "definition": "To calm down and behave normally", "example": "Pull yourself together, the interview starts in five minutes.", "hebrew": "להתעשת, להתאפס" },
+    { "text": "Go the extra mile", "definition": "To make more effort than expected", "example": "She always goes the extra mile for her students.", "hebrew": "לעשות מעל ומעבר" },
+    { "text": "Beat around the bush", "definition": "To avoid saying something directly", "example": "Stop beating around the bush and tell me what happened.", "hebrew": "ללכת סחור סחור" },
+    { "text": "A blessing in disguise", "definition": "Something bad that turns out to be good", "example": "Losing that job was a blessing in disguise.", "hebrew": "רעה שהתגלתה כברכה" },
+    { "text": "Burn the midnight oil", "definition": "To work late into the night", "example": "She burned the midnight oil before the exam.", "hebrew": "לעבוד עד השעות הקטנות" },
+    { "text": "Get cold feet", "definition": "To suddenly become too nervous to act", "example": "He got cold feet right before the presentation.", "hebrew": "לקבל רגליים קרות, להתחרט ברגע האחרון" },
+    { "text": "Let the cat out of the bag", "definition": "To reveal a secret by mistake", "example": "I let the cat out of the bag about their engagement.", "hebrew": "לפלוט סוד בטעות" },
+    { "text": "Off the top of my head", "definition": "Without checking, from memory", "example": "Off the top of my head, I'd say fifty people came.", "hebrew": "בשליפה, מהזיכרון" },
+    { "text": "Read between the lines", "definition": "To understand a hidden meaning", "example": "Read between the lines, she isn't happy there.", "hebrew": "לקרוא בין השורות" }
+  ],
+  "advanced": [
+    { "text": "Burning the candle at both ends", "definition": "Exhausting yourself by doing too much", "example": "Working two jobs, he's burning the candle at both ends.", "hebrew": "שוחק את עצמו משני הכיוונים" },
+    { "text": "Throw someone under the bus", "definition": "To betray someone for your own gain", "example": "He threw his colleague under the bus to save his job.", "hebrew": "להקריב מישהו כדי להציל את עצמך" },
+    { "text": "The elephant in the room", "definition": "An obvious problem everyone avoids mentioning", "example": "Let's address the elephant in the room, the budget cuts.", "hebrew": "הפיל שבחדר, הבעיה שכולם מתעלמים ממנה" },
+    { "text": "Play devil's advocate", "definition": "To argue the opposite side for the sake of debate", "example": "Let me play devil's advocate, what if the plan fails?", "hebrew": "לשחק את פרקליט השטן" },
+    { "text": "Bite off more than you can chew", "definition": "To take on more than you can handle", "example": "Taking six courses, she bit off more than she could chew.", "hebrew": "לקחת על עצמך יותר מדי" },
+    { "text": "The tip of the iceberg", "definition": "A small visible part of a much bigger problem", "example": "These complaints are just the tip of the iceberg.", "hebrew": "קצה הקרחון" },
+    { "text": "Take it with a grain of salt", "definition": "To not believe something completely", "example": "Take his stories with a grain of salt.", "hebrew": "לקחת בערבון מוגבל" },
+    { "text": "Steal someone's thunder", "definition": "To take credit or attention meant for someone else", "example": "She announced her news at my party and stole my thunder.", "hebrew": "לגנוב למישהו את ההצגה" },
+    { "text": "Cross that bridge when you come to it", "definition": "Deal with a problem only when it happens", "example": "Stop worrying, we'll cross that bridge when we come to it.", "hebrew": "נתמודד עם זה כשנגיע לזה" },
+    { "text": "By the skin of your teeth", "definition": "Barely succeeding", "example": "He passed the exam by the skin of his teeth.", "hebrew": "על חודו של שן, בקושי רב" },
+    { "text": "Throw in the towel", "definition": "To give up", "example": "After ten failed attempts, they threw in the towel.", "hebrew": "לזרוק את המגבת, להרים ידיים" },
+    { "text": "A double-edged sword", "definition": "Something with both good and bad consequences", "example": "Fame is a double-edged sword.", "hebrew": "חרב פיפיות" },
+    { "text": "Move the goalposts", "definition": "To unfairly change the rules mid-way", "example": "Every time we meet the target, they move the goalposts.", "hebrew": "להזיז את השער, לשנות את הכללים תוך כדי" },
+    { "text": "The straw that broke the camel's back", "definition": "The final small problem that causes collapse", "example": "The extra fee was the straw that broke the camel's back.", "hebrew": "הקש ששבר את גב הגמל" },
+    { "text": "Come out of the woodwork", "definition": "To appear suddenly in large numbers", "example": "Old friends came out of the woodwork after he won the lottery.", "hebrew": "לצוץ משום מקום בהמוניהם" }
+  ]
+}

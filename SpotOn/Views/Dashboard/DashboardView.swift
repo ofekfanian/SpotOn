@@ -11,12 +11,10 @@ struct DashboardView: View {
 
     @State private var showBlitz = false
     @State private var showFlashcards = false
-    @State private var showCardSource = false
     @State private var flashcardDeck: [Word] = []
     @State private var showSnapLearn = false
-    @State private var showSentenceSource = false
-    @State private var sentenceLevel = "beginner"
     @State private var showSentences = false
+    @State private var levelUpTo: String? = nil
 
     private var level: String { authVM.userProfile?.level ?? "intermediate" }
     private var name: String {
@@ -57,35 +55,46 @@ struct DashboardView: View {
                 }
             }
             .navigationBarHidden(true)
-            .fullScreenCover(isPresented: $showBlitz) {
+            .fullScreenCover(isPresented: $showBlitz, onDismiss: checkPromotion) {
                 BlitzView(words: wordBankVM.words).environmentObject(authVM)
             }
-            .fullScreenCover(isPresented: $showFlashcards) {
-                FlashcardsView(words: flashcardDeck).environmentObject(authVM)
+            .fullScreenCover(isPresented: $showFlashcards, onDismiss: checkPromotion) {
+                FlashcardsView(words: flashcardDeck, level: level)
+                    .environmentObject(authVM)
+                    .environmentObject(wordBankVM)
             }
-            .fullScreenCover(isPresented: $showSnapLearn) {
+            .fullScreenCover(isPresented: $showSnapLearn, onDismiss: checkPromotion) {
                 SnapLearnView().environmentObject(authVM).environmentObject(wordBankVM)
             }
-            .fullScreenCover(isPresented: $showSentences) {
-                SentenceCompletionView(level: sentenceLevel).environmentObject(authVM)
+            .fullScreenCover(isPresented: $showSentences, onDismiss: checkPromotion) {
+                SentenceCompletionView(level: level).environmentObject(authVM)
             }
-            .confirmationDialog("Study Flashcards", isPresented: $showCardSource, titleVisibility: .visible) {
-                if !wordBankVM.words.isEmpty {
-                    Button("My Words (\(wordBankVM.words.count))") { flashcardDeck = wordBankVM.words; showFlashcards = true }
-                }
-                Button("Beginner Pack") { startPack("beginner") }
-                Button("Intermediate Pack") { startPack("intermediate") }
-                Button("Advanced Pack") { startPack("advanced") }
-                Button("Cancel", role: .cancel) {}
-            } message: { Text("Pick a deck to study") }
-            .confirmationDialog("Sentence Completion", isPresented: $showSentenceSource, titleVisibility: .visible) {
-                Button("Beginner") { startSentences("beginner") }
-                Button("Intermediate") { startSentences("intermediate") }
-                Button("Advanced") { startSentences("advanced") }
-                Button("Cancel", role: .cancel) {}
-            } message: { Text("Pick a level") }
             .task { await vm.load(level: level) }
+            .onChange(of: rtdb.xp) { _, _ in
+                // While a game cover is up the banner would be invisible —
+                // the cover's onDismiss re-checks instead.
+                guard !showBlitz, !showFlashcards, !showSentences, !showSnapLearn else { return }
+                checkPromotion()
+            }
+            .overlay(alignment: .top) {
+                if let promoted = levelUpTo {
+                    LevelUpBanner(level: promoted)
+                        .padding(.top, 8)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
             .applyTabBarVisibility()
+        }
+    }
+
+    /// Promotes the level if XP crossed a threshold and shows the banner.
+    private func checkPromotion() {
+        Task {
+            if let promoted = await authVM.autoPromoteLevel(xp: rtdb.xp) {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.65)) { levelUpTo = promoted }
+                try? await Task.sleep(nanoseconds: 3_200_000_000)
+                withAnimation(.easeOut(duration: 0.4)) { levelUpTo = nil }
+            }
         }
     }
 
@@ -140,9 +149,12 @@ struct DashboardView: View {
                 GameCard(icon: "bolt.fill", title: "60-Sec Blitz", gradient: LinearGradient.crystal,
                          shadow: .crystalBlue, disabled: wordBankVM.words.count < 2) { showBlitz = true }
                 GameCard(icon: "rectangle.on.rectangle.angled", title: "Flashcards", gradient: LinearGradient.crystalShort,
-                         shadow: .crystalMint, disabled: false) { showCardSource = true }
+                         shadow: .crystalMint, disabled: false) {
+                    flashcardDeck = FlashcardDeckBuilder.build(bank: wordBankVM.words, level: level)
+                    showFlashcards = true
+                }
                 GameCard(icon: "text.append", title: "Sentences", gradient: LinearGradient.crystalShort,
-                         shadow: .crystalMint, disabled: false) { showSentenceSource = true }
+                         shadow: .crystalMint, disabled: false) { showSentences = true }
                 GameCard(icon: "camera.viewfinder", title: "Snap & Learn", gradient: LinearGradient.crystal,
                          shadow: .crystalGold, disabled: false) { showSnapLearn = true }
             }
@@ -166,13 +178,29 @@ struct DashboardView: View {
         }
     }
 
-    private func startPack(_ level: String) {
-        flashcardDeck = VocabularyService.shared.words(for: level)
-        showFlashcards = true
-    }
-    private func startSentences(_ level: String) {
-        sentenceLevel = level
-        showSentences = true
+}
+
+// MARK: - Level Up Banner
+private struct LevelUpBanner: View {
+    let level: String
+    @State private var pulse = false
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "arrow.up.circle.fill")
+                .font(.title3)
+                .foregroundStyle(LinearGradient.crystalShort)
+                .scaleEffect(pulse ? 1.2 : 1)
+                .animation(.spring(response: 0.4, dampingFraction: 0.4).repeatCount(3), value: pulse)
+            VStack(alignment: .leading, spacing: 1) {
+                Text("Level Up!").font(.subheadline.bold())
+                Text("You've reached \(level.capitalized)").font(.caption).foregroundColor(.secondary)
+            }
+        }
+        .padding(.horizontal, 20).padding(.vertical, 12)
+        .background(.ultraThinMaterial).cornerRadius(24)
+        .overlay(Capsule().strokeBorder(LinearGradient.crystal.opacity(0.5), lineWidth: 1))
+        .shadow(color: Color.crystalGold.opacity(0.3), radius: 16, y: 6)
+        .onAppear { pulse = true }
     }
 }
 
@@ -197,22 +225,33 @@ private struct GameCard: View {
 // MARK: - Stat Card
 private struct CrystalStatCard: View {
     let icon: String; let color: Color; let label: String; let value: String
+    @State private var bump = false
     var body: some View {
         VStack(spacing: 6) {
             Image(systemName: icon).foregroundColor(color).font(.title2)
             Text(value).font(.title3.bold())
+                .contentTransition(.numericText())
+                .scaleEffect(bump ? 1.18 : 1)
             Text(label).font(.caption).foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity).padding(.vertical, 14)
         .background(.ultraThinMaterial).cornerRadius(16)
         .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(color.opacity(0.25), lineWidth: 1))
+        .onChange(of: value) { _, _ in
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.45)) { bump = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                withAnimation(.spring(response: 0.3)) { bump = false }
+            }
+        }
+        .animation(.spring(response: 0.4), value: value)
     }
 }
 
 // MARK: - Idiom Card
 private struct IdiomCard: View {
     let idiom: Idiom
-    @State private var isExpanded = false
+    @State private var showExample = false
+    @State private var showTranslation = false
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
@@ -228,13 +267,25 @@ private struct IdiomCard: View {
             }
             Text("\u{201C}\(idiom.text)\u{201D}").font(.title3.bold()).foregroundStyle(LinearGradient.crystal)
             Text(idiom.definition).font(.subheadline).foregroundColor(.secondary)
-            if isExpanded {
+            if showExample {
                 Text("Example: \(idiom.example)").font(.caption).foregroundColor(.secondary).italic()
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
-            Button { withAnimation(.spring(duration: 0.3)) { isExpanded.toggle() } } label: {
-                Text(isExpanded ? "Show less" : "See example").font(.caption.bold())
-                    .foregroundStyle(LinearGradient.crystalShort)
+            if showTranslation {
+                Text(idiom.hebrew).font(.subheadline.bold()).foregroundColor(.crystalMint)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .environment(\.layoutDirection, .rightToLeft)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+            HStack(spacing: 18) {
+                Button { withAnimation(.spring(duration: 0.3)) { showExample.toggle() } } label: {
+                    Text(showExample ? "Hide example" : "See example").font(.caption.bold())
+                        .foregroundStyle(LinearGradient.crystalShort)
+                }
+                Button { withAnimation(.spring(duration: 0.3)) { showTranslation.toggle() } } label: {
+                    Text(showTranslation ? "Hide translation" : "See translation").font(.caption.bold())
+                        .foregroundColor(.crystalMint)
+                }
             }
         }
         .padding(18).background(.ultraThinMaterial).cornerRadius(20)

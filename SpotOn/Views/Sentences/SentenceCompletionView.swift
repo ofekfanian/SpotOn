@@ -140,7 +140,7 @@ struct SentenceCompletionView: View {
     private func answer(_ option: String, correct: String) {
         guard !answered else { return }
         selected = option
-        if option == correct { score += 1 }
+        if option == correct { score += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
     private func next() {

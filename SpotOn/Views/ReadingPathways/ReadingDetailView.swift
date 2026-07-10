@@ -117,6 +117,9 @@ struct ReadingDetailView: View {
                             wordScreenRect = rect
                         }
                     },
+                    onAnyWordTapped: { text, rect in
+                        showBubble(for: text, at: rect)
+                    },
                     onSelectionChanged: { text in
                         selectedText = text
                     }
@@ -134,6 +137,32 @@ struct ReadingDetailView: View {
             if tappedWord != nil {
                 withAnimation { tappedWord = nil }
             }
+        }
+    }
+
+    /// Shows the glass popup for ANY tapped word (not only highlighted targets).
+    /// Translation comes from the local vocabulary first; Gemini fills the gaps.
+    private func showBubble(for text: String, at rect: CGRect) {
+        if tappedWord?.text.lowercased() == text.lowercased() {
+            withAnimation { tappedWord = nil }
+            return
+        }
+        let local = VocabularyService.shared.translation(for: text)
+        let transient = PassageWord(
+            text: text,
+            definition: "",
+            hebrewTranslation: local?.hebrew ?? ""
+        )
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.75)) {
+            tappedWord = transient
+            wordScreenRect = rect
+        }
+        // Fill definition (and translation if still missing) in the background
+        Task {
+            guard let e = try? await LLMEnrichmentService.shared.enrich(word: text) else { return }
+            guard tappedWord === transient else { return }   // popup already changed
+            transient.definition = e.definition
+            if transient.hebrewTranslation.isEmpty { transient.hebrewTranslation = e.hebrew }
         }
     }
 
@@ -411,16 +440,26 @@ private struct WordPopupCard: View {
                 .buttonStyle(.plain)
             }
 
-            Text(word.definition)
-                .font(.subheadline)
-                .foregroundColor(.primary)
-                .fixedSize(horizontal: false, vertical: true)
+            if word.definition.isEmpty {
+                HStack(spacing: 8) {
+                    ProgressView().controlSize(.small)
+                    Text("Looking it up...")
+                        .font(.subheadline).italic().foregroundColor(.secondary)
+                }
+            } else {
+                Text(word.definition)
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
-            HStack(spacing: 6) {
-                Image(systemName: "textformat.alt")
-                    .font(.caption).foregroundColor(.crystalBlue)
-                Text(translation)
-                    .font(.caption.bold()).foregroundColor(.crystalBlue)
+            if !translation.isEmpty {
+                HStack(spacing: 6) {
+                    Image(systemName: "textformat.alt")
+                        .font(.caption).foregroundColor(.crystalBlue)
+                    Text(translation)
+                        .font(.caption.bold()).foregroundColor(.crystalBlue)
+                }
             }
 
             Button(action: onSave) {
@@ -451,6 +490,7 @@ struct PassageTextView: UIViewRepresentable {
     let content: String
     let targetWords: [PassageWord]
     var onWordTapped: (PassageWord, CGRect) -> Void
+    var onAnyWordTapped: (String, CGRect) -> Void = { _, _ in }
     var onSelectionChanged: (String?) -> Void
 
     func makeCoordinator() -> Coordinator {
@@ -559,16 +599,46 @@ struct PassageTextView: UIViewRepresentable {
                let wordIndex = Int(indexStr),
                wordIndex < parent.targetWords.count {
 
-                let glyphRange = layoutManager.glyphRange(forCharacterRange: effectiveRange,
-                                                          actualCharacterRange: nil)
-                var rect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: tv.textContainer)
-                rect = rect.offsetBy(dx: tv.textContainerInset.left, dy: tv.textContainerInset.top)
-                let screenRect = tv.convert(rect, to: nil)
-
+                let screenRect = rect(for: effectiveRange, in: tv)
                 DispatchQueue.main.async {
                     self.parent.onWordTapped(self.parent.targetWords[wordIndex], screenRect)
                 }
+            } else {
+                // Not a highlighted target word — detect the plain word under the tap
+                let text = tv.textStorage.string as NSString
+                let wordRange = wordBoundary(at: charIndex, in: text)
+                guard wordRange.length > 1 else { return }
+                let word = text.substring(with: wordRange)
+                    .trimmingCharacters(in: CharacterSet.letters.inverted)
+                guard word.count > 1, word.rangeOfCharacter(from: .letters) != nil else { return }
+
+                let screenRect = rect(for: wordRange, in: tv)
+                DispatchQueue.main.async {
+                    self.parent.onAnyWordTapped(word, screenRect)
+                }
             }
+        }
+
+        private func wordBoundary(at index: Int, in text: NSString) -> NSRange {
+            let letters = CharacterSet.letters
+            func isLetter(_ i: Int) -> Bool {
+                guard i >= 0, i < text.length else { return false }
+                let ch = text.character(at: i)
+                guard let scalar = Unicode.Scalar(ch) else { return false }
+                return letters.contains(scalar)
+            }
+            guard isLetter(index) else { return NSRange(location: index, length: 0) }
+            var start = index, end = index
+            while isLetter(start - 1) { start -= 1 }
+            while isLetter(end + 1) { end += 1 }
+            return NSRange(location: start, length: end - start + 1)
+        }
+
+        private func rect(for range: NSRange, in tv: UITextView) -> CGRect {
+            let glyphRange = tv.layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            var rect = tv.layoutManager.boundingRect(forGlyphRange: glyphRange, in: tv.textContainer)
+            rect = rect.offsetBy(dx: tv.textContainerInset.left, dy: tv.textContainerInset.top)
+            return tv.convert(rect, to: nil)
         }
 
         // Don't cancel swipe/scroll gestures
@@ -791,13 +861,13 @@ private struct QuizView: View {
 
     private func submitMC(_ choice: Int, correct: Int) {
         selected = choice
-        if choice == correct { correctCount += 1 }
+        if choice == correct { correctCount += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
     }
 
     private func submitFill(answer: String) {
         selected = 0
         let isCorrect = fillAnswer.trimmingCharacters(in: .whitespaces).lowercased() == answer.lowercased()
-        if isCorrect { correctCount += 1 }
+        if isCorrect { correctCount += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
     }
 
     private var score: Double { Double(correctCount) / Double(max(items.count, 1)) }

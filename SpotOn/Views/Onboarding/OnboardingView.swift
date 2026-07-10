@@ -3,6 +3,7 @@ import SwiftUI
 struct OnboardingView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dismiss) private var dismiss
 
     private enum Step { case level, test, result }
     @State private var step: Step = .level
@@ -186,7 +187,7 @@ struct OnboardingView: View {
     private func answer(_ idx: Int, q: PlacementQuestion) {
         guard selectedOption == nil else { return }
         selectedOption = idx
-        if idx == q.correct { correctByLevel[q.level, default: 0] += 1 }
+        if idx == q.correct { correctByLevel[q.level, default: 0] += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             if qIndex < questions.count - 1 { qIndex += 1; selectedOption = nil }
@@ -216,6 +217,7 @@ struct OnboardingView: View {
             _ = await NotificationService.requestPermission()
             NotificationService.scheduleDailyReminder()
             isFinishing = false
+            dismiss()   // no-op on first launch; closes the sheet when retaking from Settings
         }
     }
 }
