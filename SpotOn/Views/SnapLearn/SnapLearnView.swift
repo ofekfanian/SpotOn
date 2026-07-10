@@ -105,11 +105,19 @@ struct SnapLearnView: View {
     private func handleNewImage(_ newImage: UIImage) {
         image = newImage; result = nil; errorMsg = nil; added = false; isLoading = true
         Task {
-            let identified = await VisionService.shared.identify(image: newImage)
+            let outcome = await VisionService.shared.identify(image: newImage)
             await MainActor.run {
                 isLoading = false
-                if let identified { withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) { result = identified } }
-                else { errorMsg = "Couldn't identify that. Try another photo or check your connection." }
+                switch outcome {
+                case .success(let identified):
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) { result = identified }
+                case .failure(.quotaExceeded):
+                    errorMsg = "Daily AI limit reached. It resets at 10:00 tomorrow morning."
+                case .failure(.network):
+                    errorMsg = "Couldn't reach the server. Check your connection and try again."
+                case .failure(.unrecognized):
+                    errorMsg = "Couldn't identify that. Try a clearer photo of a single object."
+                }
             }
         }
     }

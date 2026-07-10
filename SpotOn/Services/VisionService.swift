@@ -7,12 +7,18 @@ final class VisionService {
 
     struct Result { let english: String; let hebrew: String; let description: String }
 
+    enum Failure: Error {
+        case quotaExceeded   // free-tier daily limit hit (HTTP 429)
+        case network         // no connection / server error
+        case unrecognized    // Gemini answered but couldn't identify the object
+    }
+
     private let apiKey = Secrets.geminiAPIKey
     private let model = "gemini-2.5-flash"
 
-    func identify(image: UIImage) async -> Result? {
+    func identify(image: UIImage) async -> Swift.Result<Result, Failure> {
         let resized = image.resized(maxDimension: 768)
-        guard let jpeg = resized.jpegData(compressionQuality: 0.6) else { return nil }
+        guard let jpeg = resized.jpegData(compressionQuality: 0.6) else { return .failure(.unrecognized) }
         let base64 = jpeg.base64EncodedString()
 
         let prompt = """
@@ -23,7 +29,7 @@ final class VisionService {
         "description":"<one short, simple English sentence about it>"}
         """
         let urlString = "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent?key=\(apiKey)"
-        guard let url = URL(string: urlString) else { return nil }
+        guard let url = URL(string: urlString) else { return .failure(.network) }
 
         let body: [String: Any] = [
             "contents": [["role": "user", "parts": [
@@ -40,21 +46,23 @@ final class VisionService {
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return nil }
+            guard let http = response as? HTTPURLResponse else { return .failure(.network) }
+            if http.statusCode == 429 { return .failure(.quotaExceeded) }
+            guard http.statusCode == 200 else { return .failure(.network) }
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             let candidates = json?["candidates"] as? [[String: Any]]
             let content = candidates?.first?["content"] as? [String: Any]
             let parts = content?["parts"] as? [[String: Any]]
-            guard var text = parts?.first?["text"] as? String else { return nil }
+            guard var text = parts?.first?["text"] as? String else { return .failure(.unrecognized) }
             text = text.replacingOccurrences(of: "```json", with: "").replacingOccurrences(of: "```", with: "")
                        .trimmingCharacters(in: .whitespacesAndNewlines)
             guard let inner = text.data(using: .utf8),
                   let parsed = try JSONSerialization.jsonObject(with: inner) as? [String: Any],
                   let english = parsed["english"] as? String,
-                  let hebrew = parsed["hebrew"] as? String else { return nil }
+                  let hebrew = parsed["hebrew"] as? String else { return .failure(.unrecognized) }
             let description = parsed["description"] as? String ?? ""
-            return Result(english: english, hebrew: hebrew, description: description)
-        } catch { return nil }
+            return .success(Result(english: english, hebrew: hebrew, description: description))
+        } catch { return .failure(.network) }
     }
 }
 
