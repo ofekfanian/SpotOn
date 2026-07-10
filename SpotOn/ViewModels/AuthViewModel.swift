@@ -147,6 +147,18 @@ class AuthViewModel: ObservableObject {
         let uid = firebaseUser.uid
 
         RealtimeDatabaseService.shared.stopListening(for: uid)
+
+        // Ghost-session check: if the account was already deleted server-side
+        // (e.g. via the Firebase console), the cached session can't authenticate.
+        // There is nothing to delete remotely — just clean up locally.
+        do {
+            _ = try await firebaseUser.getIDToken(forcingRefresh: true)
+        } catch {
+            clearLocalState()
+            signOut()
+            errorMessage = nil
+            return true
+        }
         // Delete cloud data first — if auth deletion then fails, no orphaned data remains.
         do {
             try await FirestoreService.shared.deleteAllUserData(uid: uid)
