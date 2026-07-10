@@ -11,7 +11,6 @@ struct DashboardView: View {
 
     @State private var showBlitz = false
     @State private var showFlashcards = false
-    @State private var flashcardDeck: [Word] = []
     @State private var showSnapLearn = false
     @State private var showSentences = false
     @State private var levelUpTo: String? = nil
@@ -59,7 +58,7 @@ struct DashboardView: View {
                 BlitzView(words: wordBankVM.words).environmentObject(authVM)
             }
             .fullScreenCover(isPresented: $showFlashcards, onDismiss: checkPromotion) {
-                FlashcardsView(words: flashcardDeck, level: level)
+                FlashcardsView(level: level)
                     .environmentObject(authVM)
                     .environmentObject(wordBankVM)
             }
@@ -149,10 +148,7 @@ struct DashboardView: View {
                 GameCard(icon: "bolt.fill", title: "60-Sec Blitz", gradient: LinearGradient.crystal,
                          shadow: .crystalBlue, disabled: wordBankVM.words.count < 2) { showBlitz = true }
                 GameCard(icon: "rectangle.on.rectangle.angled", title: "Flashcards", gradient: LinearGradient.crystalShort,
-                         shadow: .crystalMint, disabled: false) {
-                    flashcardDeck = FlashcardDeckBuilder.build(bank: wordBankVM.words, level: level)
-                    showFlashcards = true
-                }
+                         shadow: .crystalMint, disabled: false) { showFlashcards = true }
                 GameCard(icon: "text.append", title: "Sentences", gradient: LinearGradient.crystalShort,
                          shadow: .crystalMint, disabled: false) { showSentences = true }
                 GameCard(icon: "camera.viewfinder", title: "Snap & Learn", gradient: LinearGradient.crystal,

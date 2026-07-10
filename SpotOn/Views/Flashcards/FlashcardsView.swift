@@ -12,9 +12,12 @@ enum CardLang: String, CaseIterable {
 }
 
 // MARK: - Deck builder
-/// Builds a session deck with no repeats across sessions and strict level matching:
-/// review-flagged bank words first, then unseen bank words at the user's level,
-/// then unseen pack words for that level. Seen history resets when the pool runs dry.
+/// Builds a session deck with fresh words on EVERY open and strict level matching.
+/// Order: review-flagged bank words first, then unseen bank words at the user's
+/// level, then unseen pack words. Words are marked "seen" the moment they are
+/// dealt into a deck — so two consecutive opens never show the same words.
+/// Missed words come back via the review flag until they are known.
+/// When the level's pool runs dry, the cycle resets automatically.
 enum FlashcardDeckBuilder {
     private static func seenKey(_ level: String) -> String { "flashSeen_\(level)" }
 
@@ -30,30 +33,38 @@ enum FlashcardDeckBuilder {
             used.insert(key); pool.append(w)
         }
 
-        // 1. Bank words flagged for review — always first
+        // 1. Bank words flagged for review — always first, ignore seen history
         bank.filter(\.needsReview).shuffled().forEach(add)
-        // 2. Unseen bank words at the user's level
-        bank.filter { $0.level == level && !$0.needsReview && !seen.contains($0.word.lowercased()) }
-            .shuffled().forEach(add)
-        // 3. Unseen pack words, strictly this level
-        let pack = VocabularyService.shared.words(for: level)
-        var unseenPack = pack.filter { !seen.contains($0.word.lowercased()) }
-        if unseenPack.count + pool.count < size {
-            // Pool exhausted — start a fresh cycle for this level
+
+        // 2 + 3. Fresh candidates: unseen bank words at this level, then unseen pack words
+        var pack = VocabularyService.shared.words(for: level)
+        if pack.isEmpty { pack = VocabularyService.shared.words(for: "intermediate") }  // safety net
+        func freshCandidates(_ seen: Set<String>) -> [Word] {
+            bank.filter { $0.level == level && !$0.needsReview && !seen.contains($0.word.lowercased()) }
+                .shuffled()
+            + pack.filter { !seen.contains($0.word.lowercased()) }.shuffled()
+        }
+        var candidates = freshCandidates(seen)
+        if candidates.count + pool.count < size {
+            // Cycle exhausted — reset the seen history for this level
             seen = []
             defaults.removeObject(forKey: seenKey(level))
-            unseenPack = pack
+            candidates = freshCandidates([])
         }
-        unseenPack.shuffled().forEach(add)
+        candidates.forEach(add)
 
-        return Array(pool.prefix(size))
-    }
+        let deck = Array(pool.prefix(size))
 
-    static func markSeen(_ word: Word, level: String) {
-        let key = seenKey(level)
-        var seen = UserDefaults.standard.stringArray(forKey: key) ?? []
-        let t = word.word.lowercased()
-        if !seen.contains(t) { seen.append(t); UserDefaults.standard.set(seen, forKey: key) }
+        // Deal-time marking: everything dealt now counts as seen,
+        // so the next open serves brand-new words even if this session is abandoned.
+        var seenList = defaults.stringArray(forKey: seenKey(level)) ?? []
+        for w in deck {
+            let t = w.word.lowercased()
+            if !seenList.contains(t) { seenList.append(t) }
+        }
+        defaults.set(seenList, forKey: seenKey(level))
+
+        return deck
     }
 }
 
@@ -62,7 +73,9 @@ struct FlashcardsView: View {
     @EnvironmentObject var wordBankVM: WordBankViewModel
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
-    let words: [Word]
+    /// Fixed deck override (previews/tests). When nil the view builds
+    /// a fresh deck itself on every appearance and every Study Again.
+    var customDeck: [Word]? = nil
     var level: String = "intermediate"
 
     @State private var deck: [Word] = []
@@ -221,8 +234,8 @@ struct FlashcardsView: View {
     }
 
     private func setup() {
-        // The deck arrives pre-prioritized from FlashcardDeckBuilder — keep its order
-        deck = Array(words.prefix(sessionSize))
+        // Fresh words every time — including "Study Again"
+        deck = customDeck ?? FlashcardDeckBuilder.build(bank: wordBankVM.words, level: level, size: sessionSize)
         index = 0; knownCount = 0; unknownCount = 0; isFlipped = false; dragOffset = .zero; cardScale = 1
         addedToBank = 0; markedForReview = 0
         finished = deck.isEmpty
@@ -233,15 +246,11 @@ struct FlashcardsView: View {
     private func handleSwipeEnd(_ width: CGFloat) {
         if width > 100 {
             knownCount += 1
-            if let w = deck[safe: index] { FlashcardDeckBuilder.markSeen(w, level: level) }
             advance(toRight: true)
         }
         else if width < -100 {
             unknownCount += 1
-            if let missed = deck[safe: index] {
-                FlashcardDeckBuilder.markSeen(missed, level: level)
-                recordUnknown(missed)
-            }
+            if let missed = deck[safe: index] { recordUnknown(missed) }
             advance(toRight: false)
         }
         else { withAnimation(.spring()) { dragOffset = .zero; cardScale = 1 } }
@@ -420,5 +429,5 @@ private struct FlashCard: View {
     }
 }
 
-#Preview("Light") { FlashcardsView(words: [.sample]).environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()).preferredColorScheme(.light) }
-#Preview("Dark")  { FlashcardsView(words: [.sample]).environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()).preferredColorScheme(.dark) }
+#Preview("Light") { FlashcardsView(customDeck: [.sample]).environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { FlashcardsView(customDeck: [.sample]).environmentObject(AuthViewModel()).environmentObject(WordBankViewModel()).preferredColorScheme(.dark) }

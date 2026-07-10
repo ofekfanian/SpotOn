@@ -25,8 +25,7 @@ struct LearnHubView: View {
                         }
                         modeCard(title: "Flashcards", subtitle: "Flip and memorise",
                                  icon: "rectangle.on.rectangle.angled", color: .crystalMint) {
-                            let lvl = authVM.userProfile?.level ?? "intermediate"
-                            FlashcardsView(words: FlashcardDeckBuilder.build(bank: wordBankVM.words, level: lvl), level: lvl)
+                            FlashcardsView(level: authVM.userProfile?.level ?? "intermediate")
                                 .environmentObject(authVM)
                                 .environmentObject(wordBankVM)
                         }
