@@ -221,44 +221,6 @@ private struct GameCard: View {
     }
 }
 
-// MARK: - Gain Badge
-/// A floating "+N" chip that spawns above a stat card and gets sucked
-/// down into it — shrinking and fading as it lands on the counter.
-private struct GainBadge: View {
-    let event: RealtimeDatabaseService.GainEvent?
-    let suffix: String
-    let color: Color
-    @State private var visibleID: UUID?
-    @State private var suckedIn = false
-
-    var body: some View {
-        ZStack {
-            if let event, visibleID == event.id {
-                Text("+\(event.amount) \(suffix)")
-                    .font(.caption.bold())
-                    .foregroundColor(color)
-                    .padding(.horizontal, 9).padding(.vertical, 4)
-                    .background(.ultraThinMaterial, in: Capsule())
-                    .overlay(Capsule().strokeBorder(color.opacity(0.4), lineWidth: 1))
-                    .shadow(color: color.opacity(0.35), radius: 8, y: 2)
-                    .offset(y: suckedIn ? 6 : -58)
-                    .scaleEffect(suckedIn ? 0.2 : 1.15)
-                    .opacity(suckedIn ? 0 : 1)
-            }
-        }
-        .onChange(of: event?.id) { _, newID in
-            guard newID != nil else { return }
-            visibleID = newID
-            suckedIn = false
-            withAnimation(.easeIn(duration: 0.6).delay(0.35)) { suckedIn = true }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
-                if visibleID == newID { visibleID = nil }
-            }
-        }
-        .allowsHitTesting(false)
-    }
-}
-
 // MARK: - Stat Card
 private struct CrystalStatCard: View {
     let icon: String; let color: Color; let label: String; let value: String

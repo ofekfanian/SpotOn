@@ -59,8 +59,22 @@ struct SettingsView: View {
 
                 Section("Progress") {
                     LabeledContent("Level", value: (authVM.userProfile?.level ?? "-").capitalized)
-                    HStack { Label("Streak", systemImage: "flame.fill").foregroundColor(.orange); Spacer(); Text("\(rtdb.streak) days").foregroundColor(.secondary) }
-                    HStack { Label("XP", systemImage: "star.fill").foregroundColor(.crystalGold); Spacer(); Text("\(rtdb.xp)").foregroundColor(.secondary) }
+                    HStack {
+                        Label("Streak", systemImage: "flame.fill").foregroundColor(.orange)
+                        Spacer()
+                        Text("\(rtdb.streak) days").foregroundColor(.secondary)
+                            .contentTransition(.numericText())
+                            .animation(.spring(response: 0.4), value: rtdb.streak)
+                            .overlay { GainBadge(event: rtdb.streakGain, suffix: "day", color: .orange, spawnOffset: -26) }
+                    }
+                    HStack {
+                        Label("XP", systemImage: "star.fill").foregroundColor(.crystalGold)
+                        Spacer()
+                        Text("\(rtdb.xp)").foregroundColor(.secondary)
+                            .contentTransition(.numericText())
+                            .animation(.spring(response: 0.4), value: rtdb.xp)
+                            .overlay { GainBadge(event: rtdb.xpGain, suffix: "XP", color: .crystalGold, spawnOffset: -26) }
+                    }
                     Button { showLevelTest = true } label: {
                         Label("Retake Level Test", systemImage: "checklist")
                             .foregroundColor(.crystalBlue)
