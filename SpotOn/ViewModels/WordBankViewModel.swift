@@ -102,6 +102,7 @@ class WordBankViewModel: ObservableObject {
             if updated.definition.isEmpty { updated.definition = e.definition }
             if updated.translation.isEmpty { updated.translation = e.hebrew }
             updated.partOfSpeech = e.partOfSpeech
+            updated.phonetic = e.phonetic
             updated.examples = [e.exampleBusiness, e.exampleCasual, e.exampleTech]
             if updated.level == "intermediate" || updated.level.isEmpty {
                 updated.level = e.level

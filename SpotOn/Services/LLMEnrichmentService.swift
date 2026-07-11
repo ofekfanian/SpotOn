@@ -7,6 +7,7 @@ struct WordEnrichment {
     let partOfSpeech: String    // noun / verb / adjective / adverb / …
     let level: String           // A1–C2
     let hebrew: String          // Hebrew translation
+    let phonetic: String        // simple respelling, e.g. "know -> no"
     let exampleBusiness: String
     let exampleCasual: String
     let exampleTech: String
@@ -58,6 +59,7 @@ final class LLMEnrichmentService {
           "partOfSpeech": "noun",
           "level": "B1",
           "hebrew": "the Hebrew translation of the word",
+          "phonetic": "a simple pronunciation respelling using plain English letters, like 'noh' for know or 'suh-REN-dip-ih-tee' for serendipity",
           "examples": {
             "business": "example sentence in a professional/business context",
             "casual": "example sentence in casual everyday conversation",
@@ -122,6 +124,7 @@ final class LLMEnrichmentService {
             let partOfSpeech: String
             let level: String
             let hebrew: String?
+            let phonetic: String?
             let examples: Examples
             let relatedIdiom: String
         }
@@ -132,6 +135,7 @@ final class LLMEnrichmentService {
             partOfSpeech: p.partOfSpeech,
             level: p.level,
             hebrew: p.hebrew ?? "",
+            phonetic: p.phonetic ?? "",
             exampleBusiness: p.examples.business,
             exampleCasual: p.examples.casual,
             exampleTech: p.examples.tech,

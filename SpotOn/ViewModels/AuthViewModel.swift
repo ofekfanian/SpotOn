@@ -192,7 +192,10 @@ class AuthViewModel: ObservableObject {
     private func clearLocalState() {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "chatHistory")
-        for level in LevelSystem.order { defaults.removeObject(forKey: "flashSeen_\(level)") }
+        for level in LevelSystem.order {
+            defaults.removeObject(forKey: "flashSeen_\(level)")
+            defaults.removeObject(forKey: "flashDealt_\(level)")
+        }
         ProfileImageStore.shared.remove()
     }
 
@@ -221,6 +224,15 @@ class AuthViewModel: ObservableObject {
         userProfile = profile
         try? await FirestoreService.shared.saveUserProfile(profile)
         return promoted
+    }
+
+    /// Updates the user's display name in the profile.
+    func updateDisplayName(_ name: String) async {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, var profile = userProfile else { return }
+        profile.username = trimmed
+        userProfile = profile
+        try? await FirestoreService.shared.saveUserProfile(profile)
     }
 
     /// Re-fetches the Firestore profile (e.g. after friendUIDs change server-side).

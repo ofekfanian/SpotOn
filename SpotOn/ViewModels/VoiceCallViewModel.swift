@@ -89,6 +89,9 @@ final class VoiceCallViewModel: ObservableObject {
                 }
             }
             SpeechService.shared.speak(reply, accent: "en-US")
+        } catch ChatViewModel.TutorError.quotaExceeded {
+            errorMessage = "Daily AI limit reached. It resets at 10:00 in the morning."
+            phase = .idle
         } catch {
             errorMessage = "Could not reach the tutor. Check your connection."
             phase = .idle
@@ -125,7 +128,9 @@ final class VoiceCallViewModel: ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { throw URLError(.badServerResponse) }
+        guard let http = response as? HTTPURLResponse else { throw URLError(.badServerResponse) }
+        if http.statusCode == 429 { throw ChatViewModel.TutorError.quotaExceeded }
+        guard http.statusCode == 200 else { throw URLError(.badServerResponse) }
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         let candidates = json?["candidates"] as? [[String: Any]]
         let content = candidates?.first?["content"] as? [String: Any]

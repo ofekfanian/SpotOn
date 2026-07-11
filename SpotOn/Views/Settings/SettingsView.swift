@@ -16,9 +16,12 @@ struct SettingsView: View {
     @State private var showDeleteAlert = false
     @State private var isDeleting = false
     @State private var showLevelTest = false
+    @State private var showNameEditor = false
+    @State private var newName = ""
 
     private var displayName: String {
-        (authVM.user?.email ?? "").components(separatedBy: "@").first?.capitalized ?? "You"
+        if let username = authVM.userProfile?.username, !username.isEmpty { return username }
+        return (authVM.user?.email ?? "").components(separatedBy: "@").first?.capitalized ?? "You"
     }
 
     var body: some View {
@@ -30,7 +33,17 @@ struct SettingsView: View {
                         PhotosPicker(selection: $photoItem, matching: .images) { ProfileAvatar(image: avatarImage) }
                             .buttonStyle(.plain)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(displayName).font(.headline)
+                            HStack(spacing: 6) {
+                                Text(displayName).font(.headline)
+                                Button {
+                                    newName = displayName
+                                    showNameEditor = true
+                                } label: {
+                                    Image(systemName: "pencil.circle.fill")
+                                        .font(.subheadline).foregroundColor(.crystalBlue)
+                                }
+                                .buttonStyle(.plain)
+                            }
                             Text(authVM.user?.email ?? "-").font(.caption).foregroundColor(.secondary)
                             PhotosPicker(selection: $photoItem, matching: .images) {
                                 Text("Change Photo").font(.caption.bold()).foregroundColor(.crystalBlue)
@@ -132,6 +145,13 @@ struct SettingsView: View {
             }
             .fullScreenCover(isPresented: $showLevelTest) {
                 OnboardingView().environmentObject(authVM)
+            }
+            .alert("Display Name", isPresented: $showNameEditor) {
+                TextField("Your name", text: $newName)
+                Button("Save") { Task { await authVM.updateDisplayName(newName) } }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This is how your name appears in the app and on the leaderboard.")
             }
             .applyTabBarVisibility()
         }

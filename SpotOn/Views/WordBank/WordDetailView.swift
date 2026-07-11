@@ -1,18 +1,12 @@
 import SwiftUI
-import WebKit
 
 struct WordDetailView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var wordBankVM: WordBankViewModel
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
     let word: Word
     @AppStorage("targetLanguage") private var targetLang = "en"
     @AppStorage("nativeLanguage") private var nativeLang = "he"
-    @State private var showYouGlish = false
-    @State private var accent = "en-US"
-
-    private let accents = [("en-US", "American"), ("en-GB", "British"), ("en-AU", "Australian")]
 
     var body: some View {
         NavigationStack {
@@ -71,22 +65,23 @@ struct WordDetailView: View {
 
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Pronunciation").font(.headline)
-                        Picker("Accent", selection: $accent) {
-                            ForEach(accents, id: \.0) { code, label in Text(label).tag(code) }
+                        if let phonetic = word.phonetic, !phonetic.isEmpty {
+                            HStack(spacing: 8) {
+                                Text(word.word.lowercased())
+                                    .font(.subheadline.bold()).foregroundColor(.secondary)
+                                Image(systemName: "arrow.right")
+                                    .font(.caption).foregroundColor(.crystalMint)
+                                Text(phonetic)
+                                    .font(.subheadline.bold()).foregroundColor(.crystalMint)
+                            }
+                            .padding(.horizontal, 12).padding(.vertical, 8)
+                            .background(Color.crystalMint.opacity(0.08)).cornerRadius(10)
                         }
-                        .pickerStyle(.segmented)
-                        Button { wordBankVM.speak(word.word, accent: accent) } label: {
+                        Button { wordBankVM.speak(word.word) } label: {
                             Label("Hear it", systemImage: "speaker.wave.3.fill")
                                 .frame(maxWidth: .infinity).padding()
                                 .background(Color.crystalMint.opacity(0.15)).foregroundColor(.crystalMint).cornerRadius(14)
                         }
-                    }
-
-                    Button { showYouGlish = true } label: {
-                        Label("See real usage on YouGlish", systemImage: "play.rectangle.fill")
-                            .frame(maxWidth: .infinity).padding()
-                            .background(.ultraThinMaterial).foregroundColor(.primary).cornerRadius(14)
-                            .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.crystalBlue.opacity(0.25), lineWidth: 1))
                     }
 
                     HStack(spacing: 12) {
@@ -113,8 +108,6 @@ struct WordDetailView: View {
                 }
             }
             .navigationTitle("").navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Done") { dismiss() } } }
-            .sheet(isPresented: $showYouGlish) { YouGlishView(word: word.word) }
         }
     }
 }
@@ -139,28 +132,6 @@ private struct ActionButton: View {
                 .foregroundColor(isActive ? color : .secondary).cornerRadius(12)
         }
     }
-}
-
-struct YouGlishView: View {
-    let word: String
-    @Environment(\.dismiss) private var dismiss
-    var body: some View {
-        NavigationStack {
-            Group {
-                if let url = URL(string: "https://youglish.com/pronounce/\(word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? word)/english") {
-                    WebView(url: url)
-                }
-            }
-            .navigationTitle("YouGlish: \(word)").navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Done") { dismiss() } } }
-        }
-    }
-}
-
-struct WebView: UIViewRepresentable {
-    let url: URL
-    func makeUIView(context: Context) -> WKWebView { WKWebView() }
-    func updateUIView(_ uiView: WKWebView, context: Context) { uiView.load(URLRequest(url: url)) }
 }
 
 #Preview("Light") {

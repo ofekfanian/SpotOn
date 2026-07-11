@@ -83,6 +83,7 @@ struct ScatteredLettersBackground: View {
                     .position(x: geo.size.width * xF, y: geo.size.height * yF)
             }
         }
+        .drawingGroup()   // flatten all letters into one GPU layer — cheap to composite
         .allowsHitTesting(false)
     }
 }

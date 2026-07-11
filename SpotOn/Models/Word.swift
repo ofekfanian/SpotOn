@@ -15,6 +15,7 @@ struct Word: Identifiable, Codable, Hashable {
     // Enrichment fields, populated by LLMEnrichmentService after the word is saved
     var partOfSpeech: String
     var examples: [String]      // [business, casual, tech] sentences from Gemini
+    var phonetic: String?       // simple respelling, e.g. "noh" for know
     var sourcePassageId: String? // ID of the ReadingPassage that introduced this word
 
     init(

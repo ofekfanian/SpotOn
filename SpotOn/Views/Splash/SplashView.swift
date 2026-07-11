@@ -104,6 +104,7 @@ private struct OrbitingLetters: View {
                         .delay(Double(item.id) * 0.015), value: appeared)
             }
         }
+        .drawingGroup()   // render all letters as one GPU layer
     }
 }
 

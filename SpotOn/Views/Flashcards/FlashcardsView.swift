@@ -12,59 +12,82 @@ enum CardLang: String, CaseIterable {
 }
 
 // MARK: - Deck builder
-/// Builds a session deck with fresh words on EVERY open and strict level matching.
-/// Order: review-flagged bank words first, then unseen bank words at the user's
-/// level, then unseen pack words. Words are marked "seen" the moment they are
-/// dealt into a deck — so two consecutive opens never show the same words.
-/// Missed words come back via the review flag until they are known.
-/// When the level's pool runs dry, the cycle resets automatically.
+/// Deals a fresh deck on EVERY build using a recency-based algorithm:
+/// - Review-flagged bank words come first (capped at half the deck).
+/// - Never-dealt words at the user's level come next, shuffled.
+/// - If those run out, the least-recently-dealt words return first —
+///   so yesterday's words are always the LAST to reappear.
+/// - Progressive difficulty: past 50% progress to the next level, a growing
+///   share of next-level words is blended in.
+/// Every dealt word is timestamped immediately, so abandoning a session
+/// never causes repeats on the next open.
 enum FlashcardDeckBuilder {
-    private static func seenKey(_ level: String) -> String { "flashSeen_\(level)" }
+    private static func dealtKey(_ level: String) -> String { "flashDealt_\(level)" }
 
+    private static func dealtMap(_ level: String) -> [String: Double] {
+        UserDefaults.standard.dictionary(forKey: dealtKey(level)) as? [String: Double] ?? [:]
+    }
+
+    /// All candidates for a level, ordered by freshness:
+    /// never dealt (shuffled) first, then oldest-dealt to newest-dealt.
+    private static func candidates(bank: [Word], level: String) -> [Word] {
+        let dealt = dealtMap(level)
+        var pack = VocabularyService.shared.words(for: level)
+        if pack.isEmpty { pack = VocabularyService.shared.words(for: "intermediate") }  // safety net
+        let all = bank.filter { $0.level == level && !$0.needsReview } + pack
+        let never = all.filter { dealt[$0.word.lowercased()] == nil }.shuffled()
+        let oldest = all.filter { dealt[$0.word.lowercased()] != nil }
+            .sorted { (dealt[$0.word.lowercased()] ?? 0) < (dealt[$1.word.lowercased()] ?? 0) }
+        return never + oldest
+    }
+
+    @MainActor
     static func build(bank: [Word], level: String, size: Int = 20) -> [Word] {
-        let defaults = UserDefaults.standard
-        var seen = Set(defaults.stringArray(forKey: seenKey(level)) ?? [])
-
         var pool: [Word] = []
         var used = Set<String>()
         func add(_ w: Word) {
             let key = w.word.lowercased()
-            guard !used.contains(key) else { return }
+            guard !used.contains(key), pool.count < size else { return }
             used.insert(key); pool.append(w)
         }
 
-        // 1. Bank words flagged for review — always first, ignore seen history
-        bank.filter(\.needsReview).shuffled().forEach(add)
-
-        // 2 + 3. Fresh candidates: unseen bank words at this level, then unseen pack words
-        var pack = VocabularyService.shared.words(for: level)
-        if pack.isEmpty { pack = VocabularyService.shared.words(for: "intermediate") }  // safety net
-        func freshCandidates(_ seen: Set<String>) -> [Word] {
-            bank.filter { $0.level == level && !$0.needsReview && !seen.contains($0.word.lowercased()) }
-                .shuffled()
-            + pack.filter { !seen.contains($0.word.lowercased()) }.shuffled()
+        // 1. Review words first, but never more than half the deck
+        for w in bank.filter(\.needsReview).shuffled() {
+            if pool.count >= size / 2 { break }
+            add(w)
         }
-        var candidates = freshCandidates(seen)
-        if candidates.count + pool.count < size {
-            // Cycle exhausted — reset the seen history for this level
-            seen = []
-            defaults.removeObject(forKey: seenKey(level))
-            candidates = freshCandidates([])
+
+        // 2. Progressive difficulty: blend next-level words as promotion nears
+        let xp = RealtimeDatabaseService.shared.xp
+        let progress: Double
+        switch level {
+        case "beginner":     progress = min(1, Double(xp) / 600)
+        case "intermediate": progress = max(0, min(1, Double(xp - 600) / 1200))
+        default:             progress = 0
         }
-        candidates.forEach(add)
+        let nextRank = LevelSystem.rank(level) + 1
+        let nextLevel = LevelSystem.order.indices.contains(nextRank) ? LevelSystem.order[nextRank] : nil
+        let nextShare = (nextLevel != nil && progress >= 0.5) ? Int(Double(size) * 0.25 * progress) : 0
 
-        let deck = Array(pool.prefix(size))
-
-        // Deal-time marking: everything dealt now counts as seen,
-        // so the next open serves brand-new words even if this session is abandoned.
-        var seenList = defaults.stringArray(forKey: seenKey(level)) ?? []
-        for w in deck {
-            let t = w.word.lowercased()
-            if !seenList.contains(t) { seenList.append(t) }
+        // 3. Main level fills most of the deck, freshest first
+        for w in candidates(bank: bank, level: level) {
+            if pool.count >= size - nextShare { break }
+            add(w)
         }
-        defaults.set(seenList, forKey: seenKey(level))
+        // 4. Next-level blend, then top off from the main level if short
+        if let nextLevel { candidates(bank: bank, level: nextLevel).forEach(add) }
+        candidates(bank: bank, level: level).forEach(add)
 
-        return deck
+        // Timestamp everything dealt, in its own level's history
+        let now = Date().timeIntervalSince1970
+        var maps: [String: [String: Double]] = [:]
+        for w in pool {
+            let lvl = LevelSystem.order.contains(w.level) ? w.level : level
+            maps[lvl, default: dealtMap(lvl)][w.word.lowercased()] = now
+        }
+        for (lvl, map) in maps { UserDefaults.standard.set(map, forKey: dealtKey(lvl)) }
+
+        return pool
     }
 }
 
@@ -143,7 +166,7 @@ struct FlashcardsView: View {
 
             if let word = deck[safe: index] {
                 FlashCard(word: word, isFlipped: isFlipped, frontLang: frontLang, backLang: backLang)
-                    .frame(width: 300, height: 200)
+                    .frame(width: 330, height: 230)
                     .scaleEffect(cardScale * (cardAppear ? 1 : 0.85)).opacity(cardAppear ? 1 : 0)
                     .offset(dragOffset).rotationEffect(.degrees(Double(dragOffset.width / 20)))
                     .overlay(swipeBadge)
@@ -343,88 +366,81 @@ private struct FlashCard: View {
     }
 
     private var cardFront: some View {
-        VStack(spacing: 0) {
-            HStack {
-                HStack(spacing: 4) {
-                    Image(systemName: "character.book.closed.fill")
-                        .font(.caption2).foregroundStyle(LinearGradient.crystalShort)
-                    Text("Word").font(.caption2.bold()).foregroundColor(.secondary)
-                }
-                Spacer()
-                if !word.level.isEmpty {
-                    Text(word.level.capitalized).font(.caption2.bold())
-                        .padding(.horizontal, 7).padding(.vertical, 3)
-                        .background(Color.crystalBlue.opacity(0.15))
-                        .foregroundColor(.crystalBlue).cornerRadius(5)
-                }
-            }
-            .padding(.horizontal, 16).padding(.top, 12)
-
-            Spacer()
-
-            HStack(spacing: 12) {
+        ZStack {
+            // The word + speaker are a centered column — perfectly balanced
+            VStack(spacing: 16) {
                 Text(text(for: frontLang))
-                    .font(.system(size: 30, weight: .bold))
+                    .font(.system(size: 34, weight: .bold))
                     .foregroundStyle(LinearGradient.crystal)
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.5)
+                    .lineLimit(2)
                     .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
                 SpeakButton(text: text(for: frontLang), language: frontLang.speechCode)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 24)
 
-            Spacer()
-
-            if !word.tags.isEmpty {
-                HStack(spacing: 5) {
-                    ForEach(word.tags.prefix(2), id: \.self) { tag in
-                        Text(tag).font(.caption2.bold())
-                            .padding(.horizontal, 7).padding(.vertical, 3)
-                            .background(Color.crystalMint.opacity(0.15))
-                            .foregroundColor(.crystalMint).cornerRadius(5)
+            VStack {
+                HStack {
+                    HStack(spacing: 4) {
+                        Image(systemName: "character.book.closed.fill")
+                            .font(.caption2).foregroundStyle(LinearGradient.crystalShort)
+                        Text("Word").font(.caption2.bold()).foregroundColor(.secondary)
                     }
                     Spacer()
+                    if !word.level.isEmpty {
+                        Text(word.level.capitalized).font(.caption2.bold())
+                            .padding(.horizontal, 7).padding(.vertical, 3)
+                            .background(Color.crystalBlue.opacity(0.15))
+                            .foregroundColor(.crystalBlue).cornerRadius(5)
+                    }
                 }
-                .padding(.horizontal, 16).padding(.bottom, 12)
-            } else {
-                Spacer().frame(height: 12)
+                Spacer()
+                if !word.tags.isEmpty {
+                    HStack(spacing: 5) {
+                        ForEach(word.tags.prefix(2), id: \.self) { tag in
+                            Text(tag).font(.caption2.bold())
+                                .padding(.horizontal, 7).padding(.vertical, 3)
+                                .background(Color.crystalMint.opacity(0.15))
+                                .foregroundColor(.crystalMint).cornerRadius(5)
+                        }
+                        Spacer()
+                    }
+                }
             }
+            .padding(16)
         }
     }
 
     private var cardBack: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text(text(for: frontLang)).font(.caption.bold()).foregroundColor(.secondary)
-                    .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
-                Spacer()
-                Text("Translation").font(.caption2.bold()).foregroundColor(.secondary)
-            }
-            .padding(.horizontal, 16).padding(.top, 12)
-
-            Spacer()
-
-            HStack(spacing: 12) {
+        ZStack {
+            VStack(spacing: 16) {
                 Text(text(for: backLang))
-                    .font(.system(size: 28, weight: .bold))
+                    .font(.system(size: 32, weight: .bold))
                     .foregroundStyle(LinearGradient.crystal)
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.5)
+                    .lineLimit(2)
                     .environment(\.layoutDirection, backLang.isRTL ? .rightToLeft : .leftToRight)
                 SpeakButton(text: text(for: backLang), language: backLang.speechCode)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 24)
 
-            Spacer()
-
-            if !word.context.isEmpty {
-                Text("« \(word.context) »")
-                    .font(.caption2).italic().foregroundColor(.secondary)
-                    .lineLimit(1).truncationMode(.tail)
-                    .padding(.horizontal, 16).padding(.bottom, 12)
-            } else {
-                Spacer().frame(height: 12)
+            VStack {
+                HStack {
+                    Text(text(for: frontLang)).font(.caption.bold()).foregroundColor(.secondary)
+                        .environment(\.layoutDirection, frontLang.isRTL ? .rightToLeft : .leftToRight)
+                    Spacer()
+                    Text("Translation").font(.caption2.bold()).foregroundColor(.secondary)
+                }
+                Spacer()
+                if !word.context.isEmpty {
+                    Text("« \(word.context) »")
+                        .font(.caption2).italic().foregroundColor(.secondary)
+                        .lineLimit(1).truncationMode(.tail)
+                }
             }
+            .padding(16)
         }
     }
 }

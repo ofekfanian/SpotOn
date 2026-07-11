@@ -156,7 +156,6 @@ struct AddFriendSheet: View {
                 Spacer()
             }
             .navigationTitle("Add Friend").navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } } }
         }
     }
 

@@ -17,7 +17,8 @@ struct DashboardView: View {
 
     private var level: String { authVM.userProfile?.level ?? "intermediate" }
     private var name: String {
-        (authVM.user?.email ?? "").components(separatedBy: "@").first?.capitalized ?? "there"
+        if let username = authVM.userProfile?.username, !username.isEmpty { return username }
+        return (authVM.user?.email ?? "").components(separatedBy: "@").first?.capitalized ?? "there"
     }
 
     // Size classes: Compact width → 2 columns; Regular → 4.
@@ -239,7 +240,6 @@ private struct CrystalStatCard: View {
                 withAnimation(.spring(response: 0.3)) { bump = false }
             }
         }
-        .animation(.spring(response: 0.4), value: value)
     }
 }
 

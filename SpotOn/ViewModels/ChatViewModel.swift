@@ -45,11 +45,16 @@ class ChatViewModel: ObservableObject {
 
     func speak(_ message: ChatMessage) { SpeechService.shared.speak(message.content, accent: "en-US") }
 
+    enum TutorError: Error { case quotaExceeded }
+
     private func requestReply(for text: String) async {
         isLoading = true; errorMessage = nil; lastFailedText = nil; save()
         do {
             let reply = try await callGemini()
             messages.append(ChatMessage(role: "assistant", content: reply))
+        } catch TutorError.quotaExceeded {
+            errorMessage = "Daily AI limit reached. It resets at 10:00 in the morning."
+            lastFailedText = text
         } catch {
             errorMessage = "Could not reach tutor. Check your connection."
             lastFailedText = text
@@ -89,7 +94,9 @@ class ChatViewModel: ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { throw URLError(.badServerResponse) }
+        guard let http = response as? HTTPURLResponse else { throw URLError(.badServerResponse) }
+        if http.statusCode == 429 { throw TutorError.quotaExceeded }
+        guard http.statusCode == 200 else { throw URLError(.badServerResponse) }
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         let candidates = json?["candidates"] as? [[String: Any]]
         let content = candidates?.first?["content"] as? [String: Any]
