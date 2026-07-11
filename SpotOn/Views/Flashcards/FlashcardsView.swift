@@ -105,7 +105,6 @@ struct FlashcardsView: View {
     @State private var index = 0
     @State private var knownCount = 0
     @State private var unknownCount = 0
-    @State private var isFlipped = false
     @State private var dragOffset: CGSize = .zero
     @State private var finished = false
 
@@ -160,13 +159,12 @@ struct FlashcardsView: View {
             Spacer()
 
             if let word = deck[safe: index] {
-                FlashCard(word: word, isFlipped: isFlipped, frontLang: frontLang, backLang: backLang)
-                    .id(index)   // fresh identity per card — old and new words never morph into each other
+                FlashCard(word: word, frontLang: frontLang, backLang: backLang)
+                    .id("\(index)-\(word.word)")   // fresh identity per card — no text morphing, always starts on the front
                     .frame(width: 330, height: 230)
                     .scaleEffect(cardScale * (cardAppear ? 1 : 0.85)).opacity(cardAppear ? 1 : 0)
                     .offset(dragOffset).rotationEffect(.degrees(Double(dragOffset.width / 20)))
                     .overlay(swipeBadge)
-                    .onTapGesture(count: 2) { withAnimation(.spring(response: 0.55, dampingFraction: 0.7)) { isFlipped.toggle() } }
                     .gesture(DragGesture()
                         .onChanged { value in
                             dragOffset = value.translation
@@ -255,7 +253,7 @@ struct FlashcardsView: View {
     private func setup() {
         // Fresh words every time — including "Study Again"
         deck = customDeck ?? FlashcardDeckBuilder.build(bank: wordBankVM.words, level: level, size: sessionSize)
-        index = 0; knownCount = 0; unknownCount = 0; isFlipped = false; dragOffset = .zero; cardScale = 1
+        index = 0; knownCount = 0; unknownCount = 0; dragOffset = .zero; cardScale = 1
         addedToBank = 0; markedForReview = 0
         finished = deck.isEmpty
         cardAppear = false
@@ -314,7 +312,7 @@ struct FlashcardsView: View {
             dragOffset = CGSize(width: toRight ? 700 : -700, height: 40); cardAppear = false
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.28) {
-            isFlipped = false; dragOffset = .zero; cardScale = 1
+            dragOffset = .zero; cardScale = 1
             if index < deck.count - 1 {
                 index += 1
                 withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) { cardAppear = true }
@@ -331,10 +329,16 @@ struct FlashcardsView: View {
 
 private struct FlashCard: View {
     let word: Word
-    let isFlipped: Bool
     let frontLang: CardLang
     let backLang: CardLang
     @Environment(\.colorScheme) private var scheme
+
+    /// Two-stage flip: rotate to 90° (card edge-on, invisible), swap the
+    /// content, then rotate in from -90°. The words are only ever shown
+    /// upright and never overlap or appear mirrored.
+    @State private var showBack = false
+    @State private var rotation: Double = 0
+    @State private var isFlipping = false
 
     private func text(for lang: CardLang) -> String {
         switch lang {
@@ -343,16 +347,21 @@ private struct FlashCard: View {
         }
     }
 
+    private func flip() {
+        guard !isFlipping else { return }   // rapid taps can't interrupt mid-flip
+        isFlipping = true
+        withAnimation(.easeIn(duration: 0.17)) { rotation = 90 }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.17) {
+            showBack.toggle()
+            rotation = -90
+            withAnimation(.easeOut(duration: 0.17)) { rotation = 0 }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.17) { isFlipping = false }
+        }
+    }
+
     var body: some View {
         ZStack {
-            // Instant content swap — no cross-fade, so the two words
-            // never overlap while the card is mid-flip.
-            if isFlipped {
-                cardBack.rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                    .transition(.identity)
-            } else {
-                cardFront.transition(.identity)
-            }
+            if showBack { cardBack } else { cardFront }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
@@ -378,7 +387,9 @@ private struct FlashCard: View {
             .allowsHitTesting(false).clipShape(RoundedRectangle(cornerRadius: 20))
         }
         .shadow(color: Color.crystalBlue.opacity(0.22), radius: 28, y: 14)
-        .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+        .rotation3DEffect(.degrees(rotation), axis: (x: 0, y: 1, z: 0))
+        .contentShape(Rectangle())
+        .onTapGesture(count: 2, perform: flip)
     }
 
     private var cardFront: some View {
