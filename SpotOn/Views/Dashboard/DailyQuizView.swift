@@ -203,10 +203,25 @@ struct DailyQuizView: View {
         index = 0; score = 0; selected = nil; finished = false
     }
 
+    /// A word answered correctly joins the bank as Mastered,
+    /// exactly like a known flashcard — the Words counter grows.
+    private func recordKnown(_ word: DailyTopicService.TopicWord) {
+        guard let uid = authVM.user?.uid else { return }
+        guard !wordBankVM.words.contains(where: { $0.word.lowercased() == word.en.lowercased() }) else { return }
+        var newWord = Word(word: word.en.capitalized, translation: word.he,
+                           definition: "", context: "Daily Quiz: \(topic?.name ?? "")",
+                           tags: ["Daily Quiz"], level: level)
+        newWord.isMastered = true
+        Task { await wordBankVM.addWord(newWord, uid: uid, enrich: false) }
+    }
+
     private func answer(_ idx: Int, q: Question) {
         guard selected == nil else { return }
         selected = idx
-        if idx == q.correctIndex { score += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
+        if idx == q.correctIndex {
+            score += 1; SoundService.playCorrect()
+            recordKnown(q.word)
+        } else { SoundService.playWrong() }
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             if index < questions.count - 1 {

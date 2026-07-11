@@ -248,9 +248,10 @@ private struct CrystalStatCard: View {
 // MARK: - Idiom Card
 private struct IdiomCard: View {
     let idiom: Idiom
+    @State private var showExample = false
     @State private var showTranslation = false
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 HStack(spacing: 4) {
                     Image(systemName: "lightbulb.fill")
@@ -268,27 +269,35 @@ private struct IdiomCard: View {
             }
             Text(idiom.definition).font(.subheadline).foregroundColor(.secondary)
 
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(spacing: 4) {
-                    Image(systemName: "text.quote")
-                        .font(.caption2).foregroundColor(.crystalMint)
-                    Text("Example").font(.caption2.bold()).foregroundColor(.crystalMint)
+            if showExample {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "text.quote")
+                            .font(.caption2).foregroundColor(.crystalMint)
+                        Text("Example").font(.caption2.bold()).foregroundColor(.crystalMint)
+                    }
+                    Text(idiom.example).font(.caption).foregroundColor(.secondary).italic()
                 }
-                Text(idiom.example).font(.caption).foregroundColor(.secondary).italic()
+                .padding(10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.crystalMint.opacity(0.07)).cornerRadius(10)
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
-            .padding(10)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.crystalMint.opacity(0.07)).cornerRadius(10)
-
             if showTranslation {
                 Text(idiom.hebrew).font(.subheadline.bold()).foregroundColor(.crystalMint)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .environment(\.layoutDirection, .rightToLeft)
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
-            Button { withAnimation(.spring(duration: 0.3)) { showTranslation.toggle() } } label: {
-                Text(showTranslation ? "Hide translation" : "See translation").font(.caption.bold())
-                    .foregroundColor(.crystalMint)
+            HStack(spacing: 18) {
+                Button { withAnimation(.spring(duration: 0.3)) { showExample.toggle() } } label: {
+                    Text(showExample ? "Hide example" : "See example").font(.caption.bold())
+                        .foregroundStyle(LinearGradient.crystalShort)
+                }
+                Button { withAnimation(.spring(duration: 0.3)) { showTranslation.toggle() } } label: {
+                    Text(showTranslation ? "Hide translation" : "See translation").font(.caption.bold())
+                        .foregroundColor(.crystalMint)
+                }
             }
         }
         .padding(18).background(.ultraThinMaterial).cornerRadius(20)
