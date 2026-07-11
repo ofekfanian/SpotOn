@@ -159,13 +159,17 @@ class AuthViewModel: ObservableObject {
             errorMessage = nil
             return true
         }
-        // Delete cloud data first — if auth deletion then fails, no orphaned data remains.
+        // Best-effort cloud cleanup: each store is attempted independently so a
+        // rules problem in one store never blocks deleting the account itself.
         do {
             try await FirestoreService.shared.deleteAllUserData(uid: uid)
+        } catch {
+            print("[DeleteAccount] Firestore cleanup failed: \(error)")
+        }
+        do {
             try await RealtimeDatabaseService.shared.deleteUserData(uid: uid)
         } catch {
-            errorMessage = "Couldn't delete your data. Check your connection and try again."
-            return false
+            print("[DeleteAccount] RTDB cleanup failed: \(error)")
         }
 
         do {
