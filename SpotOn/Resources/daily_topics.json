@@ -1,0 +1,424 @@
+{
+ "topics": [
+  {
+   "name": "Computer Science",
+   "icon": "desktopcomputer",
+   "words": [
+    {"en": "algorithm", "he": "אלגוריתם"},
+    {"en": "database", "he": "מסד נתונים"},
+    {"en": "network", "he": "רשת"},
+    {"en": "encryption", "he": "הצפנה"},
+    {"en": "software", "he": "תוכנה"},
+    {"en": "hardware", "he": "חומרה"},
+    {"en": "debugging", "he": "ניפוי באגים"},
+    {"en": "server", "he": "שרת"},
+    {"en": "interface", "he": "ממשק"},
+    {"en": "storage", "he": "אחסון"},
+    {"en": "processor", "he": "מעבד"},
+    {"en": "backup", "he": "גיבוי"},
+    {"en": "download", "he": "הורדה"},
+    {"en": "password", "he": "סיסמה"},
+    {"en": "artificial", "he": "מלאכותי"}
+   ]
+  },
+  {
+   "name": "Job Interviews",
+   "icon": "briefcase.fill",
+   "words": [
+    {"en": "resume", "he": "קורות חיים"},
+    {"en": "candidate", "he": "מועמד"},
+    {"en": "qualification", "he": "כישורים, הסמכה"},
+    {"en": "strength", "he": "חוזקה"},
+    {"en": "weakness", "he": "חולשה"},
+    {"en": "salary", "he": "משכורת"},
+    {"en": "recruiter", "he": "מגייס"},
+    {"en": "position", "he": "משרה"},
+    {"en": "reference", "he": "ממליץ, המלצה"},
+    {"en": "teamwork", "he": "עבודת צוות"},
+    {"en": "leadership", "he": "מנהיגות"},
+    {"en": "motivation", "he": "מוטיבציה"},
+    {"en": "negotiate", "he": "לנהל משא ומתן"},
+    {"en": "impression", "he": "רושם"},
+    {"en": "hire", "he": "להעסיק, לגייס"}
+   ]
+  },
+  {
+   "name": "Travel and Airports",
+   "icon": "airplane",
+   "words": [
+    {"en": "boarding", "he": "עלייה למטוס"},
+    {"en": "departure", "he": "המראה, יציאה"},
+    {"en": "arrival", "he": "נחיתה, הגעה"},
+    {"en": "customs", "he": "מכס"},
+    {"en": "passport", "he": "דרכון"},
+    {"en": "luggage", "he": "מזוודות"},
+    {"en": "delay", "he": "עיכוב"},
+    {"en": "gate", "he": "שער"},
+    {"en": "connection", "he": "טיסת המשך"},
+    {"en": "visa", "he": "ויזה, אשרה"},
+    {"en": "itinerary", "he": "מסלול נסיעה"},
+    {"en": "currency", "he": "מטבע"},
+    {"en": "souvenir", "he": "מזכרת"},
+    {"en": "sightseeing", "he": "סיור באתרים"},
+    {"en": "layover", "he": "עצירת ביניים"}
+   ]
+  },
+  {
+   "name": "Cooking and Kitchen",
+   "icon": "frying.pan.fill",
+   "words": [
+    {"en": "recipe", "he": "מתכון"},
+    {"en": "ingredient", "he": "מרכיב"},
+    {"en": "boil", "he": "להרתיח"},
+    {"en": "fry", "he": "לטגן"},
+    {"en": "bake", "he": "לאפות"},
+    {"en": "grill", "he": "לצלות"},
+    {"en": "chop", "he": "לקצוץ"},
+    {"en": "stir", "he": "לערבב"},
+    {"en": "oven", "he": "תנור"},
+    {"en": "seasoning", "he": "תיבול"},
+    {"en": "flavor", "he": "טעם"},
+    {"en": "dough", "he": "בצק"},
+    {"en": "slice", "he": "פרוסה, לפרוס"},
+    {"en": "peel", "he": "לקלף"},
+    {"en": "simmer", "he": "לבשל על אש קטנה"}
+   ]
+  },
+  {
+   "name": "Money and Banking",
+   "icon": "banknote.fill",
+   "words": [
+    {"en": "account", "he": "חשבון"},
+    {"en": "deposit", "he": "הפקדה"},
+    {"en": "withdraw", "he": "למשוך כסף"},
+    {"en": "loan", "he": "הלוואה"},
+    {"en": "interest", "he": "ריבית"},
+    {"en": "mortgage", "he": "משכנתא"},
+    {"en": "savings", "he": "חסכונות"},
+    {"en": "debt", "he": "חוב"},
+    {"en": "investment", "he": "השקעה"},
+    {"en": "transfer", "he": "העברה"},
+    {"en": "receipt", "he": "קבלה"},
+    {"en": "refund", "he": "החזר כספי"},
+    {"en": "budget", "he": "תקציב"},
+    {"en": "expense", "he": "הוצאה"},
+    {"en": "income", "he": "הכנסה"}
+   ]
+  },
+  {
+   "name": "Health and Doctors",
+   "icon": "cross.case.fill",
+   "words": [
+    {"en": "appointment", "he": "תור"},
+    {"en": "prescription", "he": "מרשם"},
+    {"en": "symptom", "he": "תסמין"},
+    {"en": "diagnosis", "he": "אבחנה"},
+    {"en": "treatment", "he": "טיפול"},
+    {"en": "pharmacy", "he": "בית מרקחת"},
+    {"en": "vaccine", "he": "חיסון"},
+    {"en": "allergy", "he": "אלרגיה"},
+    {"en": "fever", "he": "חום"},
+    {"en": "injury", "he": "פציעה"},
+    {"en": "recovery", "he": "החלמה"},
+    {"en": "surgery", "he": "ניתוח"},
+    {"en": "emergency", "he": "מצב חירום"},
+    {"en": "checkup", "he": "בדיקה שגרתית"},
+    {"en": "painkiller", "he": "משכך כאבים"}
+   ]
+  },
+  {
+   "name": "Sports and Fitness",
+   "icon": "figure.run",
+   "words": [
+    {"en": "workout", "he": "אימון"},
+    {"en": "stretch", "he": "מתיחה"},
+    {"en": "endurance", "he": "סיבולת"},
+    {"en": "strength", "he": "כוח"},
+    {"en": "champion", "he": "אלוף"},
+    {"en": "tournament", "he": "טורניר"},
+    {"en": "referee", "he": "שופט"},
+    {"en": "opponent", "he": "יריב"},
+    {"en": "victory", "he": "ניצחון"},
+    {"en": "defeat", "he": "תבוסה"},
+    {"en": "coach", "he": "מאמן"},
+    {"en": "muscle", "he": "שריר"},
+    {"en": "sweat", "he": "זיעה"},
+    {"en": "warmup", "he": "חימום"},
+    {"en": "record", "he": "שיא"}
+   ]
+  },
+  {
+   "name": "Movies and TV",
+   "icon": "film.fill",
+   "words": [
+    {"en": "director", "he": "במאי"},
+    {"en": "actor", "he": "שחקן"},
+    {"en": "scene", "he": "סצנה"},
+    {"en": "plot", "he": "עלילה"},
+    {"en": "character", "he": "דמות"},
+    {"en": "script", "he": "תסריט"},
+    {"en": "subtitle", "he": "כתובית"},
+    {"en": "trailer", "he": "טריילר, קדימון"},
+    {"en": "sequel", "he": "סרט המשך"},
+    {"en": "audience", "he": "קהל"},
+    {"en": "review", "he": "ביקורת"},
+    {"en": "premiere", "he": "בכורה"},
+    {"en": "villain", "he": "נבל"},
+    {"en": "soundtrack", "he": "פסקול"},
+    {"en": "documentary", "he": "סרט תיעודי"}
+   ]
+  },
+  {
+   "name": "Social Media",
+   "icon": "bubble.left.and.bubble.right.fill",
+   "words": [
+    {"en": "profile", "he": "פרופיל"},
+    {"en": "follower", "he": "עוקב"},
+    {"en": "notification", "he": "התראה"},
+    {"en": "comment", "he": "תגובה"},
+    {"en": "share", "he": "לשתף"},
+    {"en": "upload", "he": "להעלות"},
+    {"en": "trending", "he": "טרנדי, נפוץ כרגע"},
+    {"en": "influencer", "he": "משפיען"},
+    {"en": "content", "he": "תוכן"},
+    {"en": "privacy", "he": "פרטיות"},
+    {"en": "hashtag", "he": "האשטג"},
+    {"en": "viral", "he": "ויראלי"},
+    {"en": "livestream", "he": "שידור חי"},
+    {"en": "engagement", "he": "מעורבות"},
+    {"en": "algorithm", "he": "אלגוריתם"}
+   ]
+  },
+  {
+   "name": "Weather and Nature",
+   "icon": "cloud.sun.fill",
+   "words": [
+    {"en": "forecast", "he": "תחזית"},
+    {"en": "thunderstorm", "he": "סופת רעמים"},
+    {"en": "humidity", "he": "לחות"},
+    {"en": "drought", "he": "בצורת"},
+    {"en": "flood", "he": "שיטפון"},
+    {"en": "breeze", "he": "משב רוח"},
+    {"en": "sunrise", "he": "זריחה"},
+    {"en": "sunset", "he": "שקיעה"},
+    {"en": "rainbow", "he": "קשת"},
+    {"en": "lightning", "he": "ברק"},
+    {"en": "fog", "he": "ערפל"},
+    {"en": "hail", "he": "ברד"},
+    {"en": "temperature", "he": "טמפרטורה"},
+    {"en": "waterfall", "he": "מפל"},
+    {"en": "valley", "he": "עמק"}
+   ]
+  },
+  {
+   "name": "Shopping and Fashion",
+   "icon": "bag.fill",
+   "words": [
+    {"en": "discount", "he": "הנחה"},
+    {"en": "bargain", "he": "מציאה"},
+    {"en": "fitting", "he": "מדידה"},
+    {"en": "fabric", "he": "בד"},
+    {"en": "trendy", "he": "אופנתי"},
+    {"en": "outfit", "he": "תלבושת"},
+    {"en": "accessory", "he": "אביזר"},
+    {"en": "brand", "he": "מותג"},
+    {"en": "checkout", "he": "קופה"},
+    {"en": "exchange", "he": "החלפה"},
+    {"en": "wardrobe", "he": "ארון בגדים"},
+    {"en": "casual", "he": "יומיומי"},
+    {"en": "elegant", "he": "אלגנטי"},
+    {"en": "sleeve", "he": "שרוול"},
+    {"en": "leather", "he": "עור"}
+   ]
+  },
+  {
+   "name": "Cars and Driving",
+   "icon": "car.fill",
+   "words": [
+    {"en": "license", "he": "רישיון"},
+    {"en": "highway", "he": "כביש מהיר"},
+    {"en": "traffic", "he": "תנועה, פקק"},
+    {"en": "brake", "he": "בלם"},
+    {"en": "accelerate", "he": "להאיץ"},
+    {"en": "overtake", "he": "לעקוף"},
+    {"en": "parking", "he": "חניה"},
+    {"en": "junction", "he": "צומת"},
+    {"en": "pedestrian", "he": "הולך רגל"},
+    {"en": "windshield", "he": "שמשה קדמית"},
+    {"en": "engine", "he": "מנוע"},
+    {"en": "fuel", "he": "דלק"},
+    {"en": "insurance", "he": "ביטוח"},
+    {"en": "roundabout", "he": "כיכר"},
+    {"en": "seatbelt", "he": "חגורת בטיחות"}
+   ]
+  },
+  {
+   "name": "University Life",
+   "icon": "graduationcap.fill",
+   "words": [
+    {"en": "lecture", "he": "הרצאה"},
+    {"en": "assignment", "he": "מטלה"},
+    {"en": "deadline", "he": "מועד הגשה"},
+    {"en": "semester", "he": "סמסטר"},
+    {"en": "scholarship", "he": "מלגה"},
+    {"en": "thesis", "he": "עבודת גמר"},
+    {"en": "professor", "he": "פרופסור"},
+    {"en": "campus", "he": "קמפוס"},
+    {"en": "dormitory", "he": "מעונות"},
+    {"en": "tuition", "he": "שכר לימוד"},
+    {"en": "graduate", "he": "בוגר, לסיים תואר"},
+    {"en": "degree", "he": "תואר"},
+    {"en": "exam", "he": "מבחן"},
+    {"en": "attendance", "he": "נוכחות"},
+    {"en": "syllabus", "he": "סילבוס"}
+   ]
+  },
+  {
+   "name": "Restaurants",
+   "icon": "fork.knife",
+   "words": [
+    {"en": "reservation", "he": "הזמנת מקום"},
+    {"en": "waiter", "he": "מלצר"},
+    {"en": "menu", "he": "תפריט"},
+    {"en": "appetizer", "he": "מנה ראשונה"},
+    {"en": "dessert", "he": "קינוח"},
+    {"en": "beverage", "he": "משקה"},
+    {"en": "portion", "he": "מנה"},
+    {"en": "tip", "he": "טיפ, תשר"},
+    {"en": "bill", "he": "חשבון"},
+    {"en": "takeaway", "he": "לקחת"},
+    {"en": "vegetarian", "he": "צמחוני"},
+    {"en": "spicy", "he": "חריף"},
+    {"en": "fresh", "he": "טרי"},
+    {"en": "homemade", "he": "ביתי"},
+    {"en": "specialty", "he": "מנת הדגל"}
+   ]
+  },
+  {
+   "name": "Emotions",
+   "icon": "heart.fill",
+   "words": [
+    {"en": "gratitude", "he": "הכרת תודה"},
+    {"en": "excitement", "he": "התרגשות"},
+    {"en": "frustration", "he": "תסכול"},
+    {"en": "relief", "he": "הקלה"},
+    {"en": "curiosity", "he": "סקרנות"},
+    {"en": "empathy", "he": "אמפתיה"},
+    {"en": "confidence", "he": "ביטחון עצמי"},
+    {"en": "loneliness", "he": "בדידות"},
+    {"en": "enthusiasm", "he": "התלהבות"},
+    {"en": "regret", "he": "חרטה"},
+    {"en": "pride", "he": "גאווה"},
+    {"en": "shame", "he": "בושה"},
+    {"en": "hope", "he": "תקווה"},
+    {"en": "despair", "he": "ייאוש"},
+    {"en": "compassion", "he": "חמלה"}
+   ]
+  },
+  {
+   "name": "Space and Science",
+   "icon": "moon.stars.fill",
+   "words": [
+    {"en": "galaxy", "he": "גלקסיה"},
+    {"en": "gravity", "he": "כוח משיכה"},
+    {"en": "orbit", "he": "מסלול"},
+    {"en": "telescope", "he": "טלסקופ"},
+    {"en": "spacecraft", "he": "חללית"},
+    {"en": "astronaut", "he": "אסטרונאוט"},
+    {"en": "experiment", "he": "ניסוי"},
+    {"en": "discovery", "he": "תגלית"},
+    {"en": "universe", "he": "יקום"},
+    {"en": "satellite", "he": "לוויין"},
+    {"en": "eclipse", "he": "ליקוי"},
+    {"en": "meteor", "he": "מטאור"},
+    {"en": "atmosphere", "he": "אטמוספרה"},
+    {"en": "particle", "he": "חלקיק"},
+    {"en": "evidence", "he": "ראיה, הוכחה"}
+   ]
+  },
+  {
+   "name": "Law and Justice",
+   "icon": "scale.3d",
+   "words": [
+    {"en": "lawyer", "he": "עורך דין"},
+    {"en": "judge", "he": "שופט"},
+    {"en": "trial", "he": "משפט"},
+    {"en": "verdict", "he": "פסק דין"},
+    {"en": "evidence", "he": "ראיה"},
+    {"en": "witness", "he": "עד"},
+    {"en": "guilty", "he": "אשם"},
+    {"en": "innocent", "he": "חף מפשע"},
+    {"en": "sentence", "he": "גזר דין"},
+    {"en": "appeal", "he": "ערעור"},
+    {"en": "contract", "he": "חוזה"},
+    {"en": "rights", "he": "זכויות"},
+    {"en": "investigation", "he": "חקירה"},
+    {"en": "suspect", "he": "חשוד"},
+    {"en": "testimony", "he": "עדות"}
+   ]
+  },
+  {
+   "name": "Startups and Business",
+   "icon": "chart.line.uptrend.xyaxis",
+   "words": [
+    {"en": "founder", "he": "מייסד"},
+    {"en": "investor", "he": "משקיע"},
+    {"en": "pitch", "he": "פיץ', הצגת מיזם"},
+    {"en": "funding", "he": "מימון"},
+    {"en": "revenue", "he": "הכנסות"},
+    {"en": "profit", "he": "רווח"},
+    {"en": "growth", "he": "צמיחה"},
+    {"en": "strategy", "he": "אסטרטגיה"},
+    {"en": "competitor", "he": "מתחרה"},
+    {"en": "milestone", "he": "אבן דרך"},
+    {"en": "partnership", "he": "שותפות"},
+    {"en": "innovation", "he": "חדשנות"},
+    {"en": "scalable", "he": "בר הרחבה"},
+    {"en": "equity", "he": "הון, אחזקות"},
+    {"en": "acquisition", "he": "רכישה"}
+   ]
+  },
+  {
+   "name": "Music and Concerts",
+   "icon": "music.note",
+   "words": [
+    {"en": "rhythm", "he": "קצב"},
+    {"en": "melody", "he": "מנגינה"},
+    {"en": "lyrics", "he": "מילות השיר"},
+    {"en": "chorus", "he": "פזמון"},
+    {"en": "orchestra", "he": "תזמורת"},
+    {"en": "conductor", "he": "מנצח"},
+    {"en": "audience", "he": "קהל"},
+    {"en": "stage", "he": "במה"},
+    {"en": "rehearsal", "he": "חזרה"},
+    {"en": "performance", "he": "הופעה"},
+    {"en": "instrument", "he": "כלי נגינה"},
+    {"en": "harmony", "he": "הרמוניה"},
+    {"en": "applause", "he": "מחיאות כפיים"},
+    {"en": "encore", "he": "הדרן"},
+    {"en": "venue", "he": "מקום האירוע"}
+   ]
+  },
+  {
+   "name": "Friendship and Dating",
+   "icon": "person.2.fill",
+   "words": [
+    {"en": "acquaintance", "he": "מכר"},
+    {"en": "trust", "he": "אמון"},
+    {"en": "loyalty", "he": "נאמנות"},
+    {"en": "commitment", "he": "מחויבות"},
+    {"en": "affection", "he": "חיבה"},
+    {"en": "argument", "he": "ויכוח"},
+    {"en": "apology", "he": "התנצלות"},
+    {"en": "forgiveness", "he": "סליחה"},
+    {"en": "jealousy", "he": "קנאה"},
+    {"en": "breakup", "he": "פרידה"},
+    {"en": "crush", "he": "התאהבות, קראש"},
+    {"en": "compliment", "he": "מחמאה"},
+    {"en": "honesty", "he": "כנות"},
+    {"en": "support", "he": "תמיכה"},
+    {"en": "bond", "he": "קשר, חיבור"}
+   ]
+  }
+ ]
+}

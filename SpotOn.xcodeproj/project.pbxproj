@@ -72,6 +72,7 @@
 		FB11BC12CD13DE14EF15FA16 /* AddHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB01BC02CD03DE04EF05FA06 /* AddHubView.swift */; };
 		FF11AA12BB13CC14DD15EE16 /* passages.json in Resources */ = {isa = PBXBuildFile; fileRef = FF01AA02BB03CC04DD05EE06 /* passages.json */; };
 		2E12F313A414B515C616D717 /* idioms.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D01E202F303A404B505C606 /* idioms.json */; };
+		8B9C0D1E2F3A4B5C6D7E8F9A /* daily_topics.json in Resources */ = {isa = PBXBuildFile; fileRef = 7A8B9C0D1E2F3A4B5C6D7E8F /* daily_topics.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +166,7 @@
 		FB01BC02CD03DE04EF05FA06 /* AddHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHubView.swift; sourceTree = "<group>"; };
 		FF01AA02BB03CC04DD05EE06 /* passages.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = passages.json; sourceTree = "<group>"; };
 		1D01E202F303A404B505C606 /* idioms.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = idioms.json; sourceTree = "<group>"; };
+		7A8B9C0D1E2F3A4B5C6D7E8F /* daily_topics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_topics.json; sourceTree = "<group>"; };
 		FF185BFB00400D3023960C34 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "APIKeys.xcconfig"; path = "Config/APIKeys.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -231,6 +233,7 @@
 				C9E54B2528E2B4671725C40E /* vocabulary.json */,
 				FF01AA02BB03CC04DD05EE06 /* passages.json */,
 				1D01E202F303A404B505C606 /* idioms.json */,
+				7A8B9C0D1E2F3A4B5C6D7E8F /* daily_topics.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				C66A3A02ACDB6D74A1C4C264 /* vocabulary.json in Resources */,
 				FF11AA12BB13CC14DD15EE16 /* passages.json in Resources */,
 				2E12F313A414B515C616D717 /* idioms.json in Resources */,
+				8B9C0D1E2F3A4B5C6D7E8F9A /* daily_topics.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

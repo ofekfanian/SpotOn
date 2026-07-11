@@ -1,8 +1,50 @@
 import SwiftUI
 
-/// The daily 20-word quiz. Pops up automatically once per day when the app
-/// opens (gated by MainTabView). Words are dealt by FlashcardDeckBuilder so
-/// they share the same freshness history as the flashcards — always new words.
+// MARK: - Daily topic service
+
+/// Serves the topic of the day from the bundled daily_topics.json.
+/// Rotates deterministically: a new topic every 24 hours, cycling
+/// through all 20 topics before repeating.
+final class DailyTopicService {
+    static let shared = DailyTopicService()
+    private init() {}
+
+    struct Topic: Decodable {
+        let name: String
+        let icon: String
+        let words: [TopicWord]
+    }
+    struct TopicWord: Decodable {
+        let en: String
+        let he: String
+    }
+    private struct File: Decodable { let topics: [Topic] }
+
+    private var topics: [Topic] = []
+    private var loaded = false
+
+    private func loadIfNeeded() {
+        guard !loaded else { return }
+        loaded = true
+        guard let url = Bundle.main.url(forResource: "daily_topics", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let decoded = try? JSONDecoder().decode(File.self, from: data) else { return }
+        topics = decoded.topics
+    }
+
+    func todayTopic() -> Topic? {
+        loadIfNeeded()
+        guard !topics.isEmpty else { return nil }
+        let day = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? 0
+        return topics[day % topics.count]
+    }
+}
+
+// MARK: - Daily quiz
+
+/// The daily quiz: 15 words on a single interesting topic that changes
+/// every day (computer science today, job interviews tomorrow...).
+/// Pops up automatically once per day, gated by MainTabView.
 struct DailyQuizView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var wordBankVM: WordBankViewModel
@@ -11,11 +53,12 @@ struct DailyQuizView: View {
     let level: String
 
     private struct Question {
-        let word: Word
+        let word: DailyTopicService.TopicWord
         let options: [String]
         let correctIndex: Int
     }
 
+    @State private var topic: DailyTopicService.Topic?
     @State private var questions: [Question] = []
     @State private var index = 0
     @State private var score = 0
@@ -50,6 +93,22 @@ struct DailyQuizView: View {
             }
             .padding(.horizontal).padding(.top, 8)
 
+            // Topic banner — today's theme
+            if let topic {
+                HStack(spacing: 8) {
+                    Image(systemName: topic.icon)
+                        .font(.subheadline)
+                        .foregroundStyle(LinearGradient.crystalShort)
+                    Text("Today's topic: \(topic.name)")
+                        .font(.subheadline.bold())
+                        .foregroundColor(.primary)
+                }
+                .padding(.horizontal, 16).padding(.vertical, 9)
+                .background(.ultraThinMaterial).cornerRadius(20)
+                .overlay(Capsule().strokeBorder(LinearGradient.crystal.opacity(0.35), lineWidth: 1))
+                .padding(.top, 14)
+            }
+
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color(.systemGray5))
@@ -72,7 +131,7 @@ struct DailyQuizView: View {
             if let q = questions[safe: index] {
                 VStack(spacing: 22) {
                     Text("What does this mean?").font(.headline).foregroundColor(.secondary)
-                    Text(q.word.word)
+                    Text(q.word.en)
                         .font(.system(size: 36, weight: .bold))
                         .foregroundStyle(LinearGradient.crystal)
                         .multilineTextAlignment(.center)
@@ -111,9 +170,12 @@ struct DailyQuizView: View {
     private var resultView: some View {
         VStack(spacing: 26) {
             Spacer()
-            Image(systemName: score >= questions.count * 7 / 10 ? "sun.max.fill" : "sunrise.fill")
+            Image(systemName: topic?.icon ?? "sun.max.fill")
                 .font(.system(size: 68)).foregroundStyle(LinearGradient.crystal)
             CrystalText(text: "Daily Quiz Complete!", font: .title.bold())
+            if let topic {
+                Text(topic.name).font(.subheadline.bold()).foregroundColor(.crystalMint)
+            }
             Text("\(score) / \(questions.count) correct").font(.title3).foregroundColor(.secondary)
             if score > 0 {
                 Text("+\(score * 5) XP").font(.title3.bold())
@@ -133,20 +195,18 @@ struct DailyQuizView: View {
     // MARK: - Logic
 
     private func setup() {
-        let pool = VocabularyService.shared.words(for: level)
-        let translations = pool.map(\.translation).filter { !$0.isEmpty }
-        guard translations.count >= 4 else { dismiss(); return }
-
-        let dealt = FlashcardDeckBuilder.build(bank: wordBankVM.words, level: level, size: 20)
-            .filter { !$0.translation.isEmpty }
-        questions = dealt.map { word in
-            var options = translations.filter { $0 != word.translation }.shuffled().prefix(3) + [word.translation]
+        guard let today = DailyTopicService.shared.todayTopic(), today.words.count >= 4 else {
+            dismiss(); return
+        }
+        topic = today
+        let allTranslations = today.words.map(\.he)
+        questions = today.words.shuffled().map { word in
+            var options = allTranslations.filter { $0 != word.he }.shuffled().prefix(3) + [word.he]
             options.shuffle()
             return Question(word: word,
                             options: Array(options),
-                            correctIndex: options.firstIndex(of: word.translation) ?? 0)
+                            correctIndex: options.firstIndex(of: word.he) ?? 0)
         }
-        if questions.isEmpty { dismiss() }
         index = 0; score = 0; selected = nil; finished = false
     }
 
