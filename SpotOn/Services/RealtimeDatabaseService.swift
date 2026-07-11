@@ -9,6 +9,13 @@ class RealtimeDatabaseService: ObservableObject {
     @Published var streak: Int = 0
     @Published var xp: Int = 0
 
+    /// Fired whenever a counter increases — drives the "sucked-in" gain animation.
+    struct GainEvent: Equatable { let amount: Int; let id: UUID }
+    @Published var xpGain: GainEvent?
+    @Published var streakGain: GainEvent?
+    private var lastXPValue: Int?
+    private var lastStreakValue: Int?
+
     private var streakHandle: DatabaseHandle?
     private var xpHandle: DatabaseHandle?
 
@@ -18,12 +25,30 @@ class RealtimeDatabaseService: ObservableObject {
         // Remove any previous observers first — auth state changes can call this repeatedly.
         if let previous = listeningUid { stopListening(for: previous) }
         listeningUid = uid
+        lastXPValue = nil       // first observed value must not fire a gain animation
+        lastStreakValue = nil
         let userRef = ref.child("users").child(uid)
         streakHandle = userRef.child("streak").observe(.value) { [weak self] snap in
-            Task { @MainActor in self?.streak = snap.value as? Int ?? 0 }
+            Task { @MainActor in
+                guard let self else { return }
+                let new = snap.value as? Int ?? 0
+                if let last = self.lastStreakValue, new > last {
+                    self.streakGain = GainEvent(amount: new - last, id: UUID())
+                }
+                self.lastStreakValue = new
+                self.streak = new
+            }
         }
         xpHandle = userRef.child("xp").observe(.value) { [weak self] snap in
-            Task { @MainActor in self?.xp = snap.value as? Int ?? 0 }
+            Task { @MainActor in
+                guard let self else { return }
+                let new = snap.value as? Int ?? 0
+                if let last = self.lastXPValue, new > last {
+                    self.xpGain = GainEvent(amount: new - last, id: UUID())
+                }
+                self.lastXPValue = new
+                self.xp = new
+            }
         }
     }
 

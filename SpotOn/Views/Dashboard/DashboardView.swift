@@ -126,7 +126,9 @@ struct DashboardView: View {
     private var statsRow: some View {
         HStack(spacing: 12) {
             CrystalStatCard(icon: "flame.fill", color: .orange, label: "Streak", value: "\(rtdb.streak)d")
+                .overlay { GainBadge(event: rtdb.streakGain, suffix: "day", color: .orange) }
             CrystalStatCard(icon: "star.fill", color: .crystalGold, label: "XP", value: "\(rtdb.xp)")
+                .overlay { GainBadge(event: rtdb.xpGain, suffix: "XP", color: .crystalGold) }
             CrystalStatCard(icon: "book.fill", color: .crystalBlue, label: "Words", value: "\(wordBankVM.words.count)")
         }
         .padding(.horizontal)
@@ -216,6 +218,44 @@ private struct GameCard: View {
             .shadow(color: shadow.opacity(0.3), radius: 10, y: 4)
         }
         .disabled(disabled).opacity(disabled ? 0.5 : 1)
+    }
+}
+
+// MARK: - Gain Badge
+/// A floating "+N" chip that spawns above a stat card and gets sucked
+/// down into it — shrinking and fading as it lands on the counter.
+private struct GainBadge: View {
+    let event: RealtimeDatabaseService.GainEvent?
+    let suffix: String
+    let color: Color
+    @State private var visibleID: UUID?
+    @State private var suckedIn = false
+
+    var body: some View {
+        ZStack {
+            if let event, visibleID == event.id {
+                Text("+\(event.amount) \(suffix)")
+                    .font(.caption.bold())
+                    .foregroundColor(color)
+                    .padding(.horizontal, 9).padding(.vertical, 4)
+                    .background(.ultraThinMaterial, in: Capsule())
+                    .overlay(Capsule().strokeBorder(color.opacity(0.4), lineWidth: 1))
+                    .shadow(color: color.opacity(0.35), radius: 8, y: 2)
+                    .offset(y: suckedIn ? 6 : -58)
+                    .scaleEffect(suckedIn ? 0.2 : 1.15)
+                    .opacity(suckedIn ? 0 : 1)
+            }
+        }
+        .onChange(of: event?.id) { _, newID in
+            guard newID != nil else { return }
+            visibleID = newID
+            suckedIn = false
+            withAnimation(.easeIn(duration: 0.6).delay(0.35)) { suckedIn = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                if visibleID == newID { visibleID = nil }
+            }
+        }
+        .allowsHitTesting(false)
     }
 }
 
