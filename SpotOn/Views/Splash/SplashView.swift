@@ -104,7 +104,8 @@ private struct OrbitingLetters: View {
                         .delay(Double(item.id) * 0.015), value: appeared)
             }
         }
-        .drawingGroup()   // render all letters as one GPU layer
+        // NOTE: no drawingGroup here — the letters are placed with .offset,
+        // which doesn't grow layout bounds, so rasterizing clips them all out.
     }
 }
 
