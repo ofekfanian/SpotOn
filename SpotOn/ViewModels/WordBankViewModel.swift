@@ -65,10 +65,12 @@ class WordBankViewModel: ObservableObject {
 
     // MARK: - CRUD
 
-    /// Adds the word, then enriches it with Gemini metadata in the background
-    /// (definition, part of speech, examples) once it has a Firestore ID.
-    func addWord(_ word: Word, uid: String) async {
+    /// Adds the word, then (optionally) enriches it with Gemini metadata in the
+    /// background. Bulk additions like mastered flashcards skip enrichment to
+    /// preserve the daily AI quota.
+    func addWord(_ word: Word, uid: String, enrich: Bool = true) async {
         guard let id = try? await FirestoreService.shared.addWord(word, for: uid) else { return }
+        guard enrich else { return }
         var saved = word
         saved.id = id
         Task { await self.enrichAndUpdate(saved, uid: uid) }

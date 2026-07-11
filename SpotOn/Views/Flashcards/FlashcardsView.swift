@@ -265,6 +265,7 @@ struct FlashcardsView: View {
     private func handleSwipeEnd(_ width: CGFloat) {
         if width > 100 {
             knownCount += 1
+            if let known = deck[safe: index] { recordKnown(known) }
             advance(toRight: true)
         }
         else if width < -100 {
@@ -273,6 +274,19 @@ struct FlashcardsView: View {
             advance(toRight: false)
         }
         else { withAnimation(.spring()) { dragOffset = .zero; cardScale = 1 } }
+    }
+
+    /// A word you knew joins the bank as Mastered — the Words counter
+    /// grows with every word you learn. Skips AI enrichment to save quota.
+    private func recordKnown(_ word: Word) {
+        guard let uid = authVM.user?.uid else { return }
+        guard word.id == nil else { return }   // already a bank word
+        guard !wordBankVM.words.contains(where: { $0.word.lowercased() == word.word.lowercased() }) else { return }
+        addedToBank += 1
+        var newWord = word
+        newWord.isMastered = true
+        newWord.context = "Learned in Flashcards"
+        Task { await wordBankVM.addWord(newWord, uid: uid, enrich: false) }
     }
 
     /// A missed word is automatically saved: pack words are added to the
