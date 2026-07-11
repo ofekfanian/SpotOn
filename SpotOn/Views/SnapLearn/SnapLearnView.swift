@@ -3,7 +3,6 @@ import SwiftUI
 struct SnapLearnView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var wordBankVM: WordBankViewModel
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
 
     @State private var image: UIImage?
@@ -44,7 +43,6 @@ struct SnapLearnView: View {
                 }
             }
             .navigationTitle("Snap & Learn").navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } } }
             .fullScreenCover(isPresented: $showCamera) { ImagePicker(sourceType: .camera) { handleNewImage($0) }.ignoresSafeArea() }
             .sheet(isPresented: $showLibrary) { ImagePicker(sourceType: .photoLibrary) { handleNewImage($0) }.ignoresSafeArea() }
         }

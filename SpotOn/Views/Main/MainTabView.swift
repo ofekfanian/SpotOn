@@ -25,7 +25,7 @@ struct MainTabView: View {
             presentDailyQuizIfNeeded()
         }
         .onDisappear { wordBankVM.stopListening() }
-        .fullScreenCover(isPresented: $showDailyQuiz) {
+        .sheet(isPresented: $showDailyQuiz) {
             DailyQuizView(level: authVM.userProfile?.level ?? "intermediate")
                 .environmentObject(authVM)
                 .environmentObject(wordBankVM)

@@ -136,15 +136,10 @@ struct FlashcardsView: View {
 
     private var playView: some View {
         VStack(spacing: 0) {
-            HStack {
-                Button { dismiss() } label: { Image(systemName: "xmark.circle.fill").font(.title2).foregroundColor(.secondary) }
-                Spacer()
-                Text("\(min(index + 1, deck.count)) / \(deck.count)").font(.headline)
-                    .foregroundStyle(LinearGradient.crystalShort).contentTransition(.numericText())
-                Spacer()
-                Image(systemName: "xmark.circle.fill").font(.title2).opacity(0)
-            }
-            .padding(.horizontal).padding(.top, 8)
+            Text("\(min(index + 1, deck.count)) / \(deck.count)").font(.headline)
+                .foregroundStyle(LinearGradient.crystalShort).contentTransition(.numericText())
+                .frame(maxWidth: .infinity)
+                .padding(.top, 14)
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -166,6 +161,7 @@ struct FlashcardsView: View {
 
             if let word = deck[safe: index] {
                 FlashCard(word: word, isFlipped: isFlipped, frontLang: frontLang, backLang: backLang)
+                    .id(index)   // fresh identity per card — old and new words never morph into each other
                     .frame(width: 330, height: 230)
                     .scaleEffect(cardScale * (cardAppear ? 1 : 0.85)).opacity(cardAppear ? 1 : 0)
                     .offset(dragOffset).rotationEffect(.degrees(Double(dragOffset.width / 20)))
@@ -335,8 +331,14 @@ private struct FlashCard: View {
 
     var body: some View {
         ZStack {
-            cardFront.opacity(isFlipped ? 0 : 1)
-            cardBack.opacity(isFlipped ? 1 : 0).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+            // Instant content swap — no cross-fade, so the two words
+            // never overlap while the card is mid-flip.
+            if isFlipped {
+                cardBack.rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                    .transition(.identity)
+            } else {
+                cardFront.transition(.identity)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {

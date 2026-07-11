@@ -55,18 +55,18 @@ struct DashboardView: View {
                 }
             }
             .navigationBarHidden(true)
-            .fullScreenCover(isPresented: $showBlitz, onDismiss: checkPromotion) {
+            .sheet(isPresented: $showBlitz, onDismiss: checkPromotion) {
                 BlitzView(words: wordBankVM.words).environmentObject(authVM)
             }
-            .fullScreenCover(isPresented: $showFlashcards, onDismiss: checkPromotion) {
+            .sheet(isPresented: $showFlashcards, onDismiss: checkPromotion) {
                 FlashcardsView(level: level)
                     .environmentObject(authVM)
                     .environmentObject(wordBankVM)
             }
-            .fullScreenCover(isPresented: $showSnapLearn, onDismiss: checkPromotion) {
+            .sheet(isPresented: $showSnapLearn, onDismiss: checkPromotion) {
                 SnapLearnView().environmentObject(authVM).environmentObject(wordBankVM)
             }
-            .fullScreenCover(isPresented: $showSentences, onDismiss: checkPromotion) {
+            .sheet(isPresented: $showSentences, onDismiss: checkPromotion) {
                 SentenceCompletionView(level: level).environmentObject(authVM)
             }
             .task { await vm.load(level: level) }
@@ -248,7 +248,6 @@ private struct CrystalStatCard: View {
 // MARK: - Idiom Card
 private struct IdiomCard: View {
     let idiom: Idiom
-    @State private var showExample = false
     @State private var showTranslation = false
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -263,27 +262,33 @@ private struct IdiomCard: View {
                     .padding(.horizontal, 8).padding(.vertical, 4)
                     .background(Color.crystalBlue.opacity(0.12)).foregroundColor(.crystalBlue).cornerRadius(8)
             }
-            Text("\u{201C}\(idiom.text)\u{201D}").font(.title3.bold()).foregroundStyle(LinearGradient.crystal)
-            Text(idiom.definition).font(.subheadline).foregroundColor(.secondary)
-            if showExample {
-                Text("Example: \(idiom.example)").font(.caption).foregroundColor(.secondary).italic()
-                    .transition(.opacity.combined(with: .move(edge: .top)))
+            HStack(alignment: .center, spacing: 10) {
+                Text("\u{201C}\(idiom.text)\u{201D}").font(.title3.bold()).foregroundStyle(LinearGradient.crystal)
+                SpeakButton(text: idiom.text)
             }
+            Text(idiom.definition).font(.subheadline).foregroundColor(.secondary)
+
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 4) {
+                    Image(systemName: "text.quote")
+                        .font(.caption2).foregroundColor(.crystalMint)
+                    Text("Example").font(.caption2.bold()).foregroundColor(.crystalMint)
+                }
+                Text(idiom.example).font(.caption).foregroundColor(.secondary).italic()
+            }
+            .padding(10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.crystalMint.opacity(0.07)).cornerRadius(10)
+
             if showTranslation {
                 Text(idiom.hebrew).font(.subheadline.bold()).foregroundColor(.crystalMint)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .environment(\.layoutDirection, .rightToLeft)
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
-            HStack(spacing: 18) {
-                Button { withAnimation(.spring(duration: 0.3)) { showExample.toggle() } } label: {
-                    Text(showExample ? "Hide example" : "See example").font(.caption.bold())
-                        .foregroundStyle(LinearGradient.crystalShort)
-                }
-                Button { withAnimation(.spring(duration: 0.3)) { showTranslation.toggle() } } label: {
-                    Text(showTranslation ? "Hide translation" : "See translation").font(.caption.bold())
-                        .foregroundColor(.crystalMint)
-                }
+            Button { withAnimation(.spring(duration: 0.3)) { showTranslation.toggle() } } label: {
+                Text(showTranslation ? "Hide translation" : "See translation").font(.caption.bold())
+                    .foregroundColor(.crystalMint)
             }
         }
         .padding(18).background(.ultraThinMaterial).cornerRadius(20)

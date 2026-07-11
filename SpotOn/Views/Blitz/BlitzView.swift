@@ -98,7 +98,7 @@ struct BlitzLaunchView: View {
                     CrystalText(text: "Blitz", font: .headline)
                 }
             }
-            .fullScreenCover(isPresented: $showBlitz) {
+            .sheet(isPresented: $showBlitz) {
                 BlitzView(words: wordBankVM.words).environmentObject(authVM)
             }
             .applyTabBarVisibility()
@@ -142,14 +142,8 @@ struct BlitzView: View {
                 Color.clear.onAppear { vm.start(with: words) }
             case .running:
                 VStack(spacing: 0) {
-                    HStack {
-                        Button { dismiss() } label: {
-                            Image(systemName: "xmark.circle.fill").font(.title2).foregroundColor(.secondary)
-                        }
-                        Spacer()
-                    }
-                    .padding(.horizontal).padding(.top, 8)
-                    TimerBarView(progress: vm.progress, timeLeft: vm.timeLeft).padding()
+                    TimerBarView(progress: vm.progress, timeLeft: vm.timeLeft)
+                        .padding().padding(.top, 10)
                     HStack {
                         Text("Score: \(vm.score)").font(.headline).foregroundStyle(LinearGradient.crystalShort)
                         Spacer()

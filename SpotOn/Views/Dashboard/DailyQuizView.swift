@@ -79,19 +79,12 @@ struct DailyQuizView: View {
 
     private var playView: some View {
         VStack(spacing: 0) {
-            HStack {
-                Button { dismiss() } label: {
-                    Image(systemName: "xmark.circle.fill").font(.title2).foregroundColor(.secondary)
-                }
-                Spacer()
-                HStack(spacing: 6) {
-                    Image(systemName: "sun.max.fill").foregroundColor(.crystalGold)
-                    CrystalText(text: "Daily Quiz", font: .headline)
-                }
-                Spacer()
-                Image(systemName: "xmark.circle.fill").font(.title2).opacity(0)
+            HStack(spacing: 6) {
+                Image(systemName: "sun.max.fill").foregroundColor(.crystalGold)
+                CrystalText(text: "Daily Quiz", font: .headline)
             }
-            .padding(.horizontal).padding(.top, 8)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 14)
 
             // Topic banner — today's theme
             if let topic {

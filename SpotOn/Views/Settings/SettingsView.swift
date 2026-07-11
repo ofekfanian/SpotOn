@@ -157,7 +157,7 @@ struct SettingsView: View {
             } message: {
                 Text("This permanently deletes your account, saved words, XP and streak. This cannot be undone.")
             }
-            .fullScreenCover(isPresented: $showLevelTest) {
+            .sheet(isPresented: $showLevelTest) {
                 OnboardingView().environmentObject(authVM)
             }
             .alert("Display Name", isPresented: $showNameEditor) {

@@ -46,13 +46,11 @@ struct SentenceCompletionView: View {
     private var playView: some View {
         VStack(spacing: 0) {
             HStack {
-                Button { dismiss() } label: { Image(systemName: "xmark.circle.fill").font(.title2).foregroundColor(.secondary) }
-                Spacer()
                 Text("\(min(index + 1, deck.count)) / \(deck.count)").font(.headline).foregroundStyle(LinearGradient.crystalShort)
                 Spacer()
                 Text("Score \(score)").font(.subheadline.bold()).foregroundColor(.crystalMint)
             }
-            .padding(.horizontal).padding(.top, 8)
+            .padding(.horizontal).padding(.top, 14)
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
