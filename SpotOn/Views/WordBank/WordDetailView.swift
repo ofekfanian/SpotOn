@@ -8,8 +8,15 @@ struct WordDetailView: View {
     @AppStorage("targetLanguage") private var targetLang = "en"
     @AppStorage("nativeLanguage") private var nativeLang = "he"
 
+    /// The live version of the word from the bank — the sheet was opened with
+    /// a snapshot, so toggling Mastered/Review must re-read the fresh state.
+    private var liveWord: Word {
+        wordBankVM.words.first { $0.id == word.id } ?? word
+    }
+
     var body: some View {
-        NavigationStack {
+        let word = liveWord
+        return NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     VStack(alignment: .leading, spacing: 8) {

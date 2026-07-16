@@ -9,8 +9,25 @@ class WordBankViewModel: ObservableObject {
 
     @Published var words: [Word] = []
     @Published var searchText = ""
-    @Published var selectedTag: String? = nil
+    @Published var statusFilter: StatusFilter = .all
     @Published var isEnriching = false
+
+    /// Words are categorized automatically by their learning status.
+    enum StatusFilter: String, CaseIterable {
+        case all = "All"
+        case learning = "Learning"
+        case review = "To Review"
+        case mastered = "Mastered"
+
+        func matches(_ w: Word) -> Bool {
+            switch self {
+            case .all:      return true
+            case .mastered: return w.isMastered
+            case .review:   return w.needsReview && !w.isMastered
+            case .learning: return !w.isMastered && !w.needsReview
+            }
+        }
+    }
 
     // Pagination
     private let pageSize = 50
@@ -23,15 +40,22 @@ class WordBankViewModel: ObservableObject {
 
     // MARK: - Derived collections
 
-    /// All words matching the current search / tag filter.
+    /// All words matching the current search / status filter.
     var filtered: [Word] {
         words.filter { w in
             let matchesSearch = searchText.isEmpty
                 || w.word.localizedCaseInsensitiveContains(searchText)
                 || w.definition.localizedCaseInsensitiveContains(searchText)
-            let matchesTag = selectedTag == nil || w.tags.contains(selectedTag!)
-            return matchesSearch && matchesTag
+            return matchesSearch && statusFilter.matches(w)
         }
+    }
+
+    /// Marks a word as known: clears the review flag and sets Mastered.
+    func markKnown(_ word: Word, uid: String) async {
+        var updated = word
+        updated.needsReview = false
+        updated.isMastered = true
+        try? await FirestoreService.shared.updateWord(updated, for: uid)
     }
 
     /// Visible page of results, grows by `pageSize` each time `loadNextPage()` is called.

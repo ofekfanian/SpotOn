@@ -30,11 +30,15 @@ enum FlashcardDeckBuilder {
 
     /// All candidates for a level, ordered by freshness:
     /// never dealt (shuffled) first, then oldest-dealt to newest-dealt.
+    /// Mastered words are excluded entirely — once you know a word,
+    /// it never comes back.
     private static func candidates(bank: [Word], level: String) -> [Word] {
         let dealt = dealtMap(level)
+        let masteredTexts = Set(bank.filter(\.isMastered).map { $0.word.lowercased() })
         var pack = VocabularyService.shared.words(for: level)
         if pack.isEmpty { pack = VocabularyService.shared.words(for: "intermediate") }  // safety net
-        let all = bank.filter { $0.level == level && !$0.needsReview } + pack
+        let all = bank.filter { $0.level == level && !$0.needsReview && !$0.isMastered }
+            + pack.filter { !masteredTexts.contains($0.word.lowercased()) }
         let never = all.filter { dealt[$0.word.lowercased()] == nil }.shuffled()
         let oldest = all.filter { dealt[$0.word.lowercased()] != nil }
             .sorted { (dealt[$0.word.lowercased()] ?? 0) < (dealt[$1.word.lowercased()] ?? 0) }
@@ -278,7 +282,14 @@ struct FlashcardsView: View {
     /// grows with every word you learn. Skips AI enrichment to save quota.
     private func recordKnown(_ word: Word) {
         guard let uid = authVM.user?.uid else { return }
-        guard word.id == nil else { return }   // already a bank word
+        if word.id != nil {
+            // Bank word: clear the review flag and mark Mastered, otherwise it
+            // would resurface at the top of every future deck forever.
+            if word.needsReview || !word.isMastered {
+                Task { await wordBankVM.markKnown(word, uid: uid) }
+            }
+            return
+        }
         guard !wordBankVM.words.contains(where: { $0.word.lowercased() == word.word.lowercased() }) else { return }
         addedToBank += 1
         var newWord = word

@@ -6,8 +6,6 @@ struct WordBankView: View {
     @Environment(\.colorScheme) private var scheme
     @State private var selectedWord: Word?
 
-    private let allTags = ["Tech", "Casual", "Business", "Academic", "Slang"]
-
     var body: some View {
         NavigationStack {
             ZStack {
@@ -23,10 +21,9 @@ struct WordBankView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        TagChipFilter(tag: "All", isSelected: wordBankVM.selectedTag == nil) { wordBankVM.selectedTag = nil }
-                        ForEach(allTags, id: \.self) { tag in
-                            TagChipFilter(tag: tag, isSelected: wordBankVM.selectedTag == tag) {
-                                wordBankVM.selectedTag = wordBankVM.selectedTag == tag ? nil : tag
+                        ForEach(WordBankViewModel.StatusFilter.allCases, id: \.self) { status in
+                            TagChipFilter(tag: status.rawValue, isSelected: wordBankVM.statusFilter == status) {
+                                wordBankVM.statusFilter = status
                             }
                         }
                     }
