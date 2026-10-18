@@ -191,6 +191,7 @@ class AuthViewModel: ObservableObject {
         do {
             try Auth.auth().signOut()
             user = nil; userProfile = nil; profileState = .idle
+            AchievementTracker.reset()   // the next account starts its own badge history
         } catch { errorMessage = error.localizedDescription }
     }
 
@@ -269,6 +270,7 @@ class AuthViewModel: ObservableObject {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "chatHistory")
         defaults.removeObject(forKey: "dailyQuizDate")
+        AchievementTracker.reset()
         for level in LevelSystem.order {
             defaults.removeObject(forKey: "flashSeen_\(level)")
             defaults.removeObject(forKey: "flashDealt_\(level)")

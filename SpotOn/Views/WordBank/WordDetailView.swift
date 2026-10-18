@@ -35,6 +35,9 @@ struct WordDetailView: View {
                                     .padding(.horizontal, 10).padding(.vertical, 4)
                                     .background(Color.crystalBlue.opacity(0.15)).foregroundColor(.crystalBlue).cornerRadius(8)
                             }
+                            Text(word.stageLabel).font(.caption.bold())
+                                .padding(.horizontal, 10).padding(.vertical, 4)
+                                .background(Color.orange.opacity(0.12)).foregroundColor(.orange).cornerRadius(8)
                             if !word.partOfSpeech.isEmpty {
                                 Text(word.partOfSpeech.capitalized).font(.caption.bold())
                                     .padding(.horizontal, 10).padding(.vertical, 4)
@@ -102,8 +105,8 @@ struct WordDetailView: View {
                             guard let uid = authVM.user?.uid else { return }
                             Task { await wordBankVM.toggleMastered(word, uid: uid) }
                         }
-                        ActionButton(icon: "arrow.clockwise.circle.fill", title: word.needsReview ? "Reviewing" : "Needs Review",
-                                     color: .orange, isActive: word.needsReview) {
+                        ActionButton(icon: "arrow.clockwise.circle.fill", title: word.isDue ? "Reviewing" : "Needs Review",
+                                     color: .orange, isActive: word.isDue) {
                             guard let uid = authVM.user?.uid else { return }
                             Task { await wordBankVM.toggleNeedsReview(word, uid: uid) }
                         }

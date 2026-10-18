@@ -13,7 +13,8 @@ enum CardLang: String, CaseIterable {
 
 // MARK: - Deck builder
 /// Deals a fresh deck on EVERY build using a recency-based algorithm:
-/// - Review-flagged bank words come first (capped at half the deck).
+/// - Bank words due for review (spaced repetition) come first, capped at half the deck.
+/// - Words waiting for a later review stay out until their day comes.
 /// - Never-dealt words at the user's level come next, shuffled.
 /// - If those run out, the least-recently-dealt words return first —
 ///   so yesterday's words are always the LAST to reappear.
@@ -37,7 +38,7 @@ enum FlashcardDeckBuilder {
         let masteredTexts = Set(bank.filter(\.isMastered).map { $0.word.lowercased() })
         var pack = VocabularyService.shared.words(for: level)
         if pack.isEmpty { pack = VocabularyService.shared.words(for: "intermediate") }  // safety net
-        let all = bank.filter { $0.level == level && !$0.needsReview && !$0.isMastered }
+        let all = bank.filter { $0.level == level && !$0.isMastered && !$0.isDue && !$0.isScheduled }
             + pack.filter { !masteredTexts.contains($0.word.lowercased()) }
         let never = all.filter { dealt[$0.word.lowercased()] == nil }.shuffled()
         let oldest = all.filter { dealt[$0.word.lowercased()] != nil }
@@ -55,8 +56,8 @@ enum FlashcardDeckBuilder {
             used.insert(key); pool.append(w)
         }
 
-        // 1. Review words first, but never more than half the deck
-        for w in bank.filter(\.needsReview).shuffled() {
+        // 1. Due reviews first, but never more than half the deck
+        for w in bank.filter(\.isDue).shuffled() {
             if pool.count >= size / 2 { break }
             add(w)
         }
@@ -283,17 +284,16 @@ struct FlashcardsView: View {
     private func recordKnown(_ word: Word) {
         guard let uid = authVM.user?.uid else { return }
         if word.id != nil {
-            // Bank word: clear the review flag and mark Mastered, otherwise it
-            // would resurface at the top of every future deck forever.
-            if word.needsReview || !word.isMastered {
-                Task { await wordBankVM.markKnown(word, uid: uid) }
-            }
+            // Bank word: advance it one step on the review schedule.
+            Task { await wordBankVM.recordReview(word, knew: true, uid: uid) }
             return
         }
-        guard !wordBankVM.words.contains(where: { $0.word.lowercased() == word.word.lowercased() }) else { return }
+        guard !wordBankVM.contains(word.word) else { return }
         addedToBank += 1
+        // Known on first sight: the user already knows it, so it's Mastered.
         var newWord = word
         newWord.isMastered = true
+        newWord.masteredAt = Date()
         newWord.context = "Learned in Flashcards"
         Task { await wordBankVM.addWord(newWord, uid: uid, enrich: false) }
     }
@@ -303,15 +303,15 @@ struct FlashcardsView: View {
     private func recordUnknown(_ word: Word) {
         guard let uid = authVM.user?.uid else { return }
         if word.id != nil {
-            // Already in the bank — just flag it for review
-            if !word.needsReview {
-                markedForReview += 1
-                Task { await wordBankVM.toggleNeedsReview(word, uid: uid) }
-            }
-        } else if !wordBankVM.words.contains(where: { $0.word.lowercased() == word.word.lowercased() }) {
+            // Already in the bank: back to the start of the review schedule.
+            if !word.isDue { markedForReview += 1 }
+            Task { await wordBankVM.recordReview(word, knew: false, uid: uid) }
+        } else if !wordBankVM.contains(word.word) {
             addedToBank += 1
             var newWord = word
             newWord.needsReview = true
+            newWord.srsStage = 0
+            newWord.nextReview = Date()
             newWord.context = "Missed in Flashcards"
             newWord.tags = ["Review"]
             Task { await wordBankVM.addWord(newWord, uid: uid) }

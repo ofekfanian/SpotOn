@@ -215,7 +215,7 @@ struct OnboardingView: View {
         Task {
             await authVM.completeOnboarding(level: recommendedLevel)
             // Honors the reminder toggle and hour chosen in Settings.
-            await NotificationService.syncWithSettings()
+            await NotificationService.syncWithSettings(level: recommendedLevel)
             isFinishing = false
             dismiss()   // no-op on first launch; closes the sheet when retaking from Settings
         }

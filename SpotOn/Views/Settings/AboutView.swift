@@ -9,6 +9,9 @@ struct AboutView: View {
         ("text.append", .crystalBlue, "Sentence Completion", "Fill in the blanks and see the full translation."),
         ("camera.viewfinder", .crystalMint, "Snap & Learn", "Photograph anything and learn its name instantly."),
         ("message.fill", .crystalGold, "AI English Tutor", "Chat or have a voice call to practice real conversation."),
+        ("arrow.clockwise.circle.fill", .crystalBlue, "Smart Review", "Spaced repetition brings each word back right before you'd forget it."),
+        ("chart.bar.fill", .crystalMint, "Weekly Recap", "Track your week, beat the weekly challenge and unlock achievements."),
+        ("shippingbox.fill", .crystalGold, "Weekly Word Packs", "A fresh themed set of words arrives every week, plus a Word of the Day."),
     ]
 
     var body: some View {

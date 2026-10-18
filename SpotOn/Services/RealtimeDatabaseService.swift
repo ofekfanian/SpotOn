@@ -8,6 +8,8 @@ class RealtimeDatabaseService: ObservableObject {
 
     @Published var streak: Int = 0
     @Published var xp: Int = 0
+    /// True once the first XP value arrived from the server.
+    @Published private(set) var hasLoaded = false
 
     /// Fired whenever a counter increases — drives the "sucked-in" gain animation.
     struct GainEvent: Equatable { let amount: Int; let id: UUID }
@@ -16,8 +18,16 @@ class RealtimeDatabaseService: ObservableObject {
     private var lastXPValue: Int?
     private var lastStreakValue: Int?
 
+    /// XP earned per day ("yyyy-MM-dd" -> XP) for the last few weeks.
+    /// Feeds the weekly recap, the activity map and the weekly challenge.
+    @Published var dailyXP: [String: Int] = [:]
+    /// Week keys ("2026-W42") whose challenge bonus was already claimed.
+    @Published var claimedChallenges: Set<String> = []
+
     private var streakHandle: DatabaseHandle?
     private var xpHandle: DatabaseHandle?
+    private var dailyHandle: DatabaseHandle?
+    private var challengeHandle: DatabaseHandle?
 
     private var listeningUid: String?
 
@@ -26,6 +36,7 @@ class RealtimeDatabaseService: ObservableObject {
         if let previous = listeningUid { stopListening(for: previous) }
         listeningUid = uid
         lastXPValue = nil       // first observed value must not fire a gain animation
+        hasLoaded = false
         lastStreakValue = nil
         let userRef = ref.child("users").child(uid)
         streakHandle = userRef.child("streak").observe(.value) { [weak self] snap in
@@ -48,7 +59,21 @@ class RealtimeDatabaseService: ObservableObject {
                 }
                 self.lastXPValue = new
                 self.xp = new
+                self.hasLoaded = true
             }
+        }
+        // Only the last 12 weeks are needed for the activity map.
+        let since = Calendar.current.date(byAdding: .day, value: -84, to: Date()) ?? Date()
+        dailyHandle = userRef.child("daily").queryOrderedByKey()
+            .queryStarting(atValue: DateFormatter.spotDate.string(from: since))
+            .observe(.value) { [weak self] snap in
+                let map = snap.value as? [String: Any] ?? [:]
+                let parsed = map.compactMapValues { ($0 as? NSNumber)?.intValue }
+                Task { @MainActor in self?.dailyXP = parsed }
+            }
+        challengeHandle = userRef.child("challenges").observe(.value) { [weak self] snap in
+            let keys = Set((snap.value as? [String: Any] ?? [:]).keys)
+            Task { @MainActor in self?.claimedChallenges = keys }
         }
     }
 
@@ -56,6 +81,8 @@ class RealtimeDatabaseService: ObservableObject {
         let userRef = ref.child("users").child(uid)
         if let h = streakHandle { userRef.child("streak").removeObserver(withHandle: h); streakHandle = nil }
         if let h = xpHandle { userRef.child("xp").removeObserver(withHandle: h); xpHandle = nil }
+        if let h = dailyHandle { userRef.child("daily").removeObserver(withHandle: h); dailyHandle = nil }
+        if let h = challengeHandle { userRef.child("challenges").removeObserver(withHandle: h); challengeHandle = nil }
         if listeningUid == uid { listeningUid = nil }
     }
 
@@ -64,11 +91,29 @@ class RealtimeDatabaseService: ObservableObject {
         try await ref.child("users").child(uid).removeValue()
         streak = 0
         xp = 0
+        dailyXP = [:]
+        claimedChallenges = []
     }
 
     func addXP(_ amount: Int, for uid: String) async throws {
-        // Atomic server-side increment — no read-modify-write race.
-        try await ref.child("users").child(uid).child("xp").setValue(ServerValue.increment(NSNumber(value: amount)))
+        guard amount > 0 else { return }
+        // Atomic server-side increments of the total and today's bucket,
+        // written together so the history always adds up to the total.
+        let day = DateFormatter.spotDate.string(from: Date())
+        let inc = ServerValue.increment(NSNumber(value: amount))
+        try await ref.child("users").child(uid).updateChildValues(["xp": inc, "daily/\(day)": inc])
+    }
+
+    /// Awards the weekly challenge bonus once per week. The claim flag and the
+    /// XP are written in one update, so a double tap can't pay out twice.
+    func claimChallenge(week: String, bonus: Int, for uid: String) async throws {
+        guard !claimedChallenges.contains(week) else { return }
+        claimedChallenges.insert(week)
+        let day = DateFormatter.spotDate.string(from: Date())
+        let inc = ServerValue.increment(NSNumber(value: bonus))
+        try await ref.child("users").child(uid).updateChildValues([
+            "challenges/\(week)": true, "xp": inc, "daily/\(day)": inc
+        ])
     }
 
     func checkAndUpdateStreak(for uid: String) async throws {

@@ -1,4 +1,11 @@
 import SwiftUI
+import SwiftData
+
+/// A one-off flashcard session over a fixed list (due reviews, weekly pack).
+private struct FlashSession: Identifiable {
+    let id = UUID()
+    let words: [Word]
+}
 
 struct DashboardView: View {
     @EnvironmentObject var authVM: AuthViewModel
@@ -6,6 +13,8 @@ struct DashboardView: View {
     @StateObject private var vm = DashboardViewModel()
     @ObservedObject private var rtdb = RealtimeDatabaseService.shared
     @ObservedObject private var profileImage = ProfileImageStore.shared
+    @ObservedObject private var packs = ContentPackService.shared
+    @Query(filter: #Predicate<ReadingPassage> { $0.isCompleted }) private var completedPassages: [ReadingPassage]
     @Environment(\.horizontalSizeClass) private var hSizeClass
     @Environment(\.colorScheme) private var scheme
 
@@ -14,6 +23,8 @@ struct DashboardView: View {
     @State private var showSnapLearn = false
     @State private var showSentences = false
     @State private var levelUpTo: String? = nil
+    @State private var session: FlashSession? = nil
+    @State private var unlocked: (badge: Achievement, extra: Int)? = nil
 
     /// Switches to the Profile tab (the avatar used to push a second copy of it).
     var onProfileTap: () -> Void = {}
@@ -38,6 +49,33 @@ struct DashboardView: View {
                 VStack(spacing: 22) {
                     header
                     statsRow
+                    LevelProgressCard(level: level, xp: rtdb.xp).padding(.horizontal)
+                    if !wordBankVM.dueWords.isEmpty {
+                        DueReviewBanner(count: wordBankVM.dueWords.count) {
+                            session = FlashSession(words: Array(wordBankVM.dueWords.shuffled().prefix(20)))
+                        }
+                        .padding(.horizontal)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                    }
+                    if let wotd = VocabularyService.shared.wordOfTheDay(level: level) {
+                        WordOfDayCard(word: wotd, isSaved: wordBankVM.contains(wotd.word)) { save(wordOfDay: wotd) }
+                            .padding(.horizontal)
+                    }
+                    NavigationLink {
+                        ProgressScreen().environmentObject(authVM).environmentObject(wordBankVM)
+                    } label: {
+                        WeeklyRecapCard(stats: WeeklyStats(words: wordBankVM.words, dailyXP: rtdb.dailyXP),
+                                        challenge: WeeklyChallenge())
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal)
+                    if let pack = packs.latest {
+                        let fresh = pack.asWords.filter { !wordBankVM.contains($0.word) }
+                        WeeklyPackCard(pack: pack, newCount: fresh.count) {
+                            session = FlashSession(words: fresh.shuffled())
+                        }
+                        .padding(.horizontal)
+                    }
                     idiomSection
                     practiceSection
 
@@ -76,21 +114,67 @@ struct DashboardView: View {
             .sheet(isPresented: $showSentences, onDismiss: checkPromotion) {
                 SentenceCompletionView(level: level).environmentObject(authVM)
             }
+            .sheet(item: $session, onDismiss: checkPromotion) { s in
+                FlashcardsView(customDeck: s.words, level: level)
+                    .environmentObject(authVM)
+                    .environmentObject(wordBankVM)
+            }
             .task(id: level) { await vm.load(level: level) }
+            .task { await packs.refreshIfNeeded() }
+            .onChange(of: wordBankVM.words.count) { _, _ in checkAchievements() }
+            .onChange(of: wordBankVM.hasLoaded) { _, _ in checkAchievements() }
+            .onChange(of: rtdb.hasLoaded) { _, _ in checkAchievements() }
+            .onChange(of: rtdb.streak) { _, _ in checkAchievements() }
+            .onChange(of: completedPassages.count) { _, _ in checkAchievements() }
+            .animation(.easeInOut(duration: 0.3), value: wordBankVM.dueWords.isEmpty)
             .onChange(of: rtdb.xp) { _, _ in
                 // While a game cover is up the banner would be invisible —
                 // the cover's onDismiss re-checks instead.
-                guard !showBlitz, !showFlashcards, !showSentences, !showSnapLearn else { return }
+                guard !showBlitz, !showFlashcards, !showSentences, !showSnapLearn, session == nil else { return }
                 checkPromotion()
+                checkAchievements()
             }
             .overlay(alignment: .top) {
                 if let promoted = levelUpTo {
                     LevelUpBanner(level: promoted)
                         .padding(.top, 8)
                         .transition(.move(edge: .top).combined(with: .opacity))
+                } else if let unlocked {
+                    AchievementBanner(achievement: unlocked.badge, extraCount: unlocked.extra)
+                        .padding(.top, 8)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .onTapGesture { withAnimation { self.unlocked = nil } }
                 }
             }
             .applyTabBarVisibility()
+        }
+    }
+
+    /// Saves the Word of the Day to the bank (with AI enrichment) for 5 XP.
+    private func save(wordOfDay word: Word) {
+        guard let uid = authVM.user?.uid else { return }
+        var newWord = word
+        newWord.context = "Word of the Day"
+        Task {
+            if await wordBankVM.addWord(newWord, uid: uid) {
+                try? await RealtimeDatabaseService.shared.addXP(5, for: uid)
+            }
+        }
+    }
+
+    /// Shows a banner when a badge unlocks. Waits until the word bank has
+    /// loaded so existing badges aren't announced as new on launch.
+    private func checkAchievements() {
+        guard wordBankVM.hasLoaded, rtdb.hasLoaded, unlocked == nil else { return }
+        let all = Achievement.all(words: wordBankVM.words, xp: rtdb.xp, streak: rtdb.streak,
+                                  passagesCompleted: completedPassages.count)
+        let fresh = AchievementTracker.newlyUnlocked(all)
+        guard let first = fresh.first else { return }
+        SoundService.playCorrect()
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) { unlocked = (first, fresh.count - 1) }
+        Task {
+            try? await Task.sleep(nanoseconds: 3_500_000_000)
+            withAnimation(.easeOut(duration: 0.4)) { unlocked = nil }
         }
     }
 
@@ -235,7 +319,10 @@ private struct CrystalStatCard: View {
     var body: some View {
         VStack(spacing: 6) {
             Image(systemName: icon).foregroundColor(color).font(.title2)
+                .frame(height: 30)   // equal card heights whatever the symbol's shape
             Text(value).font(.title3.bold())
+                .lineLimit(1)
+                .fixedSize()   // never truncate the number to "…"
                 .contentTransition(.numericText())
                 .scaleEffect(bump ? 1.18 : 1)
             Text(label).font(.caption).foregroundColor(.secondary)

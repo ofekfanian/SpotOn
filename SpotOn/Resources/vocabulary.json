@@ -2837,7 +2837,2000 @@
   {
    "en": "zone",
    "he": "אזור"
+  },
+  {
+   "en": "afford",
+   "he": "להרשות לעצמו"
+  },
+  {
+   "en": "budget",
+   "he": "תקציב"
+  },
+  {
+   "en": "invest",
+   "he": "להשקיע"
+  },
+  {
+   "en": "loan",
+   "he": "הלוואה"
+  },
+  {
+   "en": "debt",
+   "he": "חוב"
+  },
+  {
+   "en": "salary",
+   "he": "משכורת"
+  },
+  {
+   "en": "receipt",
+   "he": "קבלה"
+  },
+  {
+   "en": "refund",
+   "he": "החזר כספי"
+  },
+  {
+   "en": "discount",
+   "he": "הנחה"
+  },
+  {
+   "en": "bargain",
+   "he": "מציאה"
+  },
+  {
+   "en": "expense",
+   "he": "הוצאה"
+  },
+  {
+   "en": "income",
+   "he": "הכנסה"
+  },
+  {
+   "en": "tax",
+   "he": "מס"
+  },
+  {
+   "en": "savings",
+   "he": "חסכונות"
+  },
+  {
+   "en": "insurance",
+   "he": "ביטוח"
+  },
+  {
+   "en": "contract",
+   "he": "חוזה"
+  },
+  {
+   "en": "landlord",
+   "he": "בעל דירה"
+  },
+  {
+   "en": "tenant",
+   "he": "שוכר"
+  },
+  {
+   "en": "rent",
+   "he": "שכר דירה"
+  },
+  {
+   "en": "mortgage",
+   "he": "משכנתא"
+  },
+  {
+   "en": "furniture",
+   "he": "רהיטים"
+  },
+  {
+   "en": "appliance",
+   "he": "מכשיר חשמלי"
+  },
+  {
+   "en": "repair",
+   "he": "לתקן"
+  },
+  {
+   "en": "renovate",
+   "he": "לשפץ"
+  },
+  {
+   "en": "environment",
+   "he": "סביבה"
+  },
+  {
+   "en": "pollution",
+   "he": "זיהום"
+  },
+  {
+   "en": "climate",
+   "he": "אקלים"
+  },
+  {
+   "en": "recycle",
+   "he": "למחזר"
+  },
+  {
+   "en": "waste",
+   "he": "פסולת"
+  },
+  {
+   "en": "conserve",
+   "he": "לשמר, לחסוך"
+  },
+  {
+   "en": "drought",
+   "he": "בצורת"
+  },
+  {
+   "en": "flood",
+   "he": "שיטפון"
+  },
+  {
+   "en": "earthquake",
+   "he": "רעידת אדמה"
+  },
+  {
+   "en": "wildlife",
+   "he": "חיות בר"
+  },
+  {
+   "en": "species",
+   "he": "מין (בביולוגיה)"
+  },
+  {
+   "en": "extinct",
+   "he": "נכחד"
+  },
+  {
+   "en": "device",
+   "he": "מכשיר"
+  },
+  {
+   "en": "software",
+   "he": "תוכנה"
+  },
+  {
+   "en": "hardware",
+   "he": "חומרה"
+  },
+  {
+   "en": "download",
+   "he": "להוריד"
+  },
+  {
+   "en": "upload",
+   "he": "להעלות"
+  },
+  {
+   "en": "password",
+   "he": "סיסמה"
+  },
+  {
+   "en": "account",
+   "he": "חשבון"
+  },
+  {
+   "en": "settings",
+   "he": "הגדרות"
+  },
+  {
+   "en": "update",
+   "he": "עדכון"
+  },
+  {
+   "en": "battery",
+   "he": "סוללה"
+  },
+  {
+   "en": "charger",
+   "he": "מטען"
+  },
+  {
+   "en": "screen",
+   "he": "מסך"
+  },
+  {
+   "en": "keyboard",
+   "he": "מקלדת"
+  },
+  {
+   "en": "browser",
+   "he": "דפדפן"
+  },
+  {
+   "en": "website",
+   "he": "אתר אינטרנט"
+  },
+  {
+   "en": "privacy",
+   "he": "פרטיות"
+  },
+  {
+   "en": "security",
+   "he": "אבטחה"
+  },
+  {
+   "en": "online",
+   "he": "מקוון"
+  },
+  {
+   "en": "headline",
+   "he": "כותרת"
+  },
+  {
+   "en": "article",
+   "he": "כתבה, מאמר"
+  },
+  {
+   "en": "journalist",
+   "he": "עיתונאי"
+  },
+  {
+   "en": "broadcast",
+   "he": "שידור"
+  },
+  {
+   "en": "audience",
+   "he": "קהל"
+  },
+  {
+   "en": "advertisement",
+   "he": "פרסומת"
+  },
+  {
+   "en": "opinion",
+   "he": "דעה"
+  },
+  {
+   "en": "confident",
+   "he": "בטוח בעצמו"
+  },
+  {
+   "en": "anxious",
+   "he": "חרד, מודאג"
+  },
+  {
+   "en": "embarrassed",
+   "he": "נבוך"
+  },
+  {
+   "en": "frustrated",
+   "he": "מתוסכל"
+  },
+  {
+   "en": "jealous",
+   "he": "מקנא"
+  },
+  {
+   "en": "proud",
+   "he": "גאה"
+  },
+  {
+   "en": "ashamed",
+   "he": "מתבייש"
+  },
+  {
+   "en": "curious",
+   "he": "סקרן"
+  },
+  {
+   "en": "disappointed",
+   "he": "מאוכזב"
+  },
+  {
+   "en": "relieved",
+   "he": "מרגיש הקלה"
+  },
+  {
+   "en": "nervous",
+   "he": "לחוץ, מתוח"
+  },
+  {
+   "en": "lonely",
+   "he": "בודד"
+  },
+  {
+   "en": "upset",
+   "he": "נסער"
+  },
+  {
+   "en": "patient",
+   "he": "סבלני"
+  },
+  {
+   "en": "generous",
+   "he": "נדיב"
+  },
+  {
+   "en": "reliable",
+   "he": "אמין"
+  },
+  {
+   "en": "responsible",
+   "he": "אחראי"
+  },
+  {
+   "en": "polite",
+   "he": "מנומס"
+  },
+  {
+   "en": "rude",
+   "he": "גס רוח"
+  },
+  {
+   "en": "selfish",
+   "he": "אנוכי"
+  },
+  {
+   "en": "stubborn",
+   "he": "עקשן"
+  },
+  {
+   "en": "ambitious",
+   "he": "שאפתני"
+  },
+  {
+   "en": "creative",
+   "he": "יצירתי"
+  },
+  {
+   "en": "independent",
+   "he": "עצמאי"
+  },
+  {
+   "en": "mature",
+   "he": "בוגר"
+  },
+  {
+   "en": "sensitive",
+   "he": "רגיש"
+  },
+  {
+   "en": "cheerful",
+   "he": "עליז"
+  },
+  {
+   "en": "brave",
+   "he": "אמיץ"
+  },
+  {
+   "en": "decision",
+   "he": "החלטה"
+  },
+  {
+   "en": "solution",
+   "he": "פתרון"
+  },
+  {
+   "en": "mistake",
+   "he": "טעות"
+  },
+  {
+   "en": "advice",
+   "he": "עצה"
+  },
+  {
+   "en": "permission",
+   "he": "רשות"
+  },
+  {
+   "en": "request",
+   "he": "בקשה"
+  },
+  {
+   "en": "complaint",
+   "he": "תלונה"
+  },
+  {
+   "en": "apologize",
+   "he": "להתנצל"
+  },
+  {
+   "en": "appreciate",
+   "he": "להעריך"
+  },
+  {
+   "en": "admit",
+   "he": "להודות"
+  },
+  {
+   "en": "avoid",
+   "he": "להימנע"
+  },
+  {
+   "en": "convince",
+   "he": "לשכנע"
+  },
+  {
+   "en": "deny",
+   "he": "להכחיש"
+  },
+  {
+   "en": "encourage",
+   "he": "לעודד"
+  },
+  {
+   "en": "ignore",
+   "he": "להתעלם"
+  },
+  {
+   "en": "insist",
+   "he": "להתעקש"
+  },
+  {
+   "en": "mention",
+   "he": "להזכיר"
+  },
+  {
+   "en": "postpone",
+   "he": "לדחות"
+  },
+  {
+   "en": "prefer",
+   "he": "להעדיף"
+  },
+  {
+   "en": "pretend",
+   "he": "להעמיד פנים"
+  },
+  {
+   "en": "recommend",
+   "he": "להמליץ"
+  },
+  {
+   "en": "refuse",
+   "he": "לסרב"
+  },
+  {
+   "en": "regret",
+   "he": "להתחרט"
+  },
+  {
+   "en": "remind",
+   "he": "להזכיר (למישהו)"
+  },
+  {
+   "en": "replace",
+   "he": "להחליף"
+  },
+  {
+   "en": "respond",
+   "he": "להגיב"
+  },
+  {
+   "en": "suggest",
+   "he": "להציע"
+  },
+  {
+   "en": "survive",
+   "he": "לשרוד"
+  },
+  {
+   "en": "warn",
+   "he": "להזהיר"
+  },
+  {
+   "en": "wonder",
+   "he": "לתהות"
+  },
+  {
+   "en": "appointment",
+   "he": "פגישה, תור"
+  },
+  {
+   "en": "invitation",
+   "he": "הזמנה"
+  },
+  {
+   "en": "celebration",
+   "he": "חגיגה"
+  },
+  {
+   "en": "anniversary",
+   "he": "יום שנה"
+  },
+  {
+   "en": "ceremony",
+   "he": "טקס"
+  },
+  {
+   "en": "tradition",
+   "he": "מסורת"
+  },
+  {
+   "en": "culture",
+   "he": "תרבות"
+  },
+  {
+   "en": "custom",
+   "he": "מנהג"
+  },
+  {
+   "en": "generation",
+   "he": "דור"
+  },
+  {
+   "en": "relationship",
+   "he": "מערכת יחסים"
+  },
+  {
+   "en": "community",
+   "he": "קהילה"
+  },
+  {
+   "en": "volunteer",
+   "he": "מתנדב"
+  },
+  {
+   "en": "charity",
+   "he": "צדקה, ארגון צדקה"
+  },
+  {
+   "en": "government",
+   "he": "ממשלה"
+  },
+  {
+   "en": "election",
+   "he": "בחירות"
+  },
+  {
+   "en": "citizen",
+   "he": "אזרח"
+  },
+  {
+   "en": "crime",
+   "he": "פשע"
+  },
+  {
+   "en": "court",
+   "he": "בית משפט"
+  },
+  {
+   "en": "witness",
+   "he": "עד"
+  },
+  {
+   "en": "evidence",
+   "he": "ראיה"
+  },
+  {
+   "en": "ingredient",
+   "he": "מרכיב"
+  },
+  {
+   "en": "flavor",
+   "he": "טעם"
+  },
+  {
+   "en": "portion",
+   "he": "מנה"
+  },
+  {
+   "en": "vegetarian",
+   "he": "צמחוני"
+  },
+  {
+   "en": "grocery",
+   "he": "מכולת"
+  },
+  {
+   "en": "delivery",
+   "he": "משלוח"
+  },
+  {
+   "en": "leftovers",
+   "he": "שאריות"
   }
  ],
- "advanced": []
+ "advanced": [
+  {
+   "en": "ambiguous",
+   "he": "דו-משמעי"
+  },
+  {
+   "en": "meticulous",
+   "he": "קפדני"
+  },
+  {
+   "en": "pragmatic",
+   "he": "מעשי, פרגמטי"
+  },
+  {
+   "en": "resilient",
+   "he": "בעל חוסן, עמיד"
+  },
+  {
+   "en": "resilience",
+   "he": "חוסן"
+  },
+  {
+   "en": "eloquent",
+   "he": "רהוט"
+  },
+  {
+   "en": "articulate",
+   "he": "מתבטא היטב"
+  },
+  {
+   "en": "coherent",
+   "he": "קוהרנטי, עקבי"
+  },
+  {
+   "en": "concise",
+   "he": "תמציתי"
+  },
+  {
+   "en": "verbose",
+   "he": "ארכני, מילולי מדי"
+  },
+  {
+   "en": "nuance",
+   "he": "ניואנס, דקות"
+  },
+  {
+   "en": "subtle",
+   "he": "עדין, מעודן"
+  },
+  {
+   "en": "profound",
+   "he": "עמוק"
+  },
+  {
+   "en": "superficial",
+   "he": "שטחי"
+  },
+  {
+   "en": "inevitable",
+   "he": "בלתי נמנע"
+  },
+  {
+   "en": "unprecedented",
+   "he": "חסר תקדים"
+  },
+  {
+   "en": "ubiquitous",
+   "he": "נפוץ בכל מקום"
+  },
+  {
+   "en": "obsolete",
+   "he": "מיושן"
+  },
+  {
+   "en": "contemporary",
+   "he": "עכשווי"
+  },
+  {
+   "en": "plausible",
+   "he": "סביר, מתקבל על הדעת"
+  },
+  {
+   "en": "feasible",
+   "he": "בר ביצוע"
+  },
+  {
+   "en": "viable",
+   "he": "בר קיימא, ישים"
+  },
+  {
+   "en": "tangible",
+   "he": "מוחשי"
+  },
+  {
+   "en": "intangible",
+   "he": "בלתי מוחשי"
+  },
+  {
+   "en": "arbitrary",
+   "he": "שרירותי"
+  },
+  {
+   "en": "inherent",
+   "he": "טבוע, מובנה"
+  },
+  {
+   "en": "intrinsic",
+   "he": "מהותי, פנימי"
+  },
+  {
+   "en": "explicit",
+   "he": "מפורש"
+  },
+  {
+   "en": "implicit",
+   "he": "מרומז, משתמע"
+  },
+  {
+   "en": "comprehensive",
+   "he": "מקיף"
+  },
+  {
+   "en": "exhaustive",
+   "he": "ממצה"
+  },
+  {
+   "en": "rigorous",
+   "he": "יסודי, קפדני"
+  },
+  {
+   "en": "diligent",
+   "he": "חרוץ, שקדן"
+  },
+  {
+   "en": "tenacious",
+   "he": "עיקש, דבק במטרה"
+  },
+  {
+   "en": "persistent",
+   "he": "מתמיד"
+  },
+  {
+   "en": "reluctant",
+   "he": "מסויג, לא ששׂ"
+  },
+  {
+   "en": "hesitant",
+   "he": "מהסס"
+  },
+  {
+   "en": "apprehensive",
+   "he": "חושש"
+  },
+  {
+   "en": "complacent",
+   "he": "שאנן"
+  },
+  {
+   "en": "candid",
+   "he": "גלוי לב"
+  },
+  {
+   "en": "sincere",
+   "he": "כן, אמיתי"
+  },
+  {
+   "en": "authentic",
+   "he": "אותנטי"
+  },
+  {
+   "en": "skeptical",
+   "he": "ספקן"
+  },
+  {
+   "en": "cynical",
+   "he": "ציני"
+  },
+  {
+   "en": "benevolent",
+   "he": "נדיב, טוב לב"
+  },
+  {
+   "en": "malicious",
+   "he": "זדוני"
+  },
+  {
+   "en": "arrogant",
+   "he": "יהיר"
+  },
+  {
+   "en": "humble",
+   "he": "צנוע, עניו"
+  },
+  {
+   "en": "assertive",
+   "he": "אסרטיבי"
+  },
+  {
+   "en": "compassionate",
+   "he": "חומל, רחום"
+  },
+  {
+   "en": "empathy",
+   "he": "אמפתיה"
+  },
+  {
+   "en": "integrity",
+   "he": "יושרה"
+  },
+  {
+   "en": "credibility",
+   "he": "אמינות"
+  },
+  {
+   "en": "accountability",
+   "he": "אחריותיות"
+  },
+  {
+   "en": "transparency",
+   "he": "שקיפות"
+  },
+  {
+   "en": "bias",
+   "he": "הטיה"
+  },
+  {
+   "en": "prejudice",
+   "he": "דעה קדומה"
+  },
+  {
+   "en": "discrimination",
+   "he": "אפליה"
+  },
+  {
+   "en": "consensus",
+   "he": "הסכמה כללית"
+  },
+  {
+   "en": "controversy",
+   "he": "מחלוקת"
+  },
+  {
+   "en": "dilemma",
+   "he": "דילמה"
+  },
+  {
+   "en": "paradox",
+   "he": "פרדוקס"
+  },
+  {
+   "en": "hypothesis",
+   "he": "השערה"
+  },
+  {
+   "en": "premise",
+   "he": "הנחת יסוד"
+  },
+  {
+   "en": "criterion",
+   "he": "קריטריון, אמת מידה"
+  },
+  {
+   "en": "phenomenon",
+   "he": "תופעה"
+  },
+  {
+   "en": "paradigm",
+   "he": "פרדיגמה"
+  },
+  {
+   "en": "framework",
+   "he": "מסגרת"
+  },
+  {
+   "en": "infrastructure",
+   "he": "תשתית"
+  },
+  {
+   "en": "sustainability",
+   "he": "קיימות"
+  },
+  {
+   "en": "mitigate",
+   "he": "למתן"
+  },
+  {
+   "en": "alleviate",
+   "he": "להקל"
+  },
+  {
+   "en": "exacerbate",
+   "he": "להחמיר"
+  },
+  {
+   "en": "undermine",
+   "he": "לערער"
+  },
+  {
+   "en": "reinforce",
+   "he": "לחזק"
+  },
+  {
+   "en": "facilitate",
+   "he": "לאפשר, להקל על"
+  },
+  {
+   "en": "advocate",
+   "he": "לתמוך ב-, לקדם"
+  },
+  {
+   "en": "endorse",
+   "he": "לאשר, לתמוך רשמית"
+  },
+  {
+   "en": "scrutinize",
+   "he": "לבחון בקפידה"
+  },
+  {
+   "en": "deteriorate",
+   "he": "להידרדר"
+  },
+  {
+   "en": "fluctuate",
+   "he": "לנוע בתנודות"
+  },
+  {
+   "en": "diminish",
+   "he": "להצטמצם"
+  },
+  {
+   "en": "proliferate",
+   "he": "להתרבות במהירות"
+  },
+  {
+   "en": "accumulate",
+   "he": "לצבור"
+  },
+  {
+   "en": "allocate",
+   "he": "להקצות"
+  },
+  {
+   "en": "anticipate",
+   "he": "לצפות מראש"
+  },
+  {
+   "en": "attribute",
+   "he": "לייחס"
+  },
+  {
+   "en": "circumvent",
+   "he": "לעקוף"
+  },
+  {
+   "en": "compensate",
+   "he": "לפצות"
+  },
+  {
+   "en": "comply",
+   "he": "לציית"
+  },
+  {
+   "en": "concede",
+   "he": "להודות, לוותר"
+  },
+  {
+   "en": "constrain",
+   "he": "להגביל"
+  },
+  {
+   "en": "contemplate",
+   "he": "להרהר, לשקול"
+  },
+  {
+   "en": "convey",
+   "he": "להעביר (מסר)"
+  },
+  {
+   "en": "deduce",
+   "he": "להסיק"
+  },
+  {
+   "en": "deem",
+   "he": "להחשיב, לראות כ-"
+  },
+  {
+   "en": "delegate",
+   "he": "להאציל סמכויות"
+  },
+  {
+   "en": "deprive",
+   "he": "לשלול"
+  },
+  {
+   "en": "deter",
+   "he": "להרתיע"
+  },
+  {
+   "en": "devise",
+   "he": "להגות, לתכנן"
+  },
+  {
+   "en": "discern",
+   "he": "להבחין"
+  },
+  {
+   "en": "disrupt",
+   "he": "לשבש"
+  },
+  {
+   "en": "elaborate",
+   "he": "לפרט, להרחיב"
+  },
+  {
+   "en": "elicit",
+   "he": "לעורר, להוציא (תגובה)"
+  },
+  {
+   "en": "embody",
+   "he": "לגלם"
+  },
+  {
+   "en": "emerge",
+   "he": "לצוץ, להופיע"
+  },
+  {
+   "en": "endeavor",
+   "he": "מאמץ, שאיפה"
+  },
+  {
+   "en": "enforce",
+   "he": "לאכוף"
+  },
+  {
+   "en": "entail",
+   "he": "לגרור, לכלול"
+  },
+  {
+   "en": "envision",
+   "he": "לדמיין, לחזות"
+  },
+  {
+   "en": "evoke",
+   "he": "לעורר (רגש, זיכרון)"
+  },
+  {
+   "en": "exploit",
+   "he": "לנצל"
+  },
+  {
+   "en": "fabricate",
+   "he": "לפברק, להמציא"
+  },
+  {
+   "en": "foster",
+   "he": "לטפח"
+  },
+  {
+   "en": "hinder",
+   "he": "לעכב, להפריע"
+  },
+  {
+   "en": "illuminate",
+   "he": "להאיר, להבהיר"
+  },
+  {
+   "en": "impose",
+   "he": "לכפות"
+  },
+  {
+   "en": "incentive",
+   "he": "תמריץ"
+  },
+  {
+   "en": "induce",
+   "he": "לגרום, להשרות"
+  },
+  {
+   "en": "infer",
+   "he": "להסיק"
+  },
+  {
+   "en": "inhibit",
+   "he": "לעכב, לבלום"
+  },
+  {
+   "en": "initiate",
+   "he": "ליזום"
+  },
+  {
+   "en": "innovate",
+   "he": "לחדש"
+  },
+  {
+   "en": "insinuate",
+   "he": "לרמוז (בעוקצנות)"
+  },
+  {
+   "en": "instigate",
+   "he": "לחולל, להסית"
+  },
+  {
+   "en": "justify",
+   "he": "להצדיק"
+  },
+  {
+   "en": "leverage",
+   "he": "למנף"
+  },
+  {
+   "en": "manipulate",
+   "he": "לתמרן"
+  },
+  {
+   "en": "nurture",
+   "he": "לטפח"
+  },
+  {
+   "en": "obstruct",
+   "he": "לחסום"
+  },
+  {
+   "en": "perceive",
+   "he": "לתפוס, להבחין"
+  },
+  {
+   "en": "persevere",
+   "he": "להתמיד"
+  },
+  {
+   "en": "portray",
+   "he": "לתאר, לגלם"
+  },
+  {
+   "en": "precede",
+   "he": "לקדום"
+  },
+  {
+   "en": "procrastinate",
+   "he": "לדחות משימות, להתמהמה"
+  },
+  {
+   "en": "prohibit",
+   "he": "לאסור"
+  },
+  {
+   "en": "provoke",
+   "he": "להתגרות, לעורר"
+  },
+  {
+   "en": "pursue",
+   "he": "לחתור אל, לרדוף אחר"
+  },
+  {
+   "en": "reconcile",
+   "he": "ליישב, לפייס"
+  },
+  {
+   "en": "refute",
+   "he": "להפריך"
+  },
+  {
+   "en": "reiterate",
+   "he": "לחזור על"
+  },
+  {
+   "en": "relinquish",
+   "he": "לוותר על"
+  },
+  {
+   "en": "retain",
+   "he": "לשמר"
+  },
+  {
+   "en": "revoke",
+   "he": "לבטל"
+  },
+  {
+   "en": "speculate",
+   "he": "לשער, להעלות השערות"
+  },
+  {
+   "en": "stipulate",
+   "he": "לקבוע כתנאי"
+  },
+  {
+   "en": "substantiate",
+   "he": "לבסס, להוכיח"
+  },
+  {
+   "en": "supersede",
+   "he": "לבוא במקום, להחליף"
+  },
+  {
+   "en": "suppress",
+   "he": "לדכא"
+  },
+  {
+   "en": "sustain",
+   "he": "לקיים, לשמר"
+  },
+  {
+   "en": "synthesize",
+   "he": "לסנתז, לשלב"
+  },
+  {
+   "en": "undergo",
+   "he": "לעבור (תהליך)"
+  },
+  {
+   "en": "validate",
+   "he": "לאמת"
+  },
+  {
+   "en": "vindicate",
+   "he": "לטהר שם, להצדיק"
+  },
+  {
+   "en": "acquisition",
+   "he": "רכישה"
+  },
+  {
+   "en": "merger",
+   "he": "מיזוג"
+  },
+  {
+   "en": "stakeholder",
+   "he": "בעל עניין"
+  },
+  {
+   "en": "revenue",
+   "he": "הכנסות"
+  },
+  {
+   "en": "liability",
+   "he": "התחייבות, חבות"
+  },
+  {
+   "en": "asset",
+   "he": "נכס"
+  },
+  {
+   "en": "equity",
+   "he": "הון עצמי"
+  },
+  {
+   "en": "dividend",
+   "he": "דיבידנד"
+  },
+  {
+   "en": "fiscal",
+   "he": "פיסקלי, תקציבי"
+  },
+  {
+   "en": "monetary",
+   "he": "מוניטרי, כספי"
+  },
+  {
+   "en": "inflation",
+   "he": "אינפלציה"
+  },
+  {
+   "en": "recession",
+   "he": "מיתון"
+  },
+  {
+   "en": "entrepreneur",
+   "he": "יזם"
+  },
+  {
+   "en": "venture",
+   "he": "מיזם"
+  },
+  {
+   "en": "benchmark",
+   "he": "אמת מידה"
+  },
+  {
+   "en": "outsource",
+   "he": "להעביר למיקור חוץ"
+  },
+  {
+   "en": "scalable",
+   "he": "ניתן להרחבה"
+  },
+  {
+   "en": "logistics",
+   "he": "לוגיסטיקה"
+  },
+  {
+   "en": "procurement",
+   "he": "רכש"
+  },
+  {
+   "en": "compliance",
+   "he": "עמידה בתקנות"
+  },
+  {
+   "en": "mandate",
+   "he": "מנדט, הוראה מחייבת"
+  },
+  {
+   "en": "protocol",
+   "he": "נוהל, פרוטוקול"
+  },
+  {
+   "en": "jurisdiction",
+   "he": "סמכות שיפוט"
+  },
+  {
+   "en": "legislation",
+   "he": "חקיקה"
+  },
+  {
+   "en": "litigation",
+   "he": "התדיינות משפטית"
+  },
+  {
+   "en": "verdict",
+   "he": "פסק דין"
+  },
+  {
+   "en": "plaintiff",
+   "he": "תובע"
+  },
+  {
+   "en": "defendant",
+   "he": "נתבע"
+  },
+  {
+   "en": "testimony",
+   "he": "עדות"
+  },
+  {
+   "en": "allegation",
+   "he": "האשמה"
+  },
+  {
+   "en": "sovereignty",
+   "he": "ריבונות"
+  },
+  {
+   "en": "diplomacy",
+   "he": "דיפלומטיה"
+  },
+  {
+   "en": "bureaucracy",
+   "he": "ביורוקרטיה"
+  },
+  {
+   "en": "ideology",
+   "he": "אידיאולוגיה"
+  },
+  {
+   "en": "propaganda",
+   "he": "תעמולה"
+  },
+  {
+   "en": "censorship",
+   "he": "צנזורה"
+  },
+  {
+   "en": "referendum",
+   "he": "משאל עם"
+  },
+  {
+   "en": "coalition",
+   "he": "קואליציה"
+  },
+  {
+   "en": "deficit",
+   "he": "גירעון"
+  },
+  {
+   "en": "surplus",
+   "he": "עודף"
+  },
+  {
+   "en": "austerity",
+   "he": "צנע"
+  },
+  {
+   "en": "subsidy",
+   "he": "סובסידיה"
+  },
+  {
+   "en": "welfare",
+   "he": "רווחה"
+  },
+  {
+   "en": "demographic",
+   "he": "דמוגרפי"
+  },
+  {
+   "en": "migration",
+   "he": "הגירה"
+  },
+  {
+   "en": "urbanization",
+   "he": "עיור"
+  },
+  {
+   "en": "globalization",
+   "he": "גלובליזציה"
+  },
+  {
+   "en": "biodiversity",
+   "he": "מגוון ביולוגי"
+  },
+  {
+   "en": "emission",
+   "he": "פליטה"
+  },
+  {
+   "en": "renewable",
+   "he": "מתחדש"
+  },
+  {
+   "en": "catastrophe",
+   "he": "אסון"
+  },
+  {
+   "en": "epidemic",
+   "he": "מגפה"
+  },
+  {
+   "en": "vulnerable",
+   "he": "פגיע"
+  },
+  {
+   "en": "hazardous",
+   "he": "מסוכן"
+  },
+  {
+   "en": "toxic",
+   "he": "רעיל"
+  },
+  {
+   "en": "algorithm",
+   "he": "אלגוריתם"
+  },
+  {
+   "en": "encryption",
+   "he": "הצפנה"
+  },
+  {
+   "en": "automation",
+   "he": "אוטומציה"
+  },
+  {
+   "en": "breakthrough",
+   "he": "פריצת דרך"
+  },
+  {
+   "en": "cutting-edge",
+   "he": "חדשני ביותר"
+  },
+  {
+   "en": "prototype",
+   "he": "אב טיפוס"
+  },
+  {
+   "en": "simulation",
+   "he": "הדמיה"
+  },
+  {
+   "en": "empirical",
+   "he": "אמפירי"
+  },
+  {
+   "en": "quantitative",
+   "he": "כמותי"
+  },
+  {
+   "en": "qualitative",
+   "he": "איכותי"
+  },
+  {
+   "en": "correlation",
+   "he": "מתאם"
+  },
+  {
+   "en": "anomaly",
+   "he": "חריגה"
+  },
+  {
+   "en": "variable",
+   "he": "משתנה"
+  },
+  {
+   "en": "catalyst",
+   "he": "זרז"
+  },
+  {
+   "en": "cognitive",
+   "he": "קוגניטיבי"
+  },
+  {
+   "en": "perception",
+   "he": "תפיסה"
+  },
+  {
+   "en": "intuition",
+   "he": "אינטואיציה"
+  },
+  {
+   "en": "consciousness",
+   "he": "תודעה"
+  },
+  {
+   "en": "aesthetic",
+   "he": "אסתטי"
+  },
+  {
+   "en": "metaphor",
+   "he": "מטאפורה"
+  },
+  {
+   "en": "irony",
+   "he": "אירוניה"
+  },
+  {
+   "en": "satire",
+   "he": "סאטירה"
+  },
+  {
+   "en": "narrative",
+   "he": "נרטיב, סיפור"
+  },
+  {
+   "en": "protagonist",
+   "he": "גיבור ראשי"
+  },
+  {
+   "en": "anecdote",
+   "he": "אנקדוטה"
+  },
+  {
+   "en": "cliché",
+   "he": "קלישאה"
+  },
+  {
+   "en": "rhetoric",
+   "he": "רטוריקה"
+  },
+  {
+   "en": "allegory",
+   "he": "אלגוריה"
+  },
+  {
+   "en": "connotation",
+   "he": "קונוטציה"
+  },
+  {
+   "en": "ambivalent",
+   "he": "אמביוולנטי, דו-ערכי"
+  },
+  {
+   "en": "nostalgic",
+   "he": "נוסטלגי"
+  },
+  {
+   "en": "melancholy",
+   "he": "עצב, מלנכוליה"
+  },
+  {
+   "en": "euphoric",
+   "he": "אופורי"
+  },
+  {
+   "en": "indifferent",
+   "he": "אדיש"
+  },
+  {
+   "en": "whimsical",
+   "he": "גחמני"
+  },
+  {
+   "en": "eccentric",
+   "he": "תמהוני, אקסצנטרי"
+  },
+  {
+   "en": "pretentious",
+   "he": "יומרני"
+  },
+  {
+   "en": "gullible",
+   "he": "פתי"
+  },
+  {
+   "en": "naive",
+   "he": "תמים"
+  },
+  {
+   "en": "shrewd",
+   "he": "ממולח"
+  },
+  {
+   "en": "astute",
+   "he": "חד הבחנה"
+  },
+  {
+   "en": "prudent",
+   "he": "נבון, זהיר"
+  },
+  {
+   "en": "reckless",
+   "he": "פזיז"
+  },
+  {
+   "en": "impulsive",
+   "he": "אימפולסיבי"
+  },
+  {
+   "en": "volatile",
+   "he": "הפכפך"
+  },
+  {
+   "en": "stagnant",
+   "he": "עומד במקום"
+  },
+  {
+   "en": "lucrative",
+   "he": "רווחי"
+  },
+  {
+   "en": "frugal",
+   "he": "חסכן"
+  },
+  {
+   "en": "extravagant",
+   "he": "ראוותני, בזבזני"
+  },
+  {
+   "en": "affluent",
+   "he": "אמיד"
+  },
+  {
+   "en": "destitute",
+   "he": "חסר כל"
+  },
+  {
+   "en": "adversity",
+   "he": "מצוקה, קושי"
+  },
+  {
+   "en": "predicament",
+   "he": "מצב ביש"
+  },
+  {
+   "en": "setback",
+   "he": "נסיגה"
+  },
+  {
+   "en": "obstacle",
+   "he": "מכשול"
+  },
+  {
+   "en": "pitfall",
+   "he": "מלכודת"
+  },
+  {
+   "en": "drawback",
+   "he": "חיסרון"
+  },
+  {
+   "en": "leeway",
+   "he": "מרווח פעולה"
+  },
+  {
+   "en": "hindsight",
+   "he": "חוכמה שבדיעבד"
+  },
+  {
+   "en": "foresight",
+   "he": "ראיית הנולד"
+  },
+  {
+   "en": "insight",
+   "he": "תובנה"
+  },
+  {
+   "en": "compromise",
+   "he": "פשרה"
+  },
+  {
+   "en": "concession",
+   "he": "ויתור"
+  },
+  {
+   "en": "ultimatum",
+   "he": "אולטימטום"
+  },
+  {
+   "en": "deadlock",
+   "he": "מבוי סתום"
+  },
+  {
+   "en": "rapport",
+   "he": "קרבה, הבנה הדדית"
+  },
+  {
+   "en": "etiquette",
+   "he": "כללי נימוס"
+  },
+  {
+   "en": "hierarchy",
+   "he": "היררכיה"
+  },
+  {
+   "en": "autonomy",
+   "he": "אוטונומיה"
+  },
+  {
+   "en": "initiative",
+   "he": "יוזמה"
+  },
+  {
+   "en": "discretion",
+   "he": "שיקול דעת"
+  },
+  {
+   "en": "prerogative",
+   "he": "זכות יתר"
+  },
+  {
+   "en": "precedent",
+   "he": "תקדים"
+  },
+  {
+   "en": "hypothetical",
+   "he": "היפותטי"
+  },
+  {
+   "en": "tentative",
+   "he": "זמני, לא סופי"
+  },
+  {
+   "en": "preliminary",
+   "he": "מקדים"
+  },
+  {
+   "en": "subsequent",
+   "he": "שלאחר מכן"
+  },
+  {
+   "en": "simultaneous",
+   "he": "בו-זמני"
+  },
+  {
+   "en": "intermittent",
+   "he": "לסירוגין"
+  },
+  {
+   "en": "sporadic",
+   "he": "ספורדי"
+  },
+  {
+   "en": "perpetual",
+   "he": "תמידי, נצחי"
+  },
+  {
+   "en": "transient",
+   "he": "חולף"
+  },
+  {
+   "en": "imminent",
+   "he": "קרוב, ממשמש ובא"
+  },
+  {
+   "en": "notorious",
+   "he": "ידוע לשמצה"
+  },
+  {
+   "en": "renowned",
+   "he": "נודע, מפורסם"
+  },
+  {
+   "en": "prominent",
+   "he": "בולט"
+  },
+  {
+   "en": "obscure",
+   "he": "לא מוכר, מעורפל"
+  },
+  {
+   "en": "vague",
+   "he": "מעורפל"
+  },
+  {
+   "en": "intricate",
+   "he": "מורכב, מסובך"
+  },
+  {
+   "en": "cumbersome",
+   "he": "מסורבל"
+  },
+  {
+   "en": "redundant",
+   "he": "מיותר"
+  },
+  {
+   "en": "indispensable",
+   "he": "חיוני"
+  },
+  {
+   "en": "paramount",
+   "he": "חשוב ביותר"
+  },
+  {
+   "en": "trivial",
+   "he": "שולי, של מה בכך"
+  },
+  {
+   "en": "marginal",
+   "he": "שולי"
+  },
+  {
+   "en": "substantial",
+   "he": "ניכר, משמעותי"
+  },
+  {
+   "en": "negligible",
+   "he": "זניח"
+  },
+  {
+   "en": "adequate",
+   "he": "מספק"
+  },
+  {
+   "en": "excessive",
+   "he": "מופרז"
+  },
+  {
+   "en": "scarce",
+   "he": "נדיר, מועט"
+  },
+  {
+   "en": "abundant",
+   "he": "שופע"
+  },
+  {
+   "en": "homogeneous",
+   "he": "הומוגני"
+  },
+  {
+   "en": "versatile",
+   "he": "רב-גוני"
+  },
+  {
+   "en": "compatible",
+   "he": "תואם"
+  },
+  {
+   "en": "mutual",
+   "he": "הדדי"
+  },
+  {
+   "en": "reciprocal",
+   "he": "הדדי, גומלין"
+  },
+  {
+   "en": "unanimous",
+   "he": "פה אחד"
+  },
+  {
+   "en": "controversial",
+   "he": "שנוי במחלוקת"
+  },
+  {
+   "en": "legitimate",
+   "he": "לגיטימי"
+  },
+  {
+   "en": "illicit",
+   "he": "לא חוקי"
+  },
+  {
+   "en": "ethical",
+   "he": "אתי"
+  },
+  {
+   "en": "dubious",
+   "he": "מפוקפק"
+  },
+  {
+   "en": "spontaneous",
+   "he": "ספונטני"
+  },
+  {
+   "en": "deliberate",
+   "he": "מכוון, מתוכנן"
+  },
+  {
+   "en": "inadvertent",
+   "he": "לא מכוון"
+  },
+  {
+   "en": "hostile",
+   "he": "עוין"
+  },
+  {
+   "en": "cordial",
+   "he": "לבבי"
+  },
+  {
+   "en": "amiable",
+   "he": "חביב"
+  },
+  {
+   "en": "resentful",
+   "he": "ממורמר"
+  },
+  {
+   "en": "vindictive",
+   "he": "נקמני"
+  },
+  {
+   "en": "oblivious",
+   "he": "לא מודע"
+  },
+  {
+   "en": "adamant",
+   "he": "נחוש, עיקש"
+  },
+  {
+   "en": "indecisive",
+   "he": "הססן"
+  },
+  {
+   "en": "vigilant",
+   "he": "ערני"
+  },
+  {
+   "en": "lethargic",
+   "he": "רדום, חסר אנרגיה"
+  },
+  {
+   "en": "mundane",
+   "he": "שגרתי, יומיומי"
+  },
+  {
+   "en": "tedious",
+   "he": "מייגע"
+  },
+  {
+   "en": "exhilarating",
+   "he": "מרגש מאוד"
+  },
+  {
+   "en": "daunting",
+   "he": "מרתיע"
+  },
+  {
+   "en": "formidable",
+   "he": "אדיר, מאיים"
+  },
+  {
+   "en": "pertinent",
+   "he": "רלוונטי, נוגע לעניין"
+  },
+  {
+   "en": "conducive",
+   "he": "תורם ל-, מסייע"
+  },
+  {
+   "en": "detrimental",
+   "he": "מזיק"
+  },
+  {
+   "en": "lenient",
+   "he": "מקל, סלחני"
+  },
+  {
+   "en": "stringent",
+   "he": "מחמיר"
+  },
+  {
+   "en": "mediocre",
+   "he": "בינוני"
+  },
+  {
+   "en": "exemplary",
+   "he": "מופתי"
+  },
+  {
+   "en": "impeccable",
+   "he": "ללא רבב"
+  },
+  {
+   "en": "ingenious",
+   "he": "גאוני, מחוכם"
+  },
+  {
+   "en": "conventional",
+   "he": "מקובל, שגרתי"
+  },
+  {
+   "en": "radical",
+   "he": "קיצוני"
+  },
+  {
+   "en": "fundamental",
+   "he": "יסודי"
+  },
+  {
+   "en": "elusive",
+   "he": "חמקמק"
+  }
+ ]
 }

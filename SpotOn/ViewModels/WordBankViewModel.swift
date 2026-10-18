@@ -7,6 +7,8 @@ class WordBankViewModel: ObservableObject {
     // MARK: - Published state
 
     @Published var words: [Word] = []
+    /// True once the first snapshot arrived (an empty bank vs. "still loading").
+    @Published private(set) var hasLoaded = false
     @Published var searchText = "" { didSet { resetPagination() } }
     @Published var statusFilter: StatusFilter = .all { didSet { resetPagination() } }
     @Published var isEnriching = false
@@ -22,8 +24,8 @@ class WordBankViewModel: ObservableObject {
             switch self {
             case .all:      return true
             case .mastered: return w.isMastered
-            case .review:   return w.needsReview && !w.isMastered
-            case .learning: return !w.isMastered && !w.needsReview
+            case .review:   return w.isDue
+            case .learning: return !w.isMastered && !w.isDue
             }
         }
     }
@@ -57,11 +59,15 @@ class WordBankViewModel: ObservableObject {
         return words.contains { $0.word.lowercased() == key }
     }
 
-    /// Marks a word as known: clears the review flag and sets Mastered.
-    func markKnown(_ word: Word, uid: String) async {
+    /// Words whose review time has come (missed, or scheduled for today).
+    var dueWords: [Word] { words.filter(\.isDue) }
+
+    /// Records a flashcard review of a bank word and schedules the next one
+    /// (spaced repetition): known pushes it further out, missed resets it.
+    func recordReview(_ word: Word, knew: Bool, uid: String) async {
         guard let id = word.id else { return }
         try? await FirestoreService.shared.updateWordFields(
-            id: id, for: uid, fields: ["needsReview": false, "isMastered": true])
+            id: id, for: uid, fields: SpacedRepetition.fields(after: word, knew: knew))
     }
 
     /// Visible page of results, grows by `pageSize` each time `loadNextPage()` is called.
@@ -84,7 +90,10 @@ class WordBankViewModel: ObservableObject {
         guard !AppEnv.isPreview else { return }
         listener?.remove()   // avoid stacking duplicate listeners on repeated onAppear
         listener = FirestoreService.shared.listenToWords(for: uid) { [weak self] words in
-            Task { @MainActor in self?.words = words }
+            Task { @MainActor in
+                self?.words = words
+                self?.hasLoaded = true
+            }
         }
     }
 
@@ -118,15 +127,23 @@ class WordBankViewModel: ObservableObject {
         guard let id = word.id else { return }
         // Mastering a word also settles it: it no longer needs review.
         var fields: [String: Any] = ["isMastered": !word.isMastered]
-        if !word.isMastered { fields["needsReview"] = false }
+        if !word.isMastered {
+            fields["needsReview"] = false
+            fields["masteredAt"] = Date()
+            fields["nextReview"] = FieldValue.delete()
+        }
         try? await FirestoreService.shared.updateWordFields(id: id, for: uid, fields: fields)
     }
 
     func toggleNeedsReview(_ word: Word, uid: String) async {
         guard let id = word.id else { return }
-        // Flagging for review means it isn't mastered anymore.
+        // Flagging for review means it isn't mastered anymore and starts over.
         var fields: [String: Any] = ["needsReview": !word.needsReview]
-        if !word.needsReview { fields["isMastered"] = false }
+        if !word.needsReview {
+            fields["isMastered"] = false
+            fields["srsStage"] = 0
+            fields["nextReview"] = Date()
+        }
         try? await FirestoreService.shared.updateWordFields(id: id, for: uid, fields: fields)
     }
 

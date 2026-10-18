@@ -74,6 +74,10 @@
 		2E12F313A414B515C616D717 /* idioms.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D01E202F303A404B505C606 /* idioms.json */; };
 		8B9C0D1E2F3A4B5C6D7E8F9A /* daily_topics.json in Resources */ = {isa = PBXBuildFile; fileRef = 7A8B9C0D1E2F3A4B5C6D7E8F /* daily_topics.json */; };
 		A7E1C0DE5B0E1D9E00F1A001 /* idioms.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D01E202F303A404B505C606 /* idioms.json */; };
+		028A02524EF41E7CE55A6F14 /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216BEBA987AA9EAC666B7DC9 /* Progress.swift */; };
+		04DE2990113D4EB45E5C7938 /* ContentPackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F3B7CA5B2270625576929 /* ContentPackService.swift */; };
+		40ACF695B4DBC74C825CF655 /* DashboardCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A2A47EE68160837AC4BB8D /* DashboardCards.swift */; };
+		A0165B9AAFE5D3B33849751F /* ProgressScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B749E9028A922864CA12A7E8 /* ProgressScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +174,10 @@
 		7A8B9C0D1E2F3A4B5C6D7E8F /* daily_topics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_topics.json; sourceTree = "<group>"; };
 		FF185BFB00400D3023960C34 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		AC01BD02CE03DF04EA05FB06 /* APIKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "APIKeys.xcconfig"; path = "Config/APIKeys.xcconfig"; sourceTree = "<group>"; };
+		216BEBA987AA9EAC666B7DC9 /* Progress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
+		471F3B7CA5B2270625576929 /* ContentPackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPackService.swift; sourceTree = "<group>"; };
+		08A2A47EE68160837AC4BB8D /* DashboardCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCards.swift; sourceTree = "<group>"; };
+		B749E9028A922864CA12A7E8 /* ProgressScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +354,7 @@
 		8CE899FFD8791C814540E92B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				471F3B7CA5B2270625576929 /* ContentPackService.swift */,
 				84C0585BE1F444054ECFF745 /* AppEnv.swift */,
 				AD6C6F301C289A19EECC1239 /* FirestoreService.swift */,
 				4E0D0405431E5A56CE51EABF /* FriendsService.swift */,
@@ -383,6 +392,7 @@
 		A30F45E24DD1FF580E8DA71E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				216BEBA987AA9EAC666B7DC9 /* Progress.swift */,
 				3F145C5E53D634B90AEA9350 /* ChatMessage.swift */,
 				2C4E8F482856EE2CF475A6E8 /* Idiom.swift */,
 				52F166079AF029825491D0EF /* UserProfile.swift */,
@@ -413,6 +423,8 @@
 		BF6FF06660B9809D4AD39779 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				B749E9028A922864CA12A7E8 /* ProgressScreen.swift */,
+				08A2A47EE68160837AC4BB8D /* DashboardCards.swift */,
 				9776F820DE65B30C7B8CDC8B /* DashboardView.swift */,
 				5D6E7F8A9B0C1D2E3F4A5B6C /* DailyQuizView.swift */,
 			);
@@ -570,6 +582,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0165B9AAFE5D3B33849751F /* ProgressScreen.swift in Sources */,
+				40ACF695B4DBC74C825CF655 /* DashboardCards.swift in Sources */,
+				04DE2990113D4EB45E5C7938 /* ContentPackService.swift in Sources */,
+				028A02524EF41E7CE55A6F14 /* Progress.swift in Sources */,
 				E23224E5CB9FF5F72E4A48B2 /* AboutView.swift in Sources */,
 				519143D04083B58061131727 /* AppEnv.swift in Sources */,
 				15F75757E60C6ECFC172E6E6 /* AuthView.swift in Sources */,

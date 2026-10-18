@@ -212,6 +212,7 @@ struct DailyQuizView: View {
                            definition: "", context: "Daily Quiz: \(topic?.name ?? "")",
                            tags: ["Daily Quiz"], level: level)
         newWord.isMastered = true
+        newWord.masteredAt = Date()
         Task { await wordBankVM.addWord(newWord, uid: uid, enrich: false) }
     }
 

@@ -1,0 +1,33 @@
+{
+  "packs": [
+    {
+      "id": "2026-w42-tech",
+      "title": "Tech Talk",
+      "description": "Words you hear in tech news, at work and in every app you use.",
+      "icon": "cpu",
+      "publishedAt": "2026-10-18",
+      "words": [
+        { "en": "bandwidth", "he": "רוחב פס; פניות, זמן פנוי", "level": "intermediate" },
+        { "en": "glitch", "he": "תקלה קטנה", "level": "intermediate" },
+        { "en": "seamless", "he": "חלק, ללא תקלות", "level": "advanced" },
+        { "en": "user-friendly", "he": "ידידותי למשתמש", "level": "intermediate" },
+        { "en": "streamline", "he": "לייעל", "level": "advanced" },
+        { "en": "backup", "he": "גיבוי", "level": "beginner" },
+        { "en": "notification", "he": "התראה", "level": "beginner" },
+        { "en": "subscription", "he": "מנוי", "level": "intermediate" },
+        { "en": "troubleshoot", "he": "לאתר ולפתור תקלות", "level": "advanced" },
+        { "en": "compatible device", "he": "מכשיר תואם", "level": "intermediate" },
+        { "en": "cloud storage", "he": "אחסון בענן", "level": "intermediate" },
+        { "en": "two-factor authentication", "he": "אימות דו-שלבי", "level": "advanced" },
+        { "en": "beta version", "he": "גרסת בטא", "level": "intermediate" },
+        { "en": "crash", "he": "קריסה", "level": "beginner" },
+        { "en": "deploy", "he": "לפרוס, להעלות לאוויר", "level": "advanced" },
+        { "en": "feedback loop", "he": "מעגל משוב", "level": "advanced" },
+        { "en": "screenshot", "he": "צילום מסך", "level": "beginner" },
+        { "en": "wireless", "he": "אלחוטי", "level": "beginner" },
+        { "en": "data breach", "he": "דליפת מידע", "level": "advanced" },
+        { "en": "offline", "he": "לא מקוון", "level": "beginner" }
+      ]
+    }
+  ]
+}

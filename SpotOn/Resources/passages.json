@@ -359,6 +359,246 @@
           "hebrew": "גאולה / כפרה"
         }
       ]
+    },
+    {
+      "id": "p1_market",
+      "title": "At the Farmers Market",
+      "description": "Maya shops for fresh food at her weekly market.",
+      "level": 1,
+      "orderIndex": 9,
+      "content": "Every Friday morning, Maya walks to the farmers market near her home. The market is busy and colorful. Each vendor has a small table full of fruit, vegetables, bread and flowers. Maya likes to talk with the people who grow the food. Today she wants to buy fresh tomatoes and a loaf of warm bread. An old man sells honey from his own bees. He lets her taste a spoonful, and it is very sweet. Maya asks the price, and he gives her a small discount because she comes every week. She also buys a bunch of yellow flowers for her kitchen. Her basket is now heavy, so she carries it with both hands. On the way home she stops at a café and orders a cup of tea. Shopping at the market takes longer than the supermarket, but Maya enjoys every minute.",
+      "targetWords": [
+        {
+          "text": "vendor",
+          "definition": "A person who sells things, often from a stall",
+          "hebrew": "מוכר, דוכנאי"
+        },
+        {
+          "text": "fresh",
+          "definition": "Recently made or picked, not old",
+          "hebrew": "טרי"
+        },
+        {
+          "text": "loaf",
+          "definition": "A whole piece of bread baked in one shape",
+          "hebrew": "כיכר (לחם)"
+        },
+        {
+          "text": "taste",
+          "definition": "To try a little food to see what it is like",
+          "hebrew": "לטעום"
+        },
+        {
+          "text": "discount",
+          "definition": "A lower price than usual",
+          "hebrew": "הנחה"
+        },
+        {
+          "text": "basket",
+          "definition": "A container for carrying things, often made of woven material",
+          "hebrew": "סל"
+        }
+      ]
+    },
+    {
+      "id": "p1_newjob",
+      "title": "First Day at Work",
+      "description": "Omer starts a new job and meets his team.",
+      "level": 1,
+      "orderIndex": 10,
+      "content": "Today is Omer's first day at his new job in a small office downtown. He wakes up early, puts on a clean shirt and takes the bus. He feels a little nervous. At the entrance, a friendly receptionist welcomes him and gives him a name badge. His manager, Ruth, shows him around the office. She introduces him to his colleagues, and everyone says hello. Omer gets a desk near the window and a new laptop. In the afternoon, Ruth explains his first task: answering emails from customers. Omer listens carefully and writes notes in a small notebook. At lunch, two colleagues invite him to eat with them. They laugh and tell him funny stories about the office. When he goes home in the evening, Omer is tired but happy. He thinks the job will be a good fit.",
+      "targetWords": [
+        {
+          "text": "nervous",
+          "definition": "Worried or a little afraid about something",
+          "hebrew": "לחוץ, מתוח"
+        },
+        {
+          "text": "receptionist",
+          "definition": "A person who greets visitors at the entrance of an office",
+          "hebrew": "פקיד קבלה"
+        },
+        {
+          "text": "badge",
+          "definition": "A small card or sign that shows your name",
+          "hebrew": "תג"
+        },
+        {
+          "text": "colleagues",
+          "definition": "People you work with",
+          "hebrew": "עמיתים לעבודה"
+        },
+        {
+          "text": "task",
+          "definition": "A piece of work that must be done",
+          "hebrew": "משימה"
+        },
+        {
+          "text": "customers",
+          "definition": "People who buy from a business",
+          "hebrew": "לקוחות"
+        }
+      ]
+    },
+    {
+      "id": "p2_cleanup",
+      "title": "The Beach Cleanup",
+      "description": "Fifty volunteers spend a Saturday morning cleaning the coast.",
+      "level": 2,
+      "orderIndex": 11,
+      "content": "Last Saturday, a local charity organized a beach cleanup, and more than fifty volunteers showed up at eight in the morning. The organizers handed out gloves and large bags, and divided everyone into small teams. Noa had never volunteered before, but her friend had convinced her to come. At first, she was surprised by how much waste was hidden in the sand: bottle caps, plastic straws, fishing nets and even an old shoe. Each team recorded what it found, because the data would later be sent to an environmental organization studying pollution along the coast. By noon, the volunteers had collected almost two hundred kilograms of trash. Some items could be recycled, while the rest went to a special facility. Before going home, the group sat together, shared sandwiches and talked about ways to reduce plastic in their daily lives. Noa left feeling proud and promised to join the next event.",
+      "targetWords": [
+        {
+          "text": "charity",
+          "definition": "An organization that helps people or causes for free",
+          "hebrew": "ארגון צדקה"
+        },
+        {
+          "text": "volunteers",
+          "definition": "People who do work without being paid",
+          "hebrew": "מתנדבים"
+        },
+        {
+          "text": "convinced",
+          "definition": "Made someone agree to do or believe something",
+          "hebrew": "שכנע"
+        },
+        {
+          "text": "waste",
+          "definition": "Things that are thrown away because they are no longer needed",
+          "hebrew": "פסולת"
+        },
+        {
+          "text": "pollution",
+          "definition": "Damage to air, water or land caused by harmful substances",
+          "hebrew": "זיהום"
+        },
+        {
+          "text": "recycled",
+          "definition": "Processed so that it can be used again",
+          "hebrew": "ממוחזר"
+        }
+      ]
+    },
+    {
+      "id": "p2_heater",
+      "title": "The Broken Heater",
+      "description": "Daniel learns how to deal with a slow landlord.",
+      "level": 2,
+      "orderIndex": 12,
+      "content": "When winter arrived, Daniel discovered that the heater in his rented apartment was broken. He called his landlord, who promised to send a technician the next day. Nobody came. After three cold nights, Daniel wrote a polite but firm complaint and mentioned that, according to the contract, repairs were the landlord's responsibility. This time the landlord responded quickly and apologized for the delay. A technician arrived the following morning and explained that a small part had to be replaced. While waiting for the repair, Daniel and the technician talked about energy bills, and the man recommended closing the windows at night and using thick curtains to keep the heat inside. By the evening the apartment was warm again. Daniel realized that being clear and calm had worked much better than getting angry, and he decided to keep a copy of every message he sent, just in case.",
+      "targetWords": [
+        {
+          "text": "landlord",
+          "definition": "A person who owns a home and rents it to others",
+          "hebrew": "בעל דירה"
+        },
+        {
+          "text": "complaint",
+          "definition": "A statement that something is wrong or not good enough",
+          "hebrew": "תלונה"
+        },
+        {
+          "text": "contract",
+          "definition": "A written legal agreement",
+          "hebrew": "חוזה"
+        },
+        {
+          "text": "apologized",
+          "definition": "Said sorry for doing something wrong",
+          "hebrew": "התנצל"
+        },
+        {
+          "text": "replaced",
+          "definition": "Put something new in place of something old or broken",
+          "hebrew": "הוחלף"
+        },
+        {
+          "text": "recommended",
+          "definition": "Suggested that something is a good idea",
+          "hebrew": "המליץ"
+        }
+      ]
+    },
+    {
+      "id": "p3_ai",
+      "title": "Machines That Learn",
+      "description": "The promise and the risks of artificial intelligence.",
+      "level": 3,
+      "orderIndex": 13,
+      "content": "Few technologies have spread as quickly as artificial intelligence. Systems that once seemed like science fiction now recommend what we watch, translate our messages and even help doctors read medical scans. At the heart of these systems is the algorithm, a set of instructions that allows a computer to find patterns in enormous amounts of data. Supporters argue that automation will free people from repetitive work and lead to remarkable breakthroughs in science. Critics, however, warn that the technology raises difficult questions. If the data used to train a model contains bias, the system may reproduce unfair decisions about loans, jobs or criminal justice. Others worry about privacy and the lack of transparency: it is often impossible to explain exactly why a model reached a particular conclusion. Most experts agree that the real challenge is not the technology itself but how societies choose to regulate it. Clear rules, independent audits and public debate may be essential if these powerful tools are to serve everyone fairly.",
+      "targetWords": [
+        {
+          "text": "algorithm",
+          "definition": "A set of step-by-step instructions a computer follows to solve a problem",
+          "hebrew": "אלגוריתם"
+        },
+        {
+          "text": "automation",
+          "definition": "Using machines or computers to do work that people used to do",
+          "hebrew": "אוטומציה"
+        },
+        {
+          "text": "breakthroughs",
+          "definition": "Important discoveries or developments",
+          "hebrew": "פריצות דרך"
+        },
+        {
+          "text": "bias",
+          "definition": "An unfair preference for or against something",
+          "hebrew": "הטיה"
+        },
+        {
+          "text": "transparency",
+          "definition": "Openness that lets people see how decisions are made",
+          "hebrew": "שקיפות"
+        },
+        {
+          "text": "regulate",
+          "definition": "To control something with rules or laws",
+          "hebrew": "להסדיר (בחוק)"
+        }
+      ]
+    },
+    {
+      "id": "p3_greencity",
+      "title": "The Price of a Greener City",
+      "description": "A city debates banning cars from its historic center.",
+      "level": 3,
+      "orderIndex": 14,
+      "content": "When the city council proposed banning private cars from the historic center, the reaction was immediate and divided. Environmental groups praised the plan as a bold attempt to cut emissions and improve air quality, which had been deteriorating for years. Local shop owners, on the other hand, feared the change would drive customers away and threaten businesses that were already struggling after a long recession. To ease these concerns, the council offered subsidies to affected shops and promised to expand public transport before the ban took effect. Urban planners pointed to cities across Europe where similar policies had initially been controversial but eventually became popular, as streets turned into lively public spaces. Still, opponents argued that the council had underestimated the cost and ignored residents of distant neighborhoods, who depend on cars to reach work. After months of debate, a compromise emerged: the ban would begin as a one-year pilot, with an independent review before any permanent decision.",
+      "targetWords": [
+        {
+          "text": "emissions",
+          "definition": "Gases or substances released into the air",
+          "hebrew": "פליטות"
+        },
+        {
+          "text": "deteriorating",
+          "definition": "Becoming worse over time",
+          "hebrew": "מידרדר"
+        },
+        {
+          "text": "recession",
+          "definition": "A period when a country's economy shrinks",
+          "hebrew": "מיתון"
+        },
+        {
+          "text": "subsidies",
+          "definition": "Money a government pays to help a business or reduce prices",
+          "hebrew": "סובסידיות"
+        },
+        {
+          "text": "controversial",
+          "definition": "Causing a lot of public disagreement",
+          "hebrew": "שנוי במחלוקת"
+        },
+        {
+          "text": "compromise",
+          "definition": "An agreement where each side gives up something",
+          "hebrew": "פשרה"
+        }
+      ]
     }
   ]
 }

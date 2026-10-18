@@ -78,6 +78,10 @@ struct SettingsView: View {
                             .animation(.spring(response: 0.4), value: rtdb.xp)
                             .overlay { GainBadge(event: rtdb.xpGain, suffix: "XP", color: .crystalGold, spawnOffset: -26) }
                     }
+                    NavigationLink { ProgressScreen() } label: {
+                        Label("Weekly Recap & Achievements", systemImage: "chart.bar.fill")
+                            .foregroundColor(.crystalBlue)
+                    }
                     Button { showLevelTest = true } label: {
                         Label("Retake Level Test", systemImage: "checklist")
                             .foregroundColor(.crystalBlue)
@@ -91,9 +95,15 @@ struct SettingsView: View {
                     .pickerStyle(.menu)
                 }
 
-                Section("Notifications") {
-                    Toggle(isOn: $reminderOn) { Label("Daily Reminder", systemImage: "bell.fill").foregroundColor(.crystalBlue) }
-                    if reminderOn { Stepper("Remind me at \(notifHour):00", value: $notifHour, in: 6...22) }
+                Section {
+                    Toggle(isOn: $reminderOn) { Label("Reminders", systemImage: "bell.fill").foregroundColor(.crystalBlue) }
+                    if reminderOn { Stepper("Practice reminder at \(notifHour):00", value: $notifHour, in: 6...22) }
+                } header: {
+                    Text("Notifications")
+                } footer: {
+                    if reminderOn {
+                        Text("Also sends the Word of the Day at 9:00 and a weekly recap on Saturday evening.")
+                    }
                 }
                 .onChange(of: reminderOn) { _, on in updateReminder(on: on) }
                 .onChange(of: notifHour) { _, _ in updateReminder(on: reminderOn) }
@@ -176,7 +186,7 @@ struct SettingsView: View {
 
     private func updateReminder(on: Bool) {
         // Turning it on asks for permission if needed, then schedules at the chosen hour.
-        Task { await NotificationService.syncWithSettings() }
+        Task { await NotificationService.syncWithSettings(level: authVM.userProfile?.level) }
     }
 }
 

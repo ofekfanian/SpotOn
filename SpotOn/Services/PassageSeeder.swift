@@ -1,12 +1,13 @@
 import SwiftData
 import Foundation
 
-/// Seeds passages.json into the SwiftData store once per install.
-/// Subsequent launches are skipped via the `passagesSeeded_v1` UserDefaults flag.
+/// Seeds passages.json into the SwiftData store once per content version.
+/// Bump `seededKey` whenever passages are added: existing installs then pick
+/// up the new ones (passages already stored are skipped by id, keeping progress).
 @MainActor
 final class PassageSeeder {
     static let shared = PassageSeeder()
-    private let seededKey = "passagesSeeded_v1"
+    private let seededKey = "passagesSeeded_v2"
 
     private init() {}
 

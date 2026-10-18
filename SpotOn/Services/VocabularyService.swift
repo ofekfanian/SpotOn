@@ -40,4 +40,26 @@ final class VocabularyService {
         loadIfNeeded()
         return entriesByLevel[level]?.count ?? 0
     }
+
+    /// Word of the Day: deterministic per day and level, offset from the idiom
+    /// rotation so the two never move in lockstep.
+    func wordOfTheDay(level: String, date: Date = Date()) -> Word? {
+        loadIfNeeded()
+        let pool = entriesByLevel[level]?.isEmpty == false ? entriesByLevel[level]! : (entriesByLevel["intermediate"] ?? [])
+        guard !pool.isEmpty else { return nil }
+        let day = Calendar.current.ordinality(of: .day, in: .era, for: date) ?? 0
+        // A large prime stride spreads consecutive days across the whole list.
+        let entry = pool[(day * 7919 + 13) % pool.count]
+        return Word(word: entry.en, translation: entry.he, definition: "", level: level)
+    }
+
+    /// Adds words from a downloaded weekly pack to the offline pool, so they
+    /// show up in flashcards and in instant translations. Duplicates are skipped.
+    func merge(remote words: [(level: String, en: String, he: String)]) {
+        loadIfNeeded()
+        for w in words where index[w.en.lowercased()] == nil {
+            entriesByLevel[w.level, default: []].append(Entry(en: w.en, he: w.he))
+            index[w.en.lowercased()] = Translation(hebrew: w.he)
+        }
+    }
 }

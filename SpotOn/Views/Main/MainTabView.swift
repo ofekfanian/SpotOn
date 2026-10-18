@@ -25,7 +25,7 @@ struct MainTabView: View {
             if let uid = authVM.user?.uid { wordBankVM.startListening(uid: uid) }
             presentDailyQuizIfNeeded()
             guard !AppEnv.isPreview else { return }
-            Task { await NotificationService.syncWithSettings() }
+            Task { await NotificationService.syncWithSettings(level: authVM.userProfile?.level) }
         }
         .onDisappear { wordBankVM.stopListening() }
         // The app often stays alive in the background for days — offer the

@@ -87,7 +87,7 @@ struct WordRowView: View {
                 if !help.isEmpty { Text(help).font(.subheadline).foregroundColor(.crystalMint).lineLimit(1) }
                 Spacer()
                 if word.isMastered { Image(systemName: "checkmark.seal.fill").foregroundColor(.green).font(.caption) }
-                if word.needsReview { Image(systemName: "arrow.clockwise.circle.fill").foregroundColor(.orange).font(.caption) }
+                if word.isDue { Image(systemName: "arrow.clockwise.circle.fill").foregroundColor(.orange).font(.caption) }
             }
             if !word.definition.isEmpty {
                 Text(word.definition).font(.subheadline).foregroundColor(.secondary).lineLimit(1)
