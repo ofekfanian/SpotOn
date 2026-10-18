@@ -21,7 +21,7 @@ class ChatViewModel: ObservableObject {
         speak mostly simple English, but when the student writes in Hebrew, asks how \
         to say a word or phrase, or seems confused, answer with the English word or \
         phrase AND a short explanation or translation in Hebrew. \
-        For example, if asked "איך אומרים מקרר", answer: Refrigerator (מקרר) — plus a \
+        For example, if asked "איך אומרים מקרר", answer: Refrigerator (מקרר), plus a \
         short example sentence. \
         Keep responses short and conversational (1-3 sentences). \
         If the student makes a mistake in English, gently correct it in Hebrew. \
@@ -55,8 +55,11 @@ class ChatViewModel: ObservableObject {
 
     private func requestReply(for text: String) async {
         isLoading = true; errorMessage = nil; lastFailedText = nil; save()
+        let conversation = messages.count
         do {
             let reply = try await callGemini()
+            // Drop the reply if the conversation was cleared while waiting.
+            guard messages.count >= conversation else { isLoading = false; return }
             messages.append(ChatMessage(role: "assistant", content: reply))
         } catch TutorError.quotaExceeded {
             errorMessage = "Daily AI limit reached. It resets at 10:00 in the morning."
@@ -85,9 +88,22 @@ class ChatViewModel: ObservableObject {
     private func callGemini() async throws -> String {
         let urlString = "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent?key=\(apiKey)"
         guard let url = URL(string: urlString) else { throw URLError(.badURL) }
-        let contents: [[String: Any]] = contextWindow().map {
-            ["role": $0.role == "assistant" ? "model" : "user", "parts": [["text": $0.content]]]
+        // Gemini rejects a conversation whose first turn is `model`, so drop any
+        // leading assistant messages (e.g. the local greeting, or an old assistant
+        // reply that slid to the front of the history window).
+        // Consecutive turns from the same side (e.g. a message that failed and
+        // was followed by another) are merged, since Gemini expects the roles
+        // to alternate.
+        var turns: [(role: String, text: String)] = []
+        for msg in contextWindow().drop(while: { $0.role == "assistant" }) {
+            let role = msg.role == "assistant" ? "model" : "user"
+            if let last = turns.last, last.role == role {
+                turns[turns.count - 1].text += "\n" + msg.content
+            } else {
+                turns.append((role, msg.content))
+            }
         }
+        let contents: [[String: Any]] = turns.map { ["role": $0.role, "parts": [["text": $0.text]]] }
         let body: [String: Any] = [
             "system_instruction": ["parts": [["text": systemPromptText]]],
             "contents": contents,

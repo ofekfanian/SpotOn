@@ -8,6 +8,7 @@ struct AuthView: View {
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var isLoading = false
+    @State private var resetSent = false
 
     var body: some View {
         ZStack {
@@ -30,10 +31,23 @@ struct AuthView: View {
                         Group {
                             CrystalField("Email", text: $email, isSecure: false)
                                 .keyboardType(.emailAddress)
+                                .textContentType(.emailAddress)
                                 .textInputAutocapitalization(.never)
                                 .autocorrectionDisabled()
                             CrystalField("Password", text: $password, isSecure: true)
+                                .textContentType(isSignUp ? .newPassword : .password)
                             if isSignUp { CrystalField("Confirm Password", text: $confirmPassword, isSecure: true) }
+                        }
+
+                        if !isSignUp {
+                            Button {
+                                Task { resetSent = await authVM.sendPasswordReset(email: email) }
+                            } label: {
+                                Text("Forgot password?").font(.footnote.bold())
+                                    .foregroundStyle(LinearGradient.crystalShort)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .disabled(isLoading)
                         }
 
                         if let err = authVM.errorMessage {
@@ -84,6 +98,7 @@ struct AuthView: View {
                         Button {
                             withAnimation(.spring(duration: 0.3)) { isSignUp.toggle() }
                             authVM.errorMessage = nil
+                            confirmPassword = ""
                         } label: {
                             Text(isSignUp ? "Already have an account? Sign In" : "Don't have an account? Sign Up")
                                 .font(.footnote).foregroundStyle(LinearGradient.crystalShort)
@@ -101,6 +116,11 @@ struct AuthView: View {
                 }
             }
         }
+        .alert("Check your inbox", isPresented: $resetSent) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("We sent a password reset link to \(email.trimmingCharacters(in: .whitespacesAndNewlines)).")
+        }
     }
 
     private func submit() async {
@@ -108,6 +128,9 @@ struct AuthView: View {
         if isSignUp {
             guard password == confirmPassword else {
                 authVM.errorMessage = "Passwords don't match"; isLoading = false; return
+            }
+            guard password.count >= 6 else {
+                authVM.errorMessage = "Password must be at least 6 characters."; isLoading = false; return
             }
             await authVM.signUp(email: email, password: password)
         } else {

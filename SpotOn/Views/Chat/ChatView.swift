@@ -8,86 +8,84 @@ struct ChatView: View {
     @FocusState private var inputFocused: Bool
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
-                ScatteredLettersBackground().ignoresSafeArea()
-            VStack(spacing: 0) {
-                ScrollViewReader { proxy in
-                    ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing: 12) {
-                            ForEach(vm.messages.filter { $0.role != "system" }) { msg in
-                                ChatBubble(message: msg)
-                                    .id(msg.id)
-                                    .onTapGesture { if msg.role == "assistant" { vm.speak(msg) } }
-                            }
-                            if vm.isLoading { TypingIndicator().id("typing") }
+        ZStack {
+            (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+            ScatteredLettersBackground().ignoresSafeArea()
+        VStack(spacing: 0) {
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(spacing: 12) {
+                        ForEach(vm.messages.filter { $0.role != "system" }) { msg in
+                            ChatBubble(message: msg)
+                                .id(msg.id)
+                                .onTapGesture { if msg.role == "assistant" { vm.speak(msg) } }
                         }
-                        .padding(.horizontal).padding(.vertical, 12)
+                        if vm.isLoading { TypingIndicator().id("typing") }
                     }
-                    .onChange(of: vm.messages.count) {
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            if let lastID = vm.messages.last?.id { proxy.scrollTo(lastID, anchor: .bottom) }
-                        }
-                    }
-                    .onChange(of: vm.isLoading) {
-                        if vm.isLoading { withAnimation { proxy.scrollTo("typing", anchor: .bottom) } }
+                    .padding(.horizontal).padding(.vertical, 12)
+                }
+                .onChange(of: vm.messages.count) {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        if let lastID = vm.messages.last?.id { proxy.scrollTo(lastID, anchor: .bottom) }
                     }
                 }
-
-                if let err = vm.errorMessage {
-                    HStack(spacing: 10) {
-                        Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange)
-                        Text(err).font(.caption).foregroundColor(.secondary)
-                        Spacer()
-                        Button { Task { await vm.retry() } } label: {
-                            Label("Retry", systemImage: "arrow.clockwise").font(.caption.bold())
-                                .foregroundStyle(LinearGradient.crystalShort)
-                        }
-                    }
-                    .padding(.horizontal, 14).padding(.vertical, 8)
-                    .background(Color.orange.opacity(0.1))
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                .onChange(of: vm.isLoading) {
+                    if vm.isLoading { withAnimation { proxy.scrollTo("typing", anchor: .bottom) } }
                 }
+            }
 
-                Divider().opacity(0.3)
-
+            if let err = vm.errorMessage {
                 HStack(spacing: 10) {
-                    TextField("Type in English...", text: $inputText, axis: .vertical)
-                        .lineLimit(1...4).padding(.horizontal, 14).padding(.vertical, 10)
-                        .background(.ultraThinMaterial).cornerRadius(20)
-                        .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(Color.crystalBlue.opacity(0.3), lineWidth: 1))
-                        .focused($inputFocused)
-                    Button {
-                        let text = inputText; inputText = ""
-                        Task { await vm.sendMessage(text: text) }
-                    } label: {
-                        Image(systemName: "arrow.up.circle.fill").font(.system(size: 36))
-                            .foregroundStyle(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                                ? AnyShapeStyle(Color.secondary) : AnyShapeStyle(LinearGradient.crystalShort))
-                    }
-                    .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || vm.isLoading)
-                }
-                .padding(.horizontal, 12).padding(.vertical, 10).background(.ultraThinMaterial)
-            }
-            .navigationTitle("English Tutor").navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "person.fill.checkmark").foregroundStyle(LinearGradient.crystalShort)
-                        CrystalText(text: "English Tutor", font: .headline)
+                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange)
+                    Text(err).font(.caption).foregroundColor(.secondary)
+                    Spacer()
+                    Button { Task { await vm.retry() } } label: {
+                        Label("Retry", systemImage: "arrow.clockwise").font(.caption.bold())
+                            .foregroundStyle(LinearGradient.crystalShort)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button { showCall = true } label: { Image(systemName: "phone.fill").foregroundStyle(LinearGradient.crystalShort) }
+                .padding(.horizontal, 14).padding(.vertical, 8)
+                .background(Color.orange.opacity(0.1))
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+
+            Divider().opacity(0.3)
+
+            HStack(spacing: 10) {
+                TextField("Type in English...", text: $inputText, axis: .vertical)
+                    .lineLimit(1...4).padding(.horizontal, 14).padding(.vertical, 10)
+                    .background(.ultraThinMaterial).cornerRadius(20)
+                    .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(Color.crystalBlue.opacity(0.3), lineWidth: 1))
+                    .focused($inputFocused)
+                Button {
+                    let text = inputText; inputText = ""
+                    Task { await vm.sendMessage(text: text) }
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill").font(.system(size: 36))
+                        .foregroundStyle(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                            ? AnyShapeStyle(Color.secondary) : AnyShapeStyle(LinearGradient.crystalShort))
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button { withAnimation { vm.clearConversation() } } label: { Image(systemName: "trash").foregroundColor(.secondary) }
+                .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || vm.isLoading)
+            }
+            .padding(.horizontal, 12).padding(.vertical, 10).background(.ultraThinMaterial)
+        }
+        .navigationTitle("English Tutor").navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(spacing: 6) {
+                    Image(systemName: "person.fill.checkmark").foregroundStyle(LinearGradient.crystalShort)
+                    CrystalText(text: "English Tutor", font: .headline)
                 }
             }
-            .fullScreenCover(isPresented: $showCall) { VoiceCallView() }
-            .applyTabBarVisibility()
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button { showCall = true } label: { Image(systemName: "phone.fill").foregroundStyle(LinearGradient.crystalShort) }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button { withAnimation { vm.clearConversation() } } label: { Image(systemName: "trash").foregroundColor(.secondary) }
+            }
+        }
+        .fullScreenCover(isPresented: $showCall) { VoiceCallView() }
+        .applyTabBarVisibility()
         }
     }
 }
@@ -156,5 +154,5 @@ private struct RoundedCorner: Shape {
     }
 }
 
-#Preview("Light") { ChatView().preferredColorScheme(.light) }
-#Preview("Dark")  { ChatView().preferredColorScheme(.dark) }
+#Preview("Light") { NavigationStack { ChatView() }.preferredColorScheme(.light) }
+#Preview("Dark")  { NavigationStack { ChatView() }.preferredColorScheme(.dark) }

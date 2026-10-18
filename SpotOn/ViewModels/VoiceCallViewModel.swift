@@ -78,6 +78,8 @@ final class VoiceCallViewModel: ObservableObject {
         haptic(.medium)
         do {
             let reply = try await callGemini()
+            // The user may have hung up while the tutor was thinking.
+            guard isCallActive else { return }
             lastTutorText = reply
             history.append(ChatMessage(role: "assistant", content: reply))
             phase = .speaking
@@ -90,9 +92,12 @@ final class VoiceCallViewModel: ObservableObject {
             }
             SpeechService.shared.speak(reply, accent: "en-US")
         } catch ChatViewModel.TutorError.quotaExceeded {
+            // Drop the unanswered turn so the history keeps alternating user/model.
+            if history.last?.role == "user" { history.removeLast() }
             errorMessage = "Daily AI limit reached. It resets at 10:00 in the morning."
             phase = .idle
         } catch {
+            if history.last?.role == "user" { history.removeLast() }
             errorMessage = "Could not reach the tutor. Check your connection."
             phase = .idle
         }
@@ -114,9 +119,10 @@ final class VoiceCallViewModel: ObservableObject {
     private func callGemini() async throws -> String {
         let urlString = "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent?key=\(apiKey)"
         guard let url = URL(string: urlString) else { throw URLError(.badURL) }
-        let contents: [[String: Any]] = history.suffix(maxHistory).map {
-            ["role": $0.role == "assistant" ? "model" : "user", "parts": [["text": $0.content]]]
-        }
+        // Gemini rejects a conversation whose first turn is `model`.
+        let contents: [[String: Any]] = history.suffix(maxHistory)
+            .drop { $0.role == "assistant" }
+            .map { ["role": $0.role == "assistant" ? "model" : "user", "parts": [["text": $0.content]]] }
         let body: [String: Any] = [
             "system_instruction": ["parts": [["text": systemPromptText]]],
             "contents": contents,

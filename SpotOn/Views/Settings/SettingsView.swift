@@ -59,6 +59,9 @@ struct SettingsView: View {
 
                 Section("Progress") {
                     LabeledContent("Level", value: (authVM.userProfile?.level ?? "-").capitalized)
+                    if let toNext = LevelSystem.xpToNext(rtdb.xp) {
+                        LabeledContent("Next level in", value: "\(toNext) XP")
+                    }
                     HStack {
                         Label("Streak", systemImage: "flame.fill").foregroundColor(.orange)
                         Spacer()
@@ -103,8 +106,7 @@ struct SettingsView: View {
 
                 Section("About") {
                     NavigationLink { AboutView() } label: { Label("About SpotOn", systemImage: "info.circle") }
-                    LabeledContent("Version", value: "1.0.0")
-                    Link(destination: URL(string: "https://example.com/privacy")!) { Label("Privacy Policy", systemImage: "lock.shield") }
+                    LabeledContent("Version", value: Bundle.main.appVersion)
                 }
 
                 Section {
@@ -163,6 +165,7 @@ struct SettingsView: View {
             .alert("Display Name", isPresented: $showNameEditor) {
                 TextField("Your name", text: $newName)
                 Button("Save") { Task { await authVM.updateDisplayName(newName) } }
+                    .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("This is how your name appears in the app and on the leaderboard.")
@@ -172,7 +175,8 @@ struct SettingsView: View {
     }
 
     private func updateReminder(on: Bool) {
-        if on { NotificationService.scheduleDailyReminder(at: notifHour) } else { NotificationService.cancelDailyReminder() }
+        // Turning it on asks for permission if needed, then schedules at the chosen hour.
+        Task { await NotificationService.syncWithSettings() }
     }
 }
 
@@ -197,3 +201,12 @@ private struct ProfileAvatar: View {
 
 #Preview("Light") { MainTabView(initialTab: 4).environmentObject(AuthViewModel()).preferredColorScheme(.light) }
 #Preview("Dark")  { MainTabView(initialTab: 4).environmentObject(AuthViewModel()).preferredColorScheme(.dark) }
+
+extension Bundle {
+    /// "1.0 (1)" from Info.plist, so the screen never shows a stale hardcoded version.
+    var appVersion: String {
+        let version = infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        return "\(version) (\(build))"
+    }
+}

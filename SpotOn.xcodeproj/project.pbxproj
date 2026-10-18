@@ -73,6 +73,7 @@
 		FF11AA12BB13CC14DD15EE16 /* passages.json in Resources */ = {isa = PBXBuildFile; fileRef = FF01AA02BB03CC04DD05EE06 /* passages.json */; };
 		2E12F313A414B515C616D717 /* idioms.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D01E202F303A404B505C606 /* idioms.json */; };
 		8B9C0D1E2F3A4B5C6D7E8F9A /* daily_topics.json in Resources */ = {isa = PBXBuildFile; fileRef = 7A8B9C0D1E2F3A4B5C6D7E8F /* daily_topics.json */; };
+		A7E1C0DE5B0E1D9E00F1A001 /* idioms.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D01E202F303A404B505C606 /* idioms.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -493,6 +494,7 @@
 			buildConfigurationList = 7440E0D094AFA9587AD49C02 /* Build configuration list for PBXNativeTarget "SpotOnWidget" */;
 			buildPhases = (
 				84B3F1F499199A7001032100 /* Sources */,
+				A7E1C0DE5B0E1D9E00F1A002 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -550,6 +552,14 @@
 				FF11AA12BB13CC14DD15EE16 /* passages.json in Resources */,
 				2E12F313A414B515C616D717 /* idioms.json in Resources */,
 				8B9C0D1E2F3A4B5C6D7E8F9A /* daily_topics.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E1C0DE5B0E1D9E00F1A002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E1C0DE5B0E1D9E00F1A001 /* idioms.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

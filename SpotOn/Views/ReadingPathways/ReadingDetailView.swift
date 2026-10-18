@@ -32,6 +32,9 @@ struct ReadingDetailView: View {
     // XP awarded for the just-finished quiz (0 on re-reads)
     @State private var earnedXP = 0
 
+    // Text of a word whose AI lookup failed (the popup stops spinning)
+    @State private var failedLookup: String? = nil
+
     var body: some View {
         ZStack {
             background
@@ -157,9 +160,13 @@ struct ReadingDetailView: View {
             tappedWord = transient
             wordScreenRect = rect
         }
+        failedLookup = nil
         // Fill definition (and translation if still missing) in the background
         Task {
-            guard let e = try? await LLMEnrichmentService.shared.enrich(word: text) else { return }
+            guard let e = try? await LLMEnrichmentService.shared.enrich(word: text) else {
+                if tappedWord === transient { failedLookup = text }
+                return
+            }
             guard tappedWord === transient else { return }   // popup already changed
             transient.definition = e.definition
             if transient.hebrewTranslation.isEmpty { transient.hebrewTranslation = e.hebrew }
@@ -215,7 +222,15 @@ struct ReadingDetailView: View {
         Button {
             readingVM.stopSpeaking()
             quizItems = readingVM.generateQuiz(for: passage)
-            withAnimation(.spring(response: 0.4)) { phase = .quiz }
+            if quizItems.isEmpty {
+                // Too few target words to build questions: finish the passage
+                // directly instead of opening an empty quiz screen.
+                readingVM.markCompleted(passage, context: ctx)
+                earnedXP = 0
+                withAnimation { phase = .done }
+            } else {
+                withAnimation(.spring(response: 0.4)) { phase = .quiz }
+            }
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "pencil.and.outline")
@@ -275,6 +290,7 @@ struct ReadingDetailView: View {
             WordPopupCard(
                 word: word,
                 isSaved: isSaved,
+                lookupFailed: failedLookup == word.text,
                 onSave: {
                     guard let uid = authVM.user?.uid else { return }
                     let fw = word.toWord(passageTitle: passage.title, passageId: passage.id)
@@ -306,6 +322,15 @@ struct ReadingDetailView: View {
             Spacer()
             Button {
                 guard let uid = authVM.user?.uid, !clean.isEmpty else { return }
+                guard !wordBankVM.contains(clean) else {
+                    selectedText = nil
+                    withAnimation { showSavedToast = true }
+                    Task {
+                        try? await Task.sleep(nanoseconds: 1_800_000_000)
+                        withAnimation { showSavedToast = false }
+                    }
+                    return
+                }
                 let word = Word(
                     word: clean.capitalized,
                     definition: "",
@@ -421,6 +446,7 @@ struct ReadingDetailView: View {
 private struct WordPopupCard: View {
     let word: PassageWord
     let isSaved: Bool
+    var lookupFailed = false
     let onSave: () -> Void
     let onDismiss: () -> Void
 
@@ -440,7 +466,10 @@ private struct WordPopupCard: View {
                 .buttonStyle(.plain)
             }
 
-            if word.definition.isEmpty {
+            if word.definition.isEmpty && lookupFailed {
+                Text("Definition unavailable right now.")
+                    .font(.subheadline).italic().foregroundColor(.secondary)
+            } else if word.definition.isEmpty {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
                     Text("Looking it up...")

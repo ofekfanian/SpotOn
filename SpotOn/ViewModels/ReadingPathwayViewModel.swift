@@ -147,9 +147,10 @@ final class ReadingPathwayViewModel: ObservableObject {
 
     private func makeMultipleChoice(word: PassageWord, allWords: [PassageWord]) -> QuizItem? {
         let correct = word.hebrewTranslation
-        let distractors = allWords
-            .filter { $0.text != word.text && !$0.hebrewTranslation.isEmpty }
-            .map(\.hebrewTranslation)
+        guard !correct.isEmpty else { return nil }
+        let distractors = Array(Set(allWords
+            .filter { $0.text != word.text && !$0.hebrewTranslation.isEmpty && $0.hebrewTranslation != correct }
+            .map(\.hebrewTranslation)))
             .shuffled()
             .prefix(3)
         guard distractors.count == 3 else { return nil }
@@ -175,12 +176,16 @@ final class ReadingPathwayViewModel: ObservableObject {
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .filter { !$0.isEmpty }
 
-        guard let sentence = sentences.first(where: {
-            $0.range(of: word.text, options: .caseInsensitive) != nil
-        }) else { return nil }
+        // Whole-word match only: "art" must not be found inside "start".
+        let pattern = "\\b\(NSRegularExpression.escapedPattern(for: word.text))\\b"
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else { return nil }
+        func match(in s: String) -> Range<String.Index>? {
+            regex.firstMatch(in: s, range: NSRange(s.startIndex..., in: s)).flatMap { Range($0.range, in: s) }
+        }
+        guard let sentence = sentences.first(where: { match(in: $0) != nil }),
+              let range = match(in: sentence) else { return nil }
 
         // Replace the first occurrence with ___
-        guard let range = sentence.range(of: word.text, options: .caseInsensitive) else { return nil }
         let before = String(sentence[sentence.startIndex..<range.lowerBound])
         let after  = String(sentence[range.upperBound...])
 

@@ -1,6 +1,5 @@
 import Foundation
 import FirebaseFirestore
-import AVFoundation
 
 @MainActor
 class WordBankViewModel: ObservableObject {
@@ -8,8 +7,8 @@ class WordBankViewModel: ObservableObject {
     // MARK: - Published state
 
     @Published var words: [Word] = []
-    @Published var searchText = ""
-    @Published var statusFilter: StatusFilter = .all
+    @Published var searchText = "" { didSet { resetPagination() } }
+    @Published var statusFilter: StatusFilter = .all { didSet { resetPagination() } }
     @Published var isEnriching = false
 
     /// Words are categorized automatically by their learning status.
@@ -36,7 +35,8 @@ class WordBankViewModel: ObservableObject {
     // MARK: - Private
 
     private var listener: ListenerRegistration?
-    private let synth = AVSpeechSynthesizer()
+    /// IDs of words currently being enriched (drives per-word spinners).
+    @Published private(set) var enrichingIDs: Set<String> = []
 
     // MARK: - Derived collections
 
@@ -46,16 +46,22 @@ class WordBankViewModel: ObservableObject {
             let matchesSearch = searchText.isEmpty
                 || w.word.localizedCaseInsensitiveContains(searchText)
                 || w.definition.localizedCaseInsensitiveContains(searchText)
+                || w.translation.localizedCaseInsensitiveContains(searchText)
             return matchesSearch && statusFilter.matches(w)
         }
     }
 
+    /// True when the bank already holds this word (case-insensitive).
+    func contains(_ text: String) -> Bool {
+        let key = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return words.contains { $0.word.lowercased() == key }
+    }
+
     /// Marks a word as known: clears the review flag and sets Mastered.
     func markKnown(_ word: Word, uid: String) async {
-        var updated = word
-        updated.needsReview = false
-        updated.isMastered = true
-        try? await FirestoreService.shared.updateWord(updated, for: uid)
+        guard let id = word.id else { return }
+        try? await FirestoreService.shared.updateWordFields(
+            id: id, for: uid, fields: ["needsReview": false, "isMastered": true])
     }
 
     /// Visible page of results, grows by `pageSize` each time `loadNextPage()` is called.
@@ -78,10 +84,7 @@ class WordBankViewModel: ObservableObject {
         guard !AppEnv.isPreview else { return }
         listener?.remove()   // avoid stacking duplicate listeners on repeated onAppear
         listener = FirestoreService.shared.listenToWords(for: uid) { [weak self] words in
-            Task { @MainActor in
-                self?.words = words
-                self?.resetPagination()
-            }
+            Task { @MainActor in self?.words = words }
         }
     }
 
@@ -92,12 +95,18 @@ class WordBankViewModel: ObservableObject {
     /// Adds the word, then (optionally) enriches it with Gemini metadata in the
     /// background. Bulk additions like mastered flashcards skip enrichment to
     /// preserve the daily AI quota.
-    func addWord(_ word: Word, uid: String, enrich: Bool = true) async {
-        guard let id = try? await FirestoreService.shared.addWord(word, for: uid) else { return }
-        guard enrich else { return }
-        var saved = word
-        saved.id = id
-        Task { await self.enrichAndUpdate(saved, uid: uid) }
+    /// Returns false when nothing was added (already in the bank, or the write failed).
+    @discardableResult
+    func addWord(_ word: Word, uid: String, enrich: Bool = true) async -> Bool {
+        guard !word.word.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !contains(word.word) else { return false }
+        guard let id = try? await FirestoreService.shared.addWord(word, for: uid) else { return false }
+        if enrich {
+            var saved = word
+            saved.id = id
+            Task { await self.enrichAndUpdate(saved, uid: uid) }
+        }
+        return true
     }
 
     func deleteWord(_ word: Word, uid: String) async {
@@ -106,45 +115,75 @@ class WordBankViewModel: ObservableObject {
     }
 
     func toggleMastered(_ word: Word, uid: String) async {
-        var updated = word; updated.isMastered.toggle()
-        try? await FirestoreService.shared.updateWord(updated, for: uid)
+        guard let id = word.id else { return }
+        // Mastering a word also settles it: it no longer needs review.
+        var fields: [String: Any] = ["isMastered": !word.isMastered]
+        if !word.isMastered { fields["needsReview"] = false }
+        try? await FirestoreService.shared.updateWordFields(id: id, for: uid, fields: fields)
     }
 
     func toggleNeedsReview(_ word: Word, uid: String) async {
-        var updated = word; updated.needsReview.toggle()
-        try? await FirestoreService.shared.updateWord(updated, for: uid)
+        guard let id = word.id else { return }
+        // Flagging for review means it isn't mastered anymore.
+        var fields: [String: Any] = ["needsReview": !word.needsReview]
+        if !word.needsReview { fields["isMastered"] = false }
+        try? await FirestoreService.shared.updateWordFields(id: id, for: uid, fields: fields)
     }
 
     // MARK: - LLM Enrichment
 
     /// Fetches definition, part-of-speech, 3 usage examples and a related idiom
-    /// from Gemini, then persists the enriched word to Firestore.
-    func enrichAndUpdate(_ word: Word, uid: String) async {
+    /// from Gemini, then writes only the enrichment fields — status flags the
+    /// user changed in the meantime are never overwritten.
+    /// Returns false when the lookup failed (quota, network, bad response).
+    @discardableResult
+    func enrichAndUpdate(_ word: Word, uid: String) async -> Bool {
+        guard let id = word.id, !enrichingIDs.contains(id) else { return false }
+        enrichingIDs.insert(id)
         isEnriching = true
-        defer { isEnriching = false }
+        defer {
+            enrichingIDs.remove(id)
+            isEnriching = !enrichingIDs.isEmpty
+        }
         do {
             let e = try await LLMEnrichmentService.shared.enrich(word: word.word)
-            var updated = word
-            if updated.definition.isEmpty { updated.definition = e.definition }
-            if updated.translation.isEmpty { updated.translation = e.hebrew }
-            updated.partOfSpeech = e.partOfSpeech
-            updated.phonetic = e.phonetic
-            updated.examples = [e.exampleBusiness, e.exampleCasual, e.exampleTech]
-            if updated.level == "intermediate" || updated.level.isEmpty {
-                updated.level = e.level
+            var fields: [String: Any] = [
+                "partOfSpeech": e.partOfSpeech,
+                "phonetic": e.phonetic,
+                "examples": [e.exampleBusiness, e.exampleCasual, e.exampleTech].filter { !$0.isEmpty }
+            ]
+            if word.definition.isEmpty { fields["definition"] = e.definition }
+            if word.translation.isEmpty, !e.hebrew.isEmpty { fields["translation"] = e.hebrew }
+            // Gemini returns a CEFR band (A1–C2); the app buckets levels as
+            // beginner/intermediate/advanced. Map it so the word still matches
+            // the level filters in flashcards and elsewhere.
+            if word.level == "intermediate" || word.level.isEmpty {
+                fields["level"] = Self.coarseLevel(fromCEFR: e.level)
             }
-            try? await FirestoreService.shared.updateWord(updated, for: uid)
+            try await FirestoreService.shared.updateWordFields(id: id, for: uid, fields: fields)
+            return true
         } catch {
             print("[WordBank] Enrichment failed for '\(word.word)': \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    /// Collapses a CEFR band (A1–C2) into the app's coarse level buckets.
+    /// Unknown input falls back to "intermediate".
+    private static func coarseLevel(fromCEFR cefr: String) -> String {
+        switch cefr.uppercased().prefix(1) {
+        case "A": return "beginner"
+        case "C": return "advanced"
+        case "B": return "intermediate"
+        default:  return "intermediate"
         }
     }
 
     // MARK: - Audio
 
     func speak(_ text: String, accent: String = "en-US") {
-        let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: accent)
-        utterance.rate = 0.45
-        synth.speak(utterance)
+        // Shared, pre-warmed synthesizer: no first-use lag, and a new word
+        // interrupts the previous one instead of queueing behind it.
+        SpeechService.shared.speak(text, accent: accent)
     }
 }

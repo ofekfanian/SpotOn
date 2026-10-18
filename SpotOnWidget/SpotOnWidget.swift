@@ -14,15 +14,37 @@ struct Provider: TimelineProvider {
     }
     func getSnapshot(in context: Context, completion: @escaping (IdiomEntry) -> Void) { completion(load()) }
     func getTimeline(in context: Context, completion: @escaping (Timeline<IdiomEntry>) -> Void) {
-        let next = Calendar.current.date(byAdding: .hour, value: 6, to: Date()) ?? Date()
-        completion(Timeline(entries: [load()], policy: .after(next)))
+        // Refresh right after midnight, when the idiom of the day changes.
+        let tomorrow = Calendar.current.startOfDay(for: Date()).addingTimeInterval(86_400 + 60)
+        completion(Timeline(entries: [load()], policy: .after(tomorrow)))
     }
-    // Reads the idiom the app cached in the shared App Group.
+
+    /// Prefers the idiom the app cached in the shared App Group (matches the
+    /// user's level). Without an App Group (free Personal Team) it picks the
+    /// same day's idiom from its own copy of idioms.json.
     private func load() -> IdiomEntry {
         let d = UserDefaults(suiteName: "group.com.spoton.shared")
-        return IdiomEntry(date: Date(),
-                          text: d?.string(forKey: "widgetIdiomText") ?? "Open SpotOn for today's idiom",
-                          definition: d?.string(forKey: "widgetIdiomDef") ?? "")
+        if let text = d?.string(forKey: "widgetIdiomText") {
+            return IdiomEntry(date: Date(), text: text, definition: d?.string(forKey: "widgetIdiomDef") ?? "")
+        }
+        if let idiom = BundledIdioms.today() {
+            return IdiomEntry(date: Date(), text: idiom.text, definition: idiom.definition)
+        }
+        return IdiomEntry(date: Date(), text: "Open SpotOn for today's idiom", definition: "")
+    }
+}
+
+/// Same rotation as the app's IdiomService: day-of-era index modulo the pool.
+private enum BundledIdioms {
+    struct Entry: Decodable { let text: String; let definition: String }
+
+    static func today(level: String = "intermediate") -> Entry? {
+        guard let url = Bundle.main.url(forResource: "idioms", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let all = try? JSONDecoder().decode([String: [Entry]].self, from: data),
+              let pool = all[level] ?? all.values.first, !pool.isEmpty else { return nil }
+        let day = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? 0
+        return pool[day % pool.count]
     }
 }
 

@@ -12,15 +12,26 @@ class BlitzViewModel: ObservableObject {
     @Published var cardOffset: CGSize = .zero
 
     private var timer: AnyCancellable?
+    /// Bumped on every start so a delayed swipe from a previous round
+    /// can't advance the new one.
+    private var round = 0
+    private var isAdvancing = false
 
     enum Phase { case idle, running, finished }
 
     var currentQuestion: BlitzQuestion? { questions[safe: currentIndex] }
     var progress: Double { max(0, timeLeft / 60) }
 
+    /// Rounds need at least two words that have something to answer with.
+    static func canPlay(with words: [Word]) -> Bool { BlitzQuestion.playable(words).count >= 2 }
+
     func start(with words: [Word]) {
-        guard words.count >= 2 else { return }
-        questions = words.shuffled().prefix(10).map { BlitzQuestion.make(from: $0, allWords: words) }
+        let pool = BlitzQuestion.playable(words)
+        guard pool.count >= 2 else { phase = .finished; return }
+        round += 1
+        isAdvancing = false
+        cardOffset = .zero
+        questions = pool.shuffled().prefix(10).map { BlitzQuestion.make(from: $0, allWords: pool) }
         currentIndex = 0
         score = 0
         timeLeft = 60
@@ -29,22 +40,26 @@ class BlitzViewModel: ObservableObject {
     }
 
     func answer(index: Int) {
-        guard phase == .running, let q = currentQuestion else { return }
+        guard phase == .running, !isAdvancing, let q = currentQuestion else { return }
         if index == q.correctIndex { score += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
         advance()
     }
 
     func swipe(knew: Bool) {
-        guard phase == .running else { return }
+        guard phase == .running, !isAdvancing else { return }
+        isAdvancing = true
         if knew { score += 1; SoundService.playCorrect() } else { SoundService.playWrong() }
         withAnimation(.spring()) { cardOffset = CGSize(width: knew ? 400 : -400, height: 0) }
+        let thisRound = round
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            guard self.round == thisRound else { return }
             self.cardOffset = .zero
+            self.isAdvancing = false
             self.advance()
         }
     }
 
-    func stop() { timer?.cancel(); phase = .finished }
+    func stop() { timer?.cancel(); timer = nil; phase = .finished }
 
     private func advance() {
         if currentIndex < questions.count - 1 { currentIndex += 1 } else { stop() }

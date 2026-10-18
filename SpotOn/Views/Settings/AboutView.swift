@@ -24,11 +24,11 @@ struct AboutView: View {
                     .shadow(color: Color.crystalBlue.opacity(0.3), radius: 18)
                     SpotOnLogoView(height: 62)
                     Text("Master English, One Word at a Time").font(.subheadline).foregroundColor(.secondary)
-                    Text("Version 1.0.0").font(.caption).foregroundColor(.secondary)
+                    Text("Version \(Bundle.main.appVersion)").font(.caption).foregroundColor(.secondary)
                 }
                 .padding(.top, 12)
 
-                Text("SpotOn helps you turn the words you encounter in real life into lasting vocabulary. Capture words, practice them in fun games, and speak with an AI tutor — all in English and Hebrew.")
+                Text("SpotOn helps you turn the words you encounter in real life into lasting vocabulary. Capture words, practice them in fun games, and speak with an AI tutor, all in English and Hebrew.")
                     .font(.subheadline).foregroundColor(.secondary).multilineTextAlignment(.center).padding(.horizontal)
 
                 VStack(alignment: .leading, spacing: 12) {

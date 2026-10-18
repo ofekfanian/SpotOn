@@ -7,81 +7,86 @@ struct LeaderboardView: View {
     @State private var showAddFriend = false
     @State private var showShare = false
 
+    private func reload() async {
+        guard let profile = authVM.userProfile, let uid = authVM.user?.uid else { return }
+        await vm.load(friendUIDs: profile.friendUIDs, myUID: uid)
+    }
+
     var body: some View {
-        NavigationStack {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 20) {
-                    VStack(spacing: 8) {
-                        Text("Your Invite Code").font(.caption).foregroundColor(.secondary)
-                        Text(authVM.userProfile?.inviteCode ?? "------")
-                            .font(.system(size: 32, weight: .bold, design: .monospaced))
-                            .foregroundStyle(LinearGradient.crystal)
-                        HStack(spacing: 12) {
-                            Button { showAddFriend = true } label: {
-                                Label("Add Friend", systemImage: "person.badge.plus")
-                                    .font(.subheadline.bold()).frame(maxWidth: .infinity).frame(height: 44)
-                                    .background(LinearGradient.crystalShort).foregroundColor(.white).cornerRadius(12)
-                            }
-                            Button { showShare = true } label: {
-                                Label("Share", systemImage: "square.and.arrow.up")
-                                    .font(.subheadline.bold()).frame(maxWidth: .infinity).frame(height: 44)
-                                    .background(.ultraThinMaterial).foregroundColor(.primary).cornerRadius(12)
-                                    .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.crystalBlue.opacity(0.3), lineWidth: 1))
-                            }
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 20) {
+                VStack(spacing: 8) {
+                    Text("Your Invite Code").font(.caption).foregroundColor(.secondary)
+                    Text(authVM.userProfile?.inviteCode ?? "------")
+                        .font(.system(size: 32, weight: .bold, design: .monospaced))
+                        .foregroundStyle(LinearGradient.crystal)
+                    HStack(spacing: 12) {
+                        Button { showAddFriend = true } label: {
+                            Label("Add Friend", systemImage: "person.badge.plus")
+                                .font(.subheadline.bold()).frame(maxWidth: .infinity).frame(height: 44)
+                                .background(LinearGradient.crystalShort).foregroundColor(.white).cornerRadius(12)
+                        }
+                        Button { showShare = true } label: {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                                .font(.subheadline.bold()).frame(maxWidth: .infinity).frame(height: 44)
+                                .background(.ultraThinMaterial).foregroundColor(.primary).cornerRadius(12)
+                                .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.crystalBlue.opacity(0.3), lineWidth: 1))
                         }
                     }
-                    .padding(18).background(.ultraThinMaterial).cornerRadius(20)
-                    .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(LinearGradient.crystal.opacity(0.3), lineWidth: 1))
-                    .padding(.horizontal)
+                }
+                .padding(18).background(.ultraThinMaterial).cornerRadius(20)
+                .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(LinearGradient.crystal.opacity(0.3), lineWidth: 1))
+                .padding(.horizontal)
 
-                    if vm.isLoading {
-                        ProgressView().padding(.top, 40)
-                    } else if let err = vm.errorMessage {
-                        HStack(spacing: 10) {
-                            Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange)
-                            Text(err).font(.caption).foregroundColor(.secondary)
+                if vm.isLoading {
+                    ProgressView().padding(.top, 40)
+                } else if let err = vm.errorMessage {
+                    HStack(spacing: 10) {
+                        Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange)
+                        Text(err).font(.caption).foregroundColor(.secondary)
+                    }
+                    .padding(14).background(.ultraThinMaterial).cornerRadius(14)
+                    .padding(.horizontal).padding(.top, 24)
+                } else {
+                    VStack(spacing: 10) {
+                        ForEach(Array(vm.stats.enumerated()), id: \.element.uid) { index, stat in
+                            LeaderboardRow(rank: index + 1, stat: stat, isMe: stat.uid == authVM.user?.uid).padding(.horizontal)
                         }
-                        .padding(14).background(.ultraThinMaterial).cornerRadius(14)
-                        .padding(.horizontal).padding(.top, 24)
-                    } else if vm.stats.isEmpty {
+                    }
+                    // The list always contains you, so "no friends" means one row.
+                    if vm.stats.count <= 1 {
                         VStack(spacing: 12) {
                             Image(systemName: "person.2").font(.system(size: 44)).foregroundStyle(LinearGradient.crystalShort)
                             Text("No friends yet").font(.headline)
-                            Text("Add friends to see the leaderboard").font(.subheadline)
+                            Text("Share your invite code to compete with friends").font(.subheadline)
                                 .foregroundColor(.secondary).multilineTextAlignment(.center)
                         }
-                        .padding(.top, 40)
-                    } else {
-                        VStack(spacing: 10) {
-                            ForEach(Array(vm.stats.enumerated()), id: \.element.uid) { index, stat in
-                                LeaderboardRow(rank: index + 1, stat: stat, isMe: stat.uid == authVM.user?.uid).padding(.horizontal)
-                            }
-                        }
+                        .padding(.top, 24)
                     }
-                    Spacer(minLength: 32)
                 }
-                .padding(.top)
+                Spacer(minLength: 32)
             }
-            .background {
-                ZStack {
-                    (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
-                    ScatteredLettersBackground().ignoresSafeArea()
-                }
-            }
-            .navigationTitle("Leaderboard").navigationBarTitleDisplayMode(.large)
-            .task {
-                if let profile = authVM.userProfile, let uid = authVM.user?.uid {
-                    await vm.load(friendUIDs: profile.friendUIDs, myUID: uid)
-                }
-            }
-            .sheet(isPresented: $showAddFriend) { AddFriendSheet(vm: vm).environmentObject(authVM) }
-            .sheet(isPresented: $showShare) {
-                if let code = authVM.userProfile?.inviteCode {
-                    ShareSheet(text: "Join me on SpotOn! Use my invite code: \(code)")
-                }
-            }
-            .applyTabBarVisibility()
+            .padding(.top)
         }
+        .background {
+            ZStack {
+                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+                ScatteredLettersBackground().ignoresSafeArea()
+            }
+        }
+        .navigationTitle("Leaderboard").navigationBarTitleDisplayMode(.large)
+        .task { await reload() }
+        .refreshable {
+            await authVM.refreshProfile()   // friends who added you since the last load
+            await reload()
+        }
+        .sheet(isPresented: $showAddFriend) { AddFriendSheet(vm: vm).environmentObject(authVM) }
+        .sheet(isPresented: $showShare) {
+            if let code = authVM.userProfile?.inviteCode {
+                ShareSheet(text: "Join me on SpotOn! Use my invite code: \(code)")
+            }
+        }
+        .applyTabBarVisibility()
     }
 }
 
@@ -130,6 +135,8 @@ struct AddFriendSheet: View {
     @State private var errorMsg: String?
     @State private var success = false
 
+    private var trimmedCode: String { code.trimmingCharacters(in: .whitespacesAndNewlines) }
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
@@ -138,7 +145,9 @@ struct AddFriendSheet: View {
                 Text("Enter Invite Code").font(.title2.bold())
                 Text("Ask your friend for their 6-character code").font(.subheadline).foregroundColor(.secondary)
                 TextField("ABCDEF", text: $code)
-                    .textCase(.uppercase).multilineTextAlignment(.center)
+                    .textInputAutocapitalization(.characters).autocorrectionDisabled()
+                    .multilineTextAlignment(.center)
+                    .onChange(of: code) { _, new in if new != new.uppercased() { code = new.uppercased() } }
                     .font(.system(size: 28, weight: .bold, design: .monospaced)).padding()
                     .background(.ultraThinMaterial).cornerRadius(14)
                     .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.crystalBlue.opacity(0.3), lineWidth: 1))
@@ -152,7 +161,7 @@ struct AddFriendSheet: View {
                     }
                     .frame(height: 52)
                 }
-                .padding(.horizontal, 40).disabled(code.count < 4 || isLoading).opacity(code.count < 4 ? 0.5 : 1)
+                .padding(.horizontal, 40).disabled(trimmedCode.count < 4 || isLoading).opacity(trimmedCode.count < 4 ? 0.5 : 1)
                 Spacer()
             }
             .navigationTitle("Add Friend").navigationBarTitleDisplayMode(.inline)
@@ -182,5 +191,5 @@ struct ShareSheet: UIViewControllerRepresentable {
     func updateUIViewController(_ vc: UIActivityViewController, context: Context) {}
 }
 
-#Preview("Light") { LeaderboardView().environmentObject(AuthViewModel()).preferredColorScheme(.light) }
-#Preview("Dark")  { LeaderboardView().environmentObject(AuthViewModel()).preferredColorScheme(.dark) }
+#Preview("Light") { NavigationStack { LeaderboardView() }.environmentObject(AuthViewModel()).preferredColorScheme(.light) }
+#Preview("Dark")  { NavigationStack { LeaderboardView() }.environmentObject(AuthViewModel()).preferredColorScheme(.dark) }

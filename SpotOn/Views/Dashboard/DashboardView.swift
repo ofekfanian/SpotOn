@@ -15,6 +15,11 @@ struct DashboardView: View {
     @State private var showSentences = false
     @State private var levelUpTo: String? = nil
 
+    /// Switches to the Profile tab (the avatar used to push a second copy of it).
+    var onProfileTap: () -> Void = {}
+
+    private var canPlayBlitz: Bool { BlitzViewModel.canPlay(with: wordBankVM.words) }
+
     private var level: String { authVM.userProfile?.level ?? "intermediate" }
     private var name: String {
         if let username = authVM.userProfile?.username, !username.isEmpty { return username }
@@ -36,7 +41,7 @@ struct DashboardView: View {
                     idiomSection
                     practiceSection
 
-                    if wordBankVM.words.count < 2 {
+                    if !canPlayBlitz {
                         Text("Add at least 2 words to unlock Blitz")
                             .font(.caption).foregroundColor(.secondary)
                     }
@@ -64,12 +69,14 @@ struct DashboardView: View {
                     .environmentObject(wordBankVM)
             }
             .sheet(isPresented: $showSnapLearn, onDismiss: checkPromotion) {
-                SnapLearnView().environmentObject(authVM).environmentObject(wordBankVM)
+                NavigationStack {
+                    SnapLearnView().environmentObject(authVM).environmentObject(wordBankVM)
+                }
             }
             .sheet(isPresented: $showSentences, onDismiss: checkPromotion) {
                 SentenceCompletionView(level: level).environmentObject(authVM)
             }
-            .task { await vm.load(level: level) }
+            .task(id: level) { await vm.load(level: level) }
             .onChange(of: rtdb.xp) { _, _ in
                 // While a game cover is up the banner would be invisible —
                 // the cover's onDismiss re-checks instead.
@@ -109,7 +116,7 @@ struct DashboardView: View {
                     .font(.subheadline).foregroundColor(.secondary)
             }
             Spacer()
-            NavigationLink(destination: SettingsView()) {
+            Button(action: onProfileTap) {
                 if let img = profileImage.image {
                     Image(uiImage: img).resizable().scaledToFill().frame(width: 40, height: 40)
                         .clipShape(Circle())
@@ -149,7 +156,7 @@ struct DashboardView: View {
             Text("Practice").font(.headline).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
             LazyVGrid(columns: practiceColumns, spacing: 12) {
                 GameCard(icon: "bolt.fill", title: "60-Sec Blitz", gradient: LinearGradient.crystal,
-                         shadow: .crystalBlue, disabled: wordBankVM.words.count < 2) { showBlitz = true }
+                         shadow: .crystalBlue, disabled: !canPlayBlitz) { showBlitz = true }
                 GameCard(icon: "rectangle.on.rectangle.angled", title: "Flashcards", gradient: LinearGradient.crystalShort,
                          shadow: .crystalMint, disabled: false) { showFlashcards = true }
                 GameCard(icon: "text.append", title: "Sentences", gradient: LinearGradient.crystalShort,

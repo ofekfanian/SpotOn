@@ -214,8 +214,8 @@ struct OnboardingView: View {
         isFinishing = true
         Task {
             await authVM.completeOnboarding(level: recommendedLevel)
-            _ = await NotificationService.requestPermission()
-            NotificationService.scheduleDailyReminder()
+            // Honors the reminder toggle and hour chosen in Settings.
+            await NotificationService.syncWithSettings()
             isFinishing = false
             dismiss()   // no-op on first launch; closes the sheet when retaking from Settings
         }

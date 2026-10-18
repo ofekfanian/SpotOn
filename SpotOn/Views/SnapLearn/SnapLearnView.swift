@@ -16,36 +16,37 @@ struct SnapLearnView: View {
     private var cameraAvailable: Bool { UIImagePickerController.isSourceTypeAvailable(.camera) }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
-                ScatteredLettersBackground().ignoresSafeArea()
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 24) {
-                        header
-                        imageArea
-                        if isLoading {
-                            VStack(spacing: 10) { ProgressView(); Text("Identifying...").font(.caption).foregroundColor(.secondary) }
-                                .padding(.vertical, 12)
-                        } else if let result { resultCard(result) }
-                        else if let errorMsg { Text(errorMsg).font(.subheadline).foregroundColor(.red).multilineTextAlignment(.center) }
-
-                        VStack(spacing: 12) {
-                            if cameraAvailable {
-                                captureButton(title: "Take a Photo", icon: "camera.fill", gradient: LinearGradient.crystal) { showCamera = true }
-                            }
-                            captureButton(title: "Choose from Library", icon: "photo.on.rectangle", gradient: LinearGradient.crystalShort) { showLibrary = true }
-                        }
-                        .padding(.horizontal)
-                        Spacer(minLength: 20)
+        ZStack {
+            (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+            ScatteredLettersBackground().ignoresSafeArea()
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
+                    header
+                    imageArea
+                    if isLoading {
+                        VStack(spacing: 10) { ProgressView(); Text("Identifying...").font(.caption).foregroundColor(.secondary) }
+                            .padding(.vertical, 12)
+                    } else if let result { resultCard(result) }
+                    if let errorMsg, !isLoading {
+                        Text(errorMsg).font(.subheadline).foregroundColor(.red).multilineTextAlignment(.center)
+                            .padding(.horizontal)
                     }
-                    .padding(.top)
+
+                    VStack(spacing: 12) {
+                        if cameraAvailable {
+                            captureButton(title: "Take a Photo", icon: "camera.fill", gradient: LinearGradient.crystal) { showCamera = true }
+                        }
+                        captureButton(title: "Choose from Library", icon: "photo.on.rectangle", gradient: LinearGradient.crystalShort) { showLibrary = true }
+                    }
+                    .padding(.horizontal)
+                    Spacer(minLength: 20)
                 }
+                .padding(.top)
             }
-            .navigationTitle("Snap & Learn").navigationBarTitleDisplayMode(.inline)
-            .fullScreenCover(isPresented: $showCamera) { ImagePicker(sourceType: .camera) { handleNewImage($0) }.ignoresSafeArea() }
-            .sheet(isPresented: $showLibrary) { ImagePicker(sourceType: .photoLibrary) { handleNewImage($0) }.ignoresSafeArea() }
         }
+        .navigationTitle("Snap & Learn").navigationBarTitleDisplayMode(.inline)
+        .fullScreenCover(isPresented: $showCamera) { ImagePicker(sourceType: .camera) { handleNewImage($0) }.ignoresSafeArea() }
+        .sheet(isPresented: $showLibrary) { ImagePicker(sourceType: .photoLibrary) { handleNewImage($0) }.ignoresSafeArea() }
     }
 
     private var header: some View {
@@ -123,19 +124,24 @@ struct SnapLearnView: View {
     private func addToWordBank(_ result: VisionService.Result) async {
         guard let uid = authVM.user?.uid else { return }
         let level = authVM.userProfile?.level ?? "intermediate"
+        // Already saved earlier: show it as added, but award no XP twice.
+        guard !wordBankVM.contains(result.english) else { withAnimation { added = true }; return }
         let word = Word(word: result.english.capitalized, translation: result.hebrew,
                         definition: result.description, context: "Identified with the camera", level: level)
-        await wordBankVM.addWord(word, uid: uid)
+        guard await wordBankVM.addWord(word, uid: uid) else {
+            errorMsg = "Couldn't save the word. Check your connection and try again."
+            return
+        }
         try? await RealtimeDatabaseService.shared.addXP(10, for: uid)
         withAnimation { added = true }
     }
 }
 
 #Preview("Light") {
-    SnapLearnView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel())
+    NavigationStack { SnapLearnView() }.environmentObject(AuthViewModel()).environmentObject(WordBankViewModel())
         .preferredColorScheme(.light)
 }
 #Preview("Dark") {
-    SnapLearnView().environmentObject(AuthViewModel()).environmentObject(WordBankViewModel())
+    NavigationStack { SnapLearnView() }.environmentObject(AuthViewModel()).environmentObject(WordBankViewModel())
         .preferredColorScheme(.dark)
 }

@@ -44,6 +44,12 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = true
     @Published var errorMessage: String?
 
+    /// Where the signed-in user's Firestore profile stands. The UI waits on
+    /// `.loading` and offers a retry on `.failed`, so a returning user is never
+    /// mistaken for a new one and sent back through onboarding.
+    enum ProfileState { case idle, loading, loaded, failed }
+    @Published var profileState: ProfileState = .idle
+
     var hasCompletedOnboarding: Bool { userProfile?.hasCompletedOnboarding ?? false }
 
     private var authHandle: AuthStateDidChangeListenerHandle?
@@ -56,19 +62,24 @@ class AuthViewModel: ObservableObject {
         }
         authHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             Task { @MainActor [weak self] in
-                self?.user = user
-                self?.isLoading = false
-                if let uid = user?.uid {
-                    await self?.loadProfile(uid: uid)
-                    try? await RealtimeDatabaseService.shared.checkAndUpdateStreak(for: uid)
-                    RealtimeDatabaseService.shared.startListening(for: uid)
+                guard let self else { return }
+                self.user = user
+                guard let uid = user?.uid else {
+                    self.userProfile = nil
+                    self.profileState = .idle
+                    self.isLoading = false
+                    return
                 }
+                await self.loadProfile(uid: uid)
+                self.isLoading = false
+                try? await RealtimeDatabaseService.shared.checkAndUpdateStreak(for: uid)
+                RealtimeDatabaseService.shared.startListening(for: uid)
             }
         }
 
         // Safety timeout — if Firebase never fires the listener, unblock the UI
         Task { @MainActor [weak self] in
-            try? await Task.sleep(nanoseconds: 5_000_000_000)
+            try? await Task.sleep(nanoseconds: 8_000_000_000)
             if self?.isLoading == true { self?.isLoading = false }
         }
     }
@@ -76,17 +87,58 @@ class AuthViewModel: ObservableObject {
     deinit { if let h = authHandle { Auth.auth().removeStateDidChangeListener(h) } }
 
     func signIn(email: String, password: String) async {
+        let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !email.isEmpty, !password.isEmpty else {
+            errorMessage = "Enter your email and password."; return
+        }
         do { try await Auth.auth().signIn(withEmail: email, password: password); errorMessage = nil }
-        catch { errorMessage = error.localizedDescription }
+        catch { errorMessage = friendlyMessage(for: error) }
     }
 
     func signUp(email: String, password: String) async {
+        let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !email.isEmpty, !password.isEmpty else {
+            errorMessage = "Enter your email and a password."; return
+        }
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             let profile = UserProfile(uid: result.user.uid, email: email)
             try await FirestoreService.shared.saveUserProfile(profile)
+            userProfile = profile
+            profileState = .loaded
             errorMessage = nil
-        } catch { errorMessage = error.localizedDescription }
+        } catch { errorMessage = friendlyMessage(for: error) }
+    }
+
+    /// Sends a password-reset email. Returns true when the email was sent.
+    func sendPasswordReset(email: String) async -> Bool {
+        let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !email.isEmpty else { errorMessage = "Enter your email first."; return false }
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = friendlyMessage(for: error)
+            return false
+        }
+    }
+
+    /// Maps the common Firebase Auth errors to short, readable messages.
+    private func friendlyMessage(for error: Error) -> String {
+        guard let code = AuthErrorCode(rawValue: (error as NSError).code) else {
+            return error.localizedDescription
+        }
+        switch code {
+        case .invalidEmail:                     return "That email address doesn't look right."
+        case .wrongPassword, .invalidCredential: return "Wrong email or password."
+        case .userNotFound:                     return "No account found with that email."
+        case .emailAlreadyInUse:                return "An account with this email already exists. Try signing in."
+        case .weakPassword:                     return "Choose a stronger password (at least 6 characters)."
+        case .networkError:                     return "No connection. Check your internet and try again."
+        case .tooManyRequests:                  return "Too many attempts. Please wait a moment and try again."
+        default:                                return error.localizedDescription
+        }
     }
 
     // MARK: - Google Sign-In
@@ -119,22 +171,41 @@ class AuthViewModel: ObservableObject {
             )
             let authResult = try await Auth.auth().signIn(with: credential)
             if try await FirestoreService.shared.fetchUserProfile(uid: authResult.user.uid) == nil {
-                let profile = UserProfile(uid: authResult.user.uid, email: authResult.user.email ?? "")
+                let profile = UserProfile(uid: authResult.user.uid, email: authResult.user.email ?? "",
+                                          displayName: authResult.user.displayName ?? "")
                 try await FirestoreService.shared.saveUserProfile(profile)
+                userProfile = profile
+                profileState = .loaded
             }
             errorMessage = nil
         } catch let error as GIDSignInError where error.code == .canceled {
             // user closed the sheet — not an error
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = friendlyMessage(for: error)
         }
     }
 
     func signOut() {
         if let uid = user?.uid { RealtimeDatabaseService.shared.stopListening(for: uid) }
         GIDSignIn.sharedInstance.signOut()
-        do { try Auth.auth().signOut(); user = nil; userProfile = nil }
-        catch { errorMessage = error.localizedDescription }
+        do {
+            try Auth.auth().signOut()
+            user = nil; userProfile = nil; profileState = .idle
+        } catch { errorMessage = error.localizedDescription }
+    }
+
+    /// Re-runs the once-a-day work when the app returns to the foreground,
+    /// so the streak also advances when the app stayed open overnight.
+    func refreshDailyState() async {
+        guard let uid = user?.uid else { return }
+        if profileState == .failed { await loadProfile(uid: uid) }
+        try? await RealtimeDatabaseService.shared.checkAndUpdateStreak(for: uid)
+    }
+
+    /// Retry button on the "couldn't load your profile" screen.
+    func retryProfileLoad() async {
+        guard let uid = user?.uid else { return }
+        await loadProfile(uid: uid)
     }
 
     // MARK: - Account deletion
@@ -189,6 +260,7 @@ class AuthViewModel: ObservableObject {
         GIDSignIn.sharedInstance.signOut()
         user = nil
         userProfile = nil
+        profileState = .idle
         errorMessage = nil
         return true
     }
@@ -196,6 +268,7 @@ class AuthViewModel: ObservableObject {
     private func clearLocalState() {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "chatHistory")
+        defaults.removeObject(forKey: "dailyQuizDate")
         for level in LevelSystem.order {
             defaults.removeObject(forKey: "flashSeen_\(level)")
             defaults.removeObject(forKey: "flashDealt_\(level)")
@@ -215,6 +288,7 @@ class AuthViewModel: ObservableObject {
         do {
             try await FirestoreService.shared.saveUserProfile(profile)
             userProfile = profile
+            profileState = .loaded
         } catch { errorMessage = error.localizedDescription }
     }
 
@@ -245,11 +319,27 @@ class AuthViewModel: ObservableObject {
         await loadProfile(uid: uid)
     }
 
+    /// Fetches the profile with a couple of quick retries. A missing document
+    /// means a brand-new user (onboarding); a network error means "try again",
+    /// never "start over" — onboarding would overwrite the existing profile.
     private func loadProfile(uid: String) async {
-        userProfile = try? await FirestoreService.shared.fetchUserProfile(uid: uid)
-        if let p = userProfile {
-            UserDefaults.standard.set(p.nativeLanguage ?? "he", forKey: "nativeLanguage")
-            UserDefaults.standard.set(p.targetLanguage ?? "en", forKey: "targetLanguage")
+        profileState = .loading
+        for attempt in 0..<3 {
+            do {
+                let profile = try await FirestoreService.shared.fetchUserProfile(uid: uid)
+                guard user?.uid == uid else { return }   // signed out meanwhile
+                userProfile = profile
+                profileState = .loaded
+                if let p = profile {
+                    UserDefaults.standard.set(p.nativeLanguage ?? "he", forKey: "nativeLanguage")
+                    UserDefaults.standard.set(p.targetLanguage ?? "en", forKey: "targetLanguage")
+                }
+                return
+            } catch {
+                print("[Auth] Profile load attempt \(attempt + 1) failed: \(error.localizedDescription)")
+                if attempt < 2 { try? await Task.sleep(nanoseconds: UInt64(attempt + 1) * 1_000_000_000) }
+            }
         }
+        if user?.uid == uid { profileState = .failed }
     }
 }

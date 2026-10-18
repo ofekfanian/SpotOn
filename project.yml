@@ -8,6 +8,9 @@ packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
     from: "11.0.0"
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: "8.0.0"
 
 targets:
   SpotOn:
@@ -20,23 +23,30 @@ targets:
       - SpotOn/Assets.xcassets
       - path: SpotOn/GoogleService-Info.plist
         optional: true
+    # NOTE: App Groups and Sign in with Apple are intentionally NOT declared.
+    # The project is signed with a free Personal Team, which does not support
+    # either capability — including them makes the on-device build crash.
+    # The entitlements file is kept empty so the code-sign build phase has a
+    # stable path to reference.
     entitlements:
       path: SpotOn/SpotOn.entitlements
-      properties:
-        com.apple.developer.applesignin:
-          - Default
-        com.apple.security.application-groups:
-          - group.com.spoton.shared
+      properties: {}
     info:
       path: SpotOn/Info.plist
       properties:
         UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        # Filled at build time from SpotOn/Config/APIKeys.xcconfig (gitignored).
+        GeminiAPIKey: $(GEMINI_API_KEY)
         NSCameraUsageDescription: "Take a photo to learn what it is"
         NSPhotoLibraryUsageDescription: "Choose a photo to describe"
         NSMicrophoneUsageDescription: "Talk with the English tutor"
         NSSpeechRecognitionUsageDescription: "Transcribe your speech in the voice call"
         UIBackgroundModes:
           - fetch
+        CFBundleURLTypes:
+          - CFBundleURLSchemes:
+              - com.googleusercontent.apps.442225470632-rvncfld087vhojo0vhqb9nbg0tgfe2fu
     dependencies:
       - package: Firebase
         product: FirebaseAuth
@@ -44,6 +54,8 @@ targets:
         product: FirebaseFirestore
       - package: Firebase
         product: FirebaseDatabase
+      - package: GoogleSignIn
+        product: GoogleSignIn
       - target: SpotOnWidget
         embed: true
     settings:
@@ -60,11 +72,14 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: SpotOnWidget
+      # Lets the widget pick the idiom of the day on its own.
+      - path: SpotOn/Resources/idioms.json
+        buildPhase: resources
+    # See the note on the SpotOn target — no App Group on a free Personal Team.
+    # Without the shared suite the widget reads its bundled idioms.json.
     entitlements:
       path: SpotOnWidget/SpotOnWidget.entitlements
-      properties:
-        com.apple.security.application-groups:
-          - group.com.spoton.shared
+      properties: {}
     info:
       path: SpotOnWidget/Info.plist
       properties:

@@ -12,37 +12,35 @@ struct ReadingPathwayView: View {
     private let levels = [(1, "Beginner", Color.crystalMint), (2, "Intermediate", Color.crystalBlue), (3, "Advanced", Color.crystalGold)]
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                background
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 24) {
-                        progressHeader
-                        ForEach(levels, id: \.0) { level, label, color in
-                            let group = vm.passages.filter { $0.level == level }
-                            if !group.isEmpty {
-                                levelSection(level: level, label: label, color: color, passages: group)
-                            }
+        ZStack {
+            background
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
+                    progressHeader
+                    ForEach(levels, id: \.0) { level, label, color in
+                        let group = vm.passages.filter { $0.level == level }
+                        if !group.isEmpty {
+                            levelSection(level: level, label: label, color: color, passages: group)
                         }
-                        Spacer(minLength: 40)
                     }
-                    .padding(.horizontal, 18)
-                    .padding(.top, 16)
+                    Spacer(minLength: 40)
                 }
+                .padding(.horizontal, 18)
+                .padding(.top, 16)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "book.pages.fill")
-                            .foregroundStyle(LinearGradient.crystalShort)
-                        CrystalText(text: "Reading Pathways", font: .headline)
-                    }
-                }
-            }
-            .onAppear { vm.loadPassages(context: ctx) }
-            .applyTabBarVisibility()
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(spacing: 6) {
+                    Image(systemName: "book.pages.fill")
+                        .foregroundStyle(LinearGradient.crystalShort)
+                    CrystalText(text: "Reading Pathways", font: .headline)
+                }
+            }
+        }
+        .onAppear { vm.loadPassages(context: ctx) }
+        .applyTabBarVisibility()
     }
 
     // MARK: Progress header

@@ -7,6 +7,7 @@ struct WordDetailView: View {
     let word: Word
     @AppStorage("targetLanguage") private var targetLang = "en"
     @AppStorage("nativeLanguage") private var nativeLang = "he"
+    @State private var enrichFailed = false
 
     /// The live version of the word from the bank — the sheet was opened with
     /// a snapshot, so toggling Mastered/Review must re-read the fresh state.
@@ -42,7 +43,11 @@ struct WordDetailView: View {
                         }
                     }
 
-                    InfoSection(title: "Definition", content: word.definition)
+                    if !word.definition.isEmpty {
+                        InfoSection(title: "Definition", content: word.definition)
+                    } else {
+                        enrichPrompt(for: word)
+                    }
                     if !word.context.isEmpty { InfoSection(title: "Your Context", content: word.context) }
 
                     let examples = word.examples.filter { !$0.isEmpty }
@@ -115,6 +120,37 @@ struct WordDetailView: View {
                 }
             }
             .navigationTitle("").navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+private extension WordDetailView {
+    /// Words saved from games skip AI enrichment to spare the daily quota.
+    /// This lets the user fill in definition, examples and pronunciation on demand.
+    @ViewBuilder
+    func enrichPrompt(for word: Word) -> some View {
+        let isWorking = word.id.map { wordBankVM.enrichingIDs.contains($0) } ?? false
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Definition").font(.headline)
+            Button {
+                guard let uid = authVM.user?.uid else { return }
+                enrichFailed = false
+                Task { enrichFailed = !(await wordBankVM.enrichAndUpdate(word, uid: uid)) }
+            } label: {
+                HStack(spacing: 8) {
+                    if isWorking { ProgressView().controlSize(.small) }
+                    else { Image(systemName: "sparkles") }
+                    Text(isWorking ? "Looking it up..." : "Add definition & examples with AI")
+                }
+                .font(.subheadline.bold())
+                .frame(maxWidth: .infinity).padding(12)
+                .background(Color.crystalBlue.opacity(0.12)).foregroundColor(.crystalBlue).cornerRadius(12)
+            }
+            .disabled(isWorking)
+            if enrichFailed {
+                Text("Couldn't reach the AI right now. Try again later.")
+                    .font(.caption).foregroundColor(.red)
+            }
         }
     }
 }

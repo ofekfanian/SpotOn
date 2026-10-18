@@ -7,102 +7,101 @@ struct BlitzLaunchView: View {
     @State private var showBlitz = false
     @State private var pulse = false
 
-    private var canPlay: Bool { wordBankVM.words.count >= 2 }
+    private var canPlay: Bool { BlitzViewModel.canPlay(with: wordBankVM.words) }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
-                ScatteredLettersBackground().ignoresSafeArea()
+        // Pushed from the Learn hub's NavigationStack — no stack of its own.
+        ZStack {
+            (scheme == .dark ? Color.darkBg : Color.lightBg).ignoresSafeArea()
+            ScatteredLettersBackground().ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    Spacer()
+            VStack(spacing: 0) {
+                Spacer()
 
-                    // Hero — animated countdown circle
-                    ZStack {
-                        Circle()
-                            .stroke(LinearGradient.crystal, lineWidth: 3)
-                            .frame(width: 160, height: 160)
-                            .scaleEffect(pulse ? 1.12 : 1.0)
-                            .opacity(pulse ? 0 : 0.6)
-                            .animation(.easeOut(duration: 1.4).repeatForever(autoreverses: false), value: pulse)
+                // Hero — animated countdown circle
+                ZStack {
+                    Circle()
+                        .stroke(LinearGradient.crystal, lineWidth: 3)
+                        .frame(width: 160, height: 160)
+                        .scaleEffect(pulse ? 1.12 : 1.0)
+                        .opacity(pulse ? 0 : 0.6)
+                        .animation(.easeOut(duration: 1.4).repeatForever(autoreverses: false), value: pulse)
 
-                        Circle()
-                            .fill(.ultraThinMaterial)
-                            .frame(width: 140, height: 140)
-                            .overlay(Circle().strokeBorder(LinearGradient.crystal, lineWidth: 1.5))
-                            .shadow(color: Color.crystalBlue.opacity(0.35), radius: 24)
+                    Circle()
+                        .fill(.ultraThinMaterial)
+                        .frame(width: 140, height: 140)
+                        .overlay(Circle().strokeBorder(LinearGradient.crystal, lineWidth: 1.5))
+                        .shadow(color: Color.crystalBlue.opacity(0.35), radius: 24)
 
-                        HStack(alignment: .firstTextBaseline, spacing: 2) {
-                            Text("60")
-                                .font(.system(size: 58, weight: .black, design: .rounded))
-                                .foregroundStyle(LinearGradient.crystal)
-                            Text("s")
-                                .font(.system(size: 26, weight: .bold, design: .rounded))
-                                .foregroundColor(.crystalMint)
-                        }
+                    HStack(alignment: .firstTextBaseline, spacing: 2) {
+                        Text("60")
+                            .font(.system(size: 58, weight: .black, design: .rounded))
+                            .foregroundStyle(LinearGradient.crystal)
+                        Text("s")
+                            .font(.system(size: 26, weight: .bold, design: .rounded))
+                            .foregroundColor(.crystalMint)
                     }
-                    .onAppear { pulse = true }
+                }
+                .onAppear { pulse = true }
 
-                    Spacer().frame(height: 36)
+                Spacer().frame(height: 36)
 
-                    // Title + subtitle
-                    VStack(spacing: 10) {
-                        CrystalText(text: "Blitz", font: .system(size: 36, weight: .black, design: .rounded))
-                        Text("Race through your words in 60 seconds.\nSwipe, tap and conquer.")
-                            .font(.subheadline)
+                // Title + subtitle
+                VStack(spacing: 10) {
+                    CrystalText(text: "Blitz", font: .system(size: 36, weight: .black, design: .rounded))
+                    Text("Race through your words in 60 seconds.\nSwipe, tap and conquer.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .lineSpacing(3)
+                }
+
+                Spacer().frame(height: 32)
+
+                // Stats row
+                HStack(spacing: 24) {
+                    statPill(icon: "books.vertical.fill", value: "\(BlitzQuestion.playable(wordBankVM.words).count)", label: "words")
+                    statPill(icon: "clock.fill", value: "60", label: "seconds")
+                    statPill(icon: "star.fill", value: "×5", label: "XP/word")
+                }
+
+                Spacer().frame(height: 40)
+
+                // Start button
+                VStack(spacing: 10) {
+                    Button { showBlitz = true } label: {
+                        Text("Start")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                            .background(canPlay ? AnyView(LinearGradient.crystal) : AnyView(Color.secondary.opacity(0.3)))
+                            .cornerRadius(18)
+                            .shadow(color: canPlay ? Color.crystalBlue.opacity(0.4) : .clear, radius: 14, y: 6)
+                    }
+                    .disabled(!canPlay)
+                    .padding(.horizontal, 32)
+
+                    if !canPlay {
+                        Text("Add at least 2 words to play")
+                            .font(.caption)
                             .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                            .lineSpacing(3)
                     }
-
-                    Spacer().frame(height: 32)
-
-                    // Stats row
-                    HStack(spacing: 24) {
-                        statPill(icon: "books.vertical.fill", value: "\(wordBankVM.words.count)", label: "words")
-                        statPill(icon: "clock.fill", value: "60", label: "seconds")
-                        statPill(icon: "star.fill", value: "×5", label: "XP/word")
-                    }
-
-                    Spacer().frame(height: 40)
-
-                    // Start button
-                    VStack(spacing: 10) {
-                        Button { showBlitz = true } label: {
-                            Text("Start")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 56)
-                                .background(canPlay ? AnyView(LinearGradient.crystal) : AnyView(Color.secondary.opacity(0.3)))
-                                .cornerRadius(18)
-                                .shadow(color: canPlay ? Color.crystalBlue.opacity(0.4) : .clear, radius: 14, y: 6)
-                        }
-                        .disabled(!canPlay)
-                        .padding(.horizontal, 32)
-
-                        if !canPlay {
-                            Text("Add at least 2 words to play")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-
-                    Spacer()
                 }
+
+                Spacer()
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    CrystalText(text: "Blitz", font: .headline)
-                }
-            }
-            .sheet(isPresented: $showBlitz) {
-                BlitzView(words: wordBankVM.words).environmentObject(authVM)
-            }
-            .applyTabBarVisibility()
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                CrystalText(text: "Blitz", font: .headline)
+            }
+        }
+        .sheet(isPresented: $showBlitz) {
+            BlitzView(words: wordBankVM.words).environmentObject(authVM)
+        }
+        .applyTabBarVisibility()
     }
 
     private func statPill(icon: String, value: String, label: String) -> some View {

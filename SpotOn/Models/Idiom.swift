@@ -58,14 +58,37 @@ struct BlitzQuestion: Identifiable {
     let options: [String]
     let correctIndex: Int
 
+    /// The answer shown for a word: its definition, or the Hebrew translation
+    /// for words saved without one (flashcards, daily quiz). Empty = unplayable.
+    static func answer(for word: Word) -> String {
+        let def = word.definition.trimmingCharacters(in: .whitespacesAndNewlines)
+        return def.isEmpty ? word.translation.trimmingCharacters(in: .whitespacesAndNewlines) : def
+    }
+
+    /// Words that can appear in a Blitz round.
+    static func playable(_ words: [Word]) -> [Word] {
+        words.filter { !answer(for: $0).isEmpty }
+    }
+
     static func make(from word: Word, allWords: [Word]) -> BlitzQuestion {
-        var others = allWords.filter { $0.id != word.id }.shuffled().prefix(3).map(\.definition)
-        while others.count < 3 {
-            others.append(["A type of behavior", "An old-fashioned term", "A formal expression"][others.count])
+        let correct = answer(for: word)
+        // Distractors of the same kind (definition vs. Hebrew) so the right
+        // answer doesn't stand out, and never a duplicate of the correct one.
+        let sameKind = word.definition.isEmpty
+            ? allWords.filter { $0.definition.isEmpty }
+            : allWords.filter { !$0.definition.isEmpty }
+        var others: [String] = []
+        for candidate in (sameKind.shuffled() + allWords.shuffled()) where candidate.id != word.id {
+            let text = answer(for: candidate)
+            if !text.isEmpty, text != correct, !others.contains(text) { others.append(text) }
+            if others.count == 3 { break }
         }
-        var opts = Array(others) + [word.definition]
-        opts.shuffle()
-        let correct = opts.firstIndex(of: word.definition) ?? 0
-        return BlitzQuestion(word: word, options: opts, correctIndex: correct)
+        let fillers = word.definition.isEmpty
+            ? ["מילה אחרת", "ביטוי רשמי", "מונח ישן"]
+            : ["A type of behavior", "An old-fashioned term", "A formal expression"]
+        for filler in fillers where others.count < 3 && !others.contains(filler) { others.append(filler) }
+
+        let opts = (others + [correct]).shuffled()
+        return BlitzQuestion(word: word, options: opts, correctIndex: opts.firstIndex(of: correct) ?? 0)
     }
 }

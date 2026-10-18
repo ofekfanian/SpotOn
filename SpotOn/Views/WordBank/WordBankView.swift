@@ -84,12 +84,14 @@ struct WordRowView: View {
             HStack {
                 Text(word.text(for: targetLang)).font(.headline)
                 let help = word.text(for: nativeLang)
-                if !help.isEmpty { Text(help).font(.subheadline).foregroundColor(.crystalMint) }
+                if !help.isEmpty { Text(help).font(.subheadline).foregroundColor(.crystalMint).lineLimit(1) }
                 Spacer()
                 if word.isMastered { Image(systemName: "checkmark.seal.fill").foregroundColor(.green).font(.caption) }
                 if word.needsReview { Image(systemName: "arrow.clockwise.circle.fill").foregroundColor(.orange).font(.caption) }
             }
-            Text(word.definition).font(.subheadline).foregroundColor(.secondary).lineLimit(1)
+            if !word.definition.isEmpty {
+                Text(word.definition).font(.subheadline).foregroundColor(.secondary).lineLimit(1)
+            }
             if !word.tags.isEmpty {
                 HStack(spacing: 4) {
                     ForEach(word.tags, id: \.self) { tag in
