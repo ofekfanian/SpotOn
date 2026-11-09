@@ -29,6 +29,13 @@ and talk them through with an AI tutor.
 ![SwiftData](https://img.shields.io/badge/SwiftData-Local_Persistence-8E44AD)
 ![MVVM](https://img.shields.io/badge/Architecture-MVVM-2ECC71)
 
+<br>
+<br>
+
+<img src="docs/media/spoton-demo.gif" alt="SpotOn app tour: dashboard, word bank, game modes, AI tutor and dark mode" width="860">
+
+<sub><b><a href="docs/media/spoton-demo.mp4">Watch the full HD tour (54s, MP4)</a></b></sub>
+
 </div>
 
 <br>
@@ -42,6 +49,31 @@ You hear a new English word in a meeting, a series, or on the street.
 context, let AI enrich it with a definition, translation and real usage
 examples, then lock it in through fast, beautiful practice games that adapt
 to your level as you improve. Fully bilingual, English and Hebrew.
+
+<br>
+
+## Screenshots
+
+<table align="center">
+  <tr>
+    <td align="center"><img src="docs/screenshots/home.png" width="190" alt="Home dashboard"><br><sub><b>Dashboard</b></sub></td>
+    <td align="center"><img src="docs/screenshots/daily-quiz.png" width="190" alt="Daily quiz"><br><sub><b>Daily Quiz</b></sub></td>
+    <td align="center"><img src="docs/screenshots/word-detail.png" width="190" alt="AI-enriched word"><br><sub><b>AI Enrichment</b></sub></td>
+    <td align="center"><img src="docs/screenshots/add-word.png" width="190" alt="Add a word"><br><sub><b>Add Words</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/learn.png" width="190" alt="Learn hub"><br><sub><b>Learn Hub</b></sub></td>
+    <td align="center"><img src="docs/screenshots/flashcards.png" width="190" alt="Flashcards"><br><sub><b>Flashcards</b></sub></td>
+    <td align="center"><img src="docs/screenshots/blitz.png" width="190" alt="60 second blitz"><br><sub><b>60 Second Blitz</b></sub></td>
+    <td align="center"><img src="docs/screenshots/reading.png" width="190" alt="Reading pathways"><br><sub><b>Reading Pathways</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/sentences.png" width="190" alt="Sentence completion"><br><sub><b>Sentences</b></sub></td>
+    <td align="center"><img src="docs/screenshots/tutor.png" width="190" alt="AI English tutor"><br><sub><b>AI Tutor</b></sub></td>
+    <td align="center"><img src="docs/screenshots/progress.png" width="190" alt="Weekly progress"><br><sub><b>Progress</b></sub></td>
+    <td align="center"><img src="docs/screenshots/home-dark.png" width="190" alt="Dark mode"><br><sub><b>Dark Mode</b></sub></td>
+  </tr>
+</table>
 
 <br>
 
